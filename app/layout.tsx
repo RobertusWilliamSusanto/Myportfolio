@@ -13,10 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <CustomCursor /> {/* <--- Panggil di sini */}
-        {children}
-      </body>
+      <body suppressHydrationWarning>
+      <CustomCursor />
+      {children}
+    </body>
     </html>
   );
 }
