@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: '/CV.pdf',
+        headers: [
+          { key: 'Content-Type', value: 'application/pdf' },
+          { key: 'Content-Disposition', value: 'attachment; filename="CV_Robertus_William_Susanto.pdf"' },
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
         source: '/(.*)',
         headers: [
           { key: 'X-Frame-Options', value: 'DENY' },

@@ -23,14 +23,14 @@ const experiences = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-12 border-t border-border">
-      <div className="md:col-span-4">
+    <section id="experience" className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pt-12 border-t border-border">
+      <div className="md:col-span-3 lg:col-span-3">
         <h2 className="font-mono text-xs text-muted uppercase tracking-widest sticky top-32">
-          03 // Experience
+          Experience
         </h2>
       </div>
       
-      <div className="md:col-span-8">
+      <div className="md:col-span-9 lg:col-span-9">
         <div className="relative border-l border-border ml-2 pl-6 md:pl-8 flex flex-col gap-10">
           {experiences.map((exp, index) => (
             <div key={index} className="relative">

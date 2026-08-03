@@ -43,7 +43,8 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Navbar />
-        <main className="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-6xl mx-auto w-full flex flex-col gap-32">
+        {/* Expanded Container Width to 1320px */}
+        <main className="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-[1320px] mx-auto w-full flex flex-col gap-32">
           {children}
         </main>
         <Footer />

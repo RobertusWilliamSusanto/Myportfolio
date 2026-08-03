@@ -29,14 +29,14 @@ export default function Projects() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   return (
-    <section id="projects" className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-12 border-t border-border">
-      <div className="md:col-span-4">
+    <section id="projects" className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pt-12 border-t border-border">
+      <div className="md:col-span-3 lg:col-span-3">
         <h2 className="font-mono text-xs text-muted uppercase tracking-widest sticky top-32">
-          02 // Selected Projects
+          Selected Projects
         </h2>
       </div>
       
-      <div className="md:col-span-8 grid grid-cols-1 gap-8">
+      <div className="md:col-span-9 lg:col-span-9 grid grid-cols-1 gap-8">
         {projects.map((project, index) => (
           <motion.article
             key={index}
@@ -44,39 +44,39 @@ export default function Projects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
-            className="bg-surface border border-border p-6 hover:border-border-hover transition-all duration-300 flex flex-col md:flex-row gap-6 group"
+            className="bg-surface border border-border p-6 md:p-8 hover:border-border-hover transition-all duration-300 flex flex-col lg:flex-row gap-8 group"
           >
             <div 
               onClick={() => setSelectedImage(project.image)}
-              className="relative w-full md:w-1/2 h-48 rounded border border-border overflow-hidden bg-background cursor-zoom-in group/img"
+              className="relative w-full lg:w-1/2 h-56 lg:h-64 rounded border border-border overflow-hidden bg-background cursor-zoom-in group/img shrink-0"
             >
               <Image
                 src={project.image}
-                alt={project.title}
+                alt={`Screenshot of ${project.title}`}
                 fill
                 loading="lazy"
                 decoding="async"
-                sizes="(max-width: 768px) 100vw, 320px"
+                sizes="(max-width: 1024px) 100vw, 500px"
                 className="object-cover group-hover/img:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-background/40 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <ZoomIn size={24} className="text-foreground" />
+                <ZoomIn size={26} className="text-foreground" />
               </div>
             </div>
 
-            <div className="w-full md:w-1/2 flex flex-col justify-between">
+            <div className="w-full lg:w-1/2 flex flex-col justify-between py-1">
               <div>
-                <h3 className="text-base font-semibold text-foreground group-hover:text-blue-400 transition-colors mb-2">
+                <h3 className="text-lg md:text-xl font-semibold text-foreground group-hover:text-blue-400 transition-colors mb-3">
                   {project.title}
                 </h3>
-                <p className="text-xs text-muted leading-relaxed mb-6">
+                <p className="text-xs md:text-sm text-muted leading-relaxed mb-6">
                   {project.description}
                 </p>
               </div>
               
-              <div className="flex flex-wrap gap-1.5 mt-auto">
+              <div className="flex flex-wrap gap-2 mt-auto">
                 {project.tech.map((tech, i) => (
-                  <span key={i} className="px-2 py-0.5 bg-background border border-border text-muted font-mono text-[10px] uppercase">
+                  <span key={i} className="px-2.5 py-1 bg-background border border-border text-muted font-mono text-[11px] uppercase">
                     {tech}
                   </span>
                 ))}
@@ -96,7 +96,7 @@ export default function Projects() {
             className="fixed inset-0 z-[100] flex items-center justify-center bg-background/90 backdrop-blur-md p-4 cursor-zoom-out"
           >
             <button 
-              className="absolute top-6 right-6 z-50 p-2 bg-surface hover:bg-border-hover border border-border rounded-full text-foreground transition-colors"
+              className="absolute top-6 right-6 z-50 p-2 bg-surface hover:bg-border-hover border border-border rounded-full text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               onClick={() => setSelectedImage(null)}
             >
               <X size={20} />

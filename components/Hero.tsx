@@ -19,43 +19,49 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="home" className="min-h-[70vh] flex flex-col justify-center gap-8">
+    <section id="home" className="min-h-[85vh] flex flex-col justify-center items-center text-center px-4 py-12">
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-3xl"
+        className="max-w-3xl mx-auto flex flex-col items-center"
       >
-        {/* Profile Avatar */}
-        <div className="relative w-36 h-36 mb-8 rounded-full border border-border overflow-hidden bg-surface">
-          <Image
-            src="/profile.png"
-            alt="Robertus William Susanto"
-            fill
-            sizes="(max-width: 768px) 144px, 144px"
-            priority
-            fetchPriority="high"
-            className="object-cover"
-          />
+        {/* Profile Avatar Centered with Subtle Ring */}
+        <div className="relative w-32 h-32 md:w-36 md:h-36 mb-6 rounded-full border border-border/80 overflow-hidden bg-surface p-1 shadow-2xl">
+          <div className="relative w-full h-full rounded-full overflow-hidden">
+            <Image
+              src="/profile.png"
+              alt="Robertus William Susanto"
+              fill
+              sizes="(max-width: 768px) 128px, 144px"
+              priority
+              fetchPriority="high"
+              className="object-cover"
+            />
+          </div>
         </div>
 
-        <p className="font-mono text-xs text-muted mb-4 uppercase tracking-widest">
+        {/* Subtitle / Status Tag */}
+        <p className="font-mono text-[11px] md:text-xs text-muted mb-4 uppercase tracking-[0.2em]">
           Computer Engineering Student // Diponegoro University
         </p>
         
-        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tighter mb-6 flex items-center min-h-[1.2em]">
-          {text}
-          <span className="w-1 h-[0.9em] bg-foreground ml-1 animate-pulse" />
+        {/* Typewriter Title Centered */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6 flex items-center justify-center min-h-[1.2em] leading-tight">
+          <span>{text}</span>
+          <span className="w-[3px] h-[0.85em] bg-foreground ml-1.5 inline-block animate-pulse" />
         </h1>
         
-        <p className="text-lg md:text-xl text-muted mb-10 max-w-2xl leading-relaxed">
+        {/* Description Centered */}
+        <p className="text-sm md:text-base text-muted/90 mb-8 max-w-xl leading-relaxed font-sans">
           Focusing on AI Development (Computer Vision) and Software Engineering. Experienced in building high-accuracy detection models and managing end-to-end technical projects.
         </p>
         
-        <div className="flex flex-wrap gap-4">
+        {/* Call to Actions Centered */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
           <a
             href="#projects"
-            className="inline-flex items-center justify-center px-6 py-3 bg-foreground text-background font-mono text-xs font-medium hover:bg-gray-200 transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-foreground text-background font-mono text-xs font-semibold hover:bg-foreground/90 transition-all rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             VIEW PROJECTS
             <ArrowRight size={14} className="ml-2" />
@@ -63,7 +69,7 @@ export default function Hero() {
           <a
             href="/CV.pdf"
             download="CV_Robertus_William_Susanto.pdf"
-            className="inline-flex items-center justify-center px-6 py-3 bg-transparent border border-border text-foreground font-mono text-xs hover:border-border-hover transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-surface hover:bg-border-hover border border-border text-foreground font-mono text-xs font-medium transition-all rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <Download size={14} className="mr-2" />
             DOWNLOAD CV

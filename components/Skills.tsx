@@ -27,16 +27,16 @@ const skillCategories = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-12 border-t border-border">
-      <div className="md:col-span-4">
+    <section id="skills" className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pt-12 border-t border-border">
+      <div className="md:col-span-3 lg:col-span-3">
         <h2 className="font-mono text-xs text-muted uppercase tracking-widest sticky top-32">
-          04 // Skills & Expertise
+          Skills & Expertise
         </h2>
       </div>
       
-      <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="md:col-span-9 lg:col-span-9 grid grid-cols-1 sm:grid-cols-2 gap-6">
         {skillCategories.map((cat, index) => (
-          <div key={index} className="bg-surface border border-border p-4">
+          <div key={index} className="bg-surface border border-border p-4 transition-colors hover:border-border-hover">
             <h3 className="font-mono text-xs text-foreground uppercase mb-3 border-b border-border pb-2">
               {cat.category}
             </h3>

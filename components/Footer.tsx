@@ -1,23 +1,43 @@
+"use client";
+
+import React from "react";
+
 export default function Footer() {
+  const handleEmailClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const email = "robertuswilliamsusanto@gmail.com";
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
-    <footer className="w-full py-8 bg-background border-t border-border flex flex-col md:flex-row justify-between items-center px-6 md:px-12 gap-4 max-w-6xl mx-auto text-xs font-mono text-muted">
-      <div>© 2026 ROBERTUS WILLIAM SUSANTO</div>
-      <div className="flex gap-6">
-        <a 
-          href="https://www.linkedin.com/in/robertuswilliamsusanto" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="hover:text-foreground transition-colors"
-        >
-          LINKEDIN
-        </a>
-        <a 
-          href="/CV.pdf" 
-          download="CV_Robertus_William_Susanto.pdf"
-          className="hover:text-foreground transition-colors"
-        >
-          CV.PDF
-        </a>
+    <footer className="w-full py-8 bg-background border-t border-border mt-20">
+      <div className="max-w-[1320px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-muted">
+        <div>© 2026 ROBERTUS WILLIAM SUSANTO</div>
+        <div className="flex items-center gap-6">
+          <a 
+            href="https://github.com/RobertusWilliamSusanto" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded uppercase"
+          >
+            GITHUB
+          </a>
+          <a 
+            href="https://www.linkedin.com/in/robertuswilliamsusanto" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded uppercase"
+          >
+            LINKEDIN
+          </a>
+          <button
+            onClick={handleEmailClick}
+            className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded uppercase cursor-pointer bg-transparent border-none p-0 text-xs font-mono text-muted"
+          >
+            EMAIL
+          </button>
+        </div>
       </div>
     </footer>
   );
