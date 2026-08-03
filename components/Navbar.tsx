@@ -1,34 +1,32 @@
 "use client";
-import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function Navbar() {
+  const handleConnect = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const encoded = "cm9iZXJ0dXN3aWxsaWFtc3VzYW50b0BnbWFpbC5jb20=";
+    window.location.href = `mailto:${atob(encoded)}`;
+  };
+
   return (
-    <motion.nav 
-      initial={{ y: -50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800"
-    >
-      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        
-        {/* Nama (Logo) yang bisa diklik untuk kembali ke Home */}
-        <a 
-          href="#home" 
-          className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
-        >
-          R. William S.
-        </a>
-
-        {/* Daftar Menu navigasi */}
-        <ul className="hidden md:flex gap-6 text-sm font-medium text-slate-300">
-          <li><a href="#home" className="hover:text-white transition">Home</a></li>
-          <li><a href="#about" className="hover:text-white transition">About</a></li>
-          <li><a href="#skills" className="hover:text-white transition">Skills</a></li>
-          <li><a href="#projects" className="hover:text-white transition">Projects</a></li>
-          <li><a href="#experience" className="hover:text-white transition">Experience</a></li>
-        </ul>
-
+    <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border flex justify-between items-center px-6 md:px-12 py-4 max-w-6xl mx-auto left-0 right-0">
+      <Link href="#home" className="text-sm font-bold tracking-tighter font-mono text-foreground">
+        ROBERTUS.AI
+      </Link>
+      
+      <div className="hidden md:flex items-center gap-8 font-mono text-xs text-muted">
+        <Link href="#about" className="hover:text-foreground transition-colors">ABOUT</Link>
+        <Link href="#projects" className="hover:text-foreground transition-colors">PROJECTS</Link>
+        <Link href="#experience" className="hover:text-foreground transition-colors">EXPERIENCE</Link>
+        <Link href="#skills" className="hover:text-foreground transition-colors">SKILLS</Link>
       </div>
-    </motion.nav>
+
+      <button
+        onClick={handleConnect}
+        className="px-4 py-2 bg-surface hover:bg-border-hover border border-border text-foreground font-mono text-xs transition-colors cursor-pointer"
+      >
+        CONNECT
+      </button>
+    </nav>
   );
 }

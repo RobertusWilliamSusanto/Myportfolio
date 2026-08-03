@@ -1,40 +1,53 @@
-"use client";
-import { motion } from "framer-motion";
-import { Code2, BrainCircuit, Network, Palette, Cpu, Languages } from "lucide-react";
-
 const skillCategories = [
-  { title: "Programming", icon: <Code2 />, skills: ["Python", "C++", "NumPy", "Matplotlib"] },
-  { title: "AI / Machine Learning", icon: <BrainCircuit />, skills: ["CNN", "YOLO", "Image Processing"] },
-  { title: "Networking", icon: <Network />, skills: ["Cisco Packet Tracer", "Network Config"] },
-  { title: "Creative", icon: <Palette />, skills: ["Blender", "UI/UX Design", "Canva", "Figma"] },
-  { title: "Hardware", icon: <Cpu />, skills: ["Microcontrollers", "Embedded System"] },
-  { title: "Languages", icon: <Languages />, skills: ["Indonesian", "English"] },
+  {
+    category: "Software & Design",
+    items: ["Python (NumPy, Matplotlib)", "C++", "Canva", "Figma (UI/UX)"]
+  },
+  {
+    category: "AI / Machine Learning",
+    items: ["YOLO", "Convolutional Neural Networks (CNN)", "Image Processing"]
+  },
+  {
+    category: "Computer Networking",
+    items: ["Cisco Packet Tracer", "Router/Switch Configuration"]
+  },
+  {
+    category: "Hardware & Systems",
+    items: ["Troubleshooting", "Digital Logic Design", "Microcontrollers"]
+  },
+  {
+    category: "Multimedia",
+    items: ["Blender"]
+  },
+  {
+    category: "Languages",
+    items: ["Indonesian (Proficient)", "English (Proficient)"]
+  }
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-20 px-4 max-w-6xl mx-auto">
-      <h3 className="text-3xl font-bold mb-12 text-center">Technical Arsenal</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section id="skills" className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-12 border-t border-border">
+      <div className="md:col-span-4">
+        <h2 className="font-mono text-xs text-muted uppercase tracking-widest sticky top-32">
+          04 // Skills & Expertise
+        </h2>
+      </div>
+      
+      <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
         {skillCategories.map((cat, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl hover:border-blue-500/50 transition-colors"
-          >
-            <div className="text-blue-400 mb-4">{cat.icon}</div>
-            <h4 className="text-xl font-semibold mb-4">{cat.title}</h4>
-            <div className="flex flex-wrap gap-2">
-              {cat.skills.map((skill, i) => (
-                <span key={i} className="bg-slate-900 px-3 py-1 rounded-full text-sm text-slate-300">
-                  {skill}
-                </span>
+          <div key={index} className="bg-surface border border-border p-4">
+            <h3 className="font-mono text-xs text-foreground uppercase mb-3 border-b border-border pb-2">
+              {cat.category}
+            </h3>
+            <ul className="space-y-1.5">
+              {cat.items.map((item, i) => (
+                <li key={i} className="text-xs text-muted font-mono flex items-center gap-2">
+                  <span className="text-blue-400">&gt;</span> {item}
+                </li>
               ))}
-            </div>
-          </motion.div>
+            </ul>
+          </div>
         ))}
       </div>
     </section>
