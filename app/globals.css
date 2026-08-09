@@ -4,7 +4,7 @@
   --color-background: #09090b;
   --color-foreground: #fafafa;
   --color-surface: #14151a;
-  --color-muted: #a1a1aa;
+  --color-muted: #b4b4bb;
   --color-border: #27272a;
   --color-border-hover: #3f3f46;
   
@@ -37,3 +37,48 @@ body {
 .dot-mac-red { background-color: #ff5f56; }
 .dot-mac-yellow { background-color: #ffbd2e; }
 .dot-mac-green { background-color: #27c93f; }
+
+/* ==========================================================================
+   PRODUCTION PURE CSS TYPEWRITER ANIMATION (24 CHARACTERS)
+   Zero JS overhead, Zero Re-renders, Full SEO & WCAG Accessibility AAA
+   ========================================================================== */
+
+@keyframes typewriter-reveal {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes cursor-blink {
+  0%, 100% {
+    border-color: var(--color-foreground);
+  }
+  50% {
+    border-color: transparent;
+  }
+}
+
+.animate-pure-typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  border-right: 3px solid var(--color-foreground);
+  animation:
+    typewriter-reveal 1.8s steps(24, end) 0.2s forwards,
+    cursor-blink 0.8s step-end infinite;
+}
+
+/* Reduced Motion Accessibility Guardrail */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pure-typewriter {
+    animation: none !important;
+    border-right: none !important;
+    width: 100% !important;
+    overflow: visible !important;
+    white-space: normal !important;
+  }
+}

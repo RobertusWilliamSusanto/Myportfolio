@@ -3,9 +3,11 @@
 import React from "react";
 
 export default function Footer() {
+  const email = "robertuswilliamsusanto@gmail.com";
+
   const handleEmailClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const email = "robertuswilliamsusanto@gmail.com";
+    // Buka Gmail Composer langsung di tab baru (mencegah popup 'Pick an app' sistem)
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
     window.open(gmailUrl, "_blank", "noopener,noreferrer");
   };
@@ -31,12 +33,13 @@ export default function Footer() {
           >
             LINKEDIN
           </a>
-          <button
+          <a
+            href={`mailto:${email}`}
             onClick={handleEmailClick}
-            className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded uppercase cursor-pointer bg-transparent border-none p-0 text-xs font-mono text-muted"
+            className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded uppercase cursor-pointer"
           >
             EMAIL
-          </button>
+          </a>
         </div>
       </div>
     </footer>

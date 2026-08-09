@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <section id="about" className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pt-12 border-t border-border">
+    <section id="about" className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pt-12 border-t border-border" aria-label="About Me">
       <div className="md:col-span-3 lg:col-span-3">
         <h2 className="font-mono text-xs text-muted uppercase tracking-widest sticky top-32">
           About
@@ -20,8 +20,12 @@ export default function About() {
           </div>
 
           {/* Side Terminal Block Column */}
-          <div className="lg:col-span-5 bg-[#0F1014] border border-border rounded-md pt-8 p-5 relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-8 bg-[#1c1b1b] border-b border-border flex items-center px-4 gap-2">
+          <div 
+            className="lg:col-span-5 bg-[#0F1014] border border-border rounded-md pt-8 p-5 relative overflow-hidden"
+            role="region"
+            aria-label="System status overview"
+          >
+            <div className="absolute top-0 left-0 right-0 h-8 bg-[#1c1b1b] border-b border-border flex items-center px-4 gap-2" aria-hidden="true">
               <div className="w-2.5 h-2.5 rounded-full dot-mac-red" />
               <div className="w-2.5 h-2.5 rounded-full dot-mac-yellow" />
               <div className="w-2.5 h-2.5 rounded-full dot-mac-green" />
