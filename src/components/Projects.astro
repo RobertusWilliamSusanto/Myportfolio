@@ -1,4 +1,5 @@
 ---
+import YoloDemo from '../islands/YoloDemo';
 ---
 <!-- SELECTED PROJECTS (BENTO GRID SECTION) -->
 <section id="projects" class="scroll-reveal relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-16 border-t border-outline-variant/20" aria-label="Selected Technical Projects">
@@ -46,29 +47,8 @@
           </div>
         </div>
 
-        <!-- Visual Preview with responsive picture element -->
-        <div class="relative w-full aspect-[16/9] bg-surface-container-lowest overflow-hidden border-t border-outline-variant/20">
-          <picture>
-            <source srcset="/images/project-ai-1200.avif 1200w, /images/project-ai-800.avif 800w, /images/project-ai-480.avif 480w" sizes="(max-width: 1024px) 100vw, 800px" type="image/avif">
-            <source srcset="/images/project-ai-1200.webp 1200w, /images/project-ai-800.webp 800w, /images/project-ai-480.webp 480w" sizes="(max-width: 1024px) 100vw, 800px" type="image/webp">
-            <img 
-              src="/project-ai.jpg" 
-              alt="Visualization of YOLO object detection bounding boxes on disease dataset" 
-              width="800" 
-              height="450" 
-              loading="lazy" 
-              decoding="async" 
-              class="w-full h-full object-cover object-center img-zoom opacity-90 group-hover:opacity-100"
-            >
-          </picture>
-          <div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent pointer-events-none"></div>
-          <div class="absolute bottom-4 right-6 flex items-center justify-end">
-            <!-- Informative metric badge -->
-            <span class="px-2.5 py-1 rounded bg-secondary-container/90 text-secondary-fixed font-mono text-[11px] font-semibold border border-secondary/30 shadow">
-              &gt;90% Precision
-            </span>
-          </div>
-        </div>
+        <!-- Visual Preview with responsive picture element & interactive YOLO comparison island -->
+        <YoloDemo client:visible />
       </article>
 
       <!-- Card 2: SIBARISTA Tourism Information System -->
