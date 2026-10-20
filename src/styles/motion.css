@@ -296,3 +296,23 @@ html.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:active {
     display: none !important;
   }
 }
+
+/* I2 Project Filter Transitions (Compositor-only: opacity and scale) */
+#projects-grid[data-active-filter="ai"] [data-domain]:not([data-domain~="ai"]),
+#projects-grid[data-active-filter="backend"] [data-domain]:not([data-domain~="backend"]),
+#projects-grid[data-active-filter="security"] [data-domain]:not([data-domain~="security"]),
+#projects-grid[data-active-filter="web"] [data-domain]:not([data-domain~="web"]) {
+  opacity: 0.18;
+  transform: scale(0.97);
+  pointer-events: none;
+}
+
+#projects-grid [data-domain] {
+  transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #projects-grid [data-domain] {
+    transition: none !important;
+  }
+}

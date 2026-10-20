@@ -1,9 +1,10 @@
 ---
 import YoloDemo from '../islands/YoloDemo';
+import ProjectFilter from '../islands/ProjectFilter';
 ---
 <!-- SELECTED PROJECTS (BENTO GRID SECTION) -->
 <section id="projects" class="scroll-reveal relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-16 border-t border-outline-variant/20" aria-label="Selected Technical Projects">
-  <div class="flex flex-col gap-10">
+  <div class="flex flex-col gap-8">
     
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
@@ -14,12 +15,15 @@ import YoloDemo from '../islands/YoloDemo';
       <span class="font-mono text-xs text-outline">Selected Technical Artifacts &amp; Systems</span>
     </div>
 
+    <!-- I2 Interactive Filter Chips (Hydrated Preact Island) -->
+    <ProjectFilter client:visible />
+
     <!-- Bento Grid Container with Stagger Group (E4 Ladder A) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-group">
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-group">
 
       <!-- Card 1: Flagship YOLO Card (Spans 2 cols on lg) -->
       <!-- Defect 2 Fixed: Fixed aspect-ratio image container, clean layout, no overlapping elements, no dead black area -->
-      <article class="scroll-reveal card-interactive group lg:col-span-2 rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
+      <article data-domain="ai" class="scroll-reveal card-interactive group lg:col-span-2 rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
         <div class="p-6 md:p-8 flex flex-col gap-4">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-2">
@@ -52,7 +56,7 @@ import YoloDemo from '../islands/YoloDemo';
       </article>
 
       <!-- Card 2: SIBARISTA Tourism Information System -->
-      <article class="scroll-reveal card-interactive group rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
+      <article data-domain="backend" class="scroll-reveal card-interactive group rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
         <div class="p-6 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <span class="px-2.5 py-1 rounded bg-surface-container-high text-secondary font-mono text-[11px] font-semibold">RESTful API &amp; RBAC</span>
@@ -87,7 +91,7 @@ import YoloDemo from '../islands/YoloDemo';
       </article>
 
       <!-- Card 3: Kriptografi Klasik & Security Tools -->
-      <article class="scroll-reveal card-interactive group rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
+      <article data-domain="security" class="scroll-reveal card-interactive group rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
         <div class="p-6 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[11px]">SECURITY</span>
@@ -119,7 +123,7 @@ import YoloDemo from '../islands/YoloDemo';
       </article>
 
       <!-- Card 4: Digital Portfolio & Web Applications (Spans 2 cols on md/lg) -->
-      <article class="scroll-reveal card-interactive group md:col-span-2 rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
+      <article data-domain="web" class="scroll-reveal card-interactive group md:col-span-2 rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
         <div class="p-6 md:p-8 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -169,7 +173,7 @@ import YoloDemo from '../islands/YoloDemo';
       </article>
 
       <!-- Card 5: Expense Tracker & Automation Tools -->
-      <article class="scroll-reveal card-interactive group rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
+      <article data-domain="web" class="scroll-reveal card-interactive group rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
         <div class="p-6 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[11px]">TOOLING</span>
