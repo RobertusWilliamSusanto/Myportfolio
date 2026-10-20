@@ -1,0 +1,298 @@
+/* ==========================================================================
+   Antigravity Motion System: E1 Hero Name H1
+   - Strictly transform & opacity only
+   - Safe BEM classes (zero Tailwind utility conflicts)
+   - Zero layout shift (CLS = 0)
+   - Padding/margin block to prevent ascender/descender clipping
+   ========================================================================== */
+
+.hero-word {
+  display: inline-block;
+  overflow: hidden;
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+  vertical-align: top;
+}
+
+.hero-word-inner {
+  display: inline-block;
+  animation: hero-word-slide 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+
+.hero-word:nth-child(1) .hero-word-inner { animation-delay: 0ms; }
+.hero-word:nth-child(2) .hero-word-inner { animation-delay: 80ms; }
+.hero-word:nth-child(3) .hero-word-inner { animation-delay: 160ms; }
+
+@keyframes hero-word-slide {
+  0% {
+    transform: translateY(105%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-word-inner {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+
+/* --- E2: Pulsing Availability Dot (Ladder A) --- */
+.status-dot-pulse {
+  position: relative;
+  display: inline-flex;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--secondary);
+}
+
+.status-dot-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background-color: var(--secondary);
+  animation: dot-pulse-ring 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes dot-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot-pulse::after {
+    animation: none !important;
+    display: none !important;
+  }
+}
+
+
+/* --- E3: Mono Label Typing Reveal (Ladder A) --- */
+.hero-mono-container {
+  min-height: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-mono-typing {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: fit-content;
+  border-right: 2px solid var(--secondary);
+  width: 0;
+  animation: 
+    type-mono 1.4s steps(53, end) 0.5s forwards,
+    caret-blink 0.7s step-end 3 0.5s,
+    caret-hide 0.01s 2.6s forwards;
+}
+
+@keyframes type-mono {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes caret-blink {
+  0%, 100% { border-color: var(--secondary); }
+  50% { border-color: transparent; }
+}
+
+@keyframes caret-hide {
+  to { border-color: transparent; }
+}
+
+@media (max-width: 639px) {
+  .hero-mono-typing {
+    white-space: normal;
+    border-right: none;
+    width: auto;
+    animation: fade-in-mono 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+  }
+  @keyframes fade-in-mono {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-mono-typing {
+    width: auto !important;
+    border-right: none !important;
+    white-space: normal !important;
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+
+/* --- E4: Below-The-Fold Scroll Reveal (Ladder A) --- */
+/* Applied ONLY when HTML has .js class added by inline script in head */
+html.js:not(.reduced-motion) .scroll-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1), transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--stagger-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+html.js:not(.reduced-motion) .scroll-reveal.revealed {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* --- E5: Light Extras --- */
+/* 1. Hero Radial Gradient Glow (Static Depth) */
+.hero-glow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, 750px);
+  height: 480px;
+  background: radial-gradient(circle 380px at 50% 30%, rgba(52, 211, 153, 0.08) 0%, rgba(52, 211, 153, 0.02) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+html.light .hero-glow {
+  background: radial-gradient(circle 380px at 50% 30%, rgba(5, 150, 105, 0.06) 0%, rgba(5, 150, 105, 0.02) 45%, transparent 70%);
+}
+
+/* 2. Scroll Progress Bar (CSS scroll timeline) */
+#scroll-progress {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #34d399, #10b981);
+  transform-origin: 0 50%;
+  z-index: 999;
+}
+
+@supports (animation-timeline: scroll()) {
+  #scroll-progress {
+    display: block;
+    transform: scaleX(0);
+    animation: grow-progress auto linear;
+    animation-timeline: scroll();
+  }
+  @keyframes grow-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+}
+
+/* 3. Timeline Vertical Line Draw (CSS view timeline) */
+.timeline-draw-line {
+  transform-origin: top;
+}
+
+@supports (animation-timeline: view()) {
+  .timeline-draw-line {
+    animation: draw-timeline-line auto linear;
+    animation-timeline: view(block nearest);
+    animation-range: entry 10% cover 60%;
+  }
+  @keyframes draw-timeline-line {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+}
+
+/* 4. Desktop-only Card Hover Spotlight & Tactile Pop-Up Lift */
+.card-interactive,
+.hover-lift {
+  position: relative;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-interactive:hover,
+  .hover-lift:hover,
+  html.js:not(.reduced-motion) .scroll-reveal.revealed.card-interactive:hover,
+  html.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:hover {
+    transform: translateY(-5px) scale(1.008);
+    border-color: rgba(52, 211, 153, 0.45);
+    box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(52, 211, 153, 0.15);
+  }
+
+  html.light .card-interactive:hover,
+  html.light .hover-lift:hover,
+  html.light.js:not(.reduced-motion) .scroll-reveal.revealed.card-interactive:hover,
+  html.light.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:hover {
+    box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(5, 150, 105, 0.2);
+    border-color: rgba(5, 150, 105, 0.45);
+  }
+
+  .card-interactive::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(350px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(52, 211, 153, 0.12), transparent 80%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 250ms ease;
+    z-index: 2;
+  }
+  .card-interactive:hover::after {
+    opacity: 1;
+  }
+
+  .group:hover .img-zoom {
+    transform: scale(1.035);
+  }
+}
+
+.card-interactive:active,
+.hover-lift:active,
+html.js:not(.reduced-motion) .scroll-reveal.revealed.card-interactive:active,
+html.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:active {
+  transform: translateY(-1px) scale(0.996);
+  transition-duration: 90ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #scroll-progress {
+    display: none !important;
+  }
+  .timeline-draw-line {
+    transform: scaleY(1) !important;
+    animation: none !important;
+  }
+  .card-interactive {
+    transform: none !important;
+  }
+  .card-interactive::after {
+    display: none !important;
+  }
+}

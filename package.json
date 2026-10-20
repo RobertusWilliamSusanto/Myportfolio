@@ -13,10 +13,9 @@
   },
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --watch",
+    "build": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --minify && npx @tailwindcss/cli -i src/styles/input.css -o public/css/style.css --minify && node scripts/build-html.js",
+    "build:css": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --minify"
   },
   "dependencies": {
     "framer-motion": "^12.35.2",
@@ -27,12 +26,15 @@
     "react-simple-typewriter": "^5.0.1"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "lighthouse": "^13.5.0",
+    "puppeteer-core": "^25.14.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

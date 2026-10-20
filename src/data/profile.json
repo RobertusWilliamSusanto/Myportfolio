@@ -1,0 +1,604 @@
+{
+  "identity": {
+    "name": {
+      "value": "Robertus William Susanto",
+      "public": true
+    },
+    "headline": {
+      "id": "Mahasiswa Teknik Komputer | AI & Software Engineering",
+      "en": "Computer Engineering Student // Diponegoro University",
+      "public": true
+    },
+    "location": {
+      "city": "Semarang",
+      "country": "Indonesia",
+      "display": "Semarang, Indonesia",
+      "public": true
+    },
+    "email": {
+      "value": "robertuswilliamsusanto@gmail.com",
+      "public": true
+    },
+    "phone": {
+      "value": null,
+      "public": false
+    },
+    "student_id": {
+      "value": null,
+      "public": false
+    },
+    "availability": {
+      "status": "Available for Opportunities",
+      "open_to_work": true,
+      "public": true
+    }
+  },
+  "summary": {
+    "id": {
+      "value": "Mahasiswa Teknik Komputer Universitas Diponegoro yang berfokus pada Artificial Intelligence, Computer Vision, dan Software Engineering. Berpengalaman mengembangkan model deteksi objek menggunakan YOLO dengan hasil evaluasi di atas 90% pada eksperimen yang dilakukan, serta membangun aplikasi berbasis Python dan web. Terbiasa mengembangkan proyek teknis secara mandiri maupun kolaboratif.",
+      "public": true
+    },
+    "en": {
+      "value": "Computer Engineering Student at Diponegoro University focusing on AI Development (Computer Vision) and Software Engineering. Experienced in building high-accuracy detection models (>90% evaluation) and managing end-to-end technical projects. Committed to delivering user-centered digital solutions through robust teamwork and cross-platform technical expertise.",
+      "public": true
+    }
+  },
+  "education": [
+    {
+      "institution": {
+        "value": "Universitas Diponegoro",
+        "public": true
+      },
+      "faculty": {
+        "value": "Fakultas Teknik",
+        "public": true
+      },
+      "department": {
+        "value": "Teknik Komputer",
+        "public": true
+      },
+      "degree": {
+        "value": "Undergraduate Degree (S1)",
+        "public": true
+      },
+      "period": {
+        "value": "Agustus 2024 — Sekarang",
+        "public": true
+      },
+      "status": {
+        "value": "Active",
+        "public": true
+      },
+      "location": {
+        "value": "Semarang, Jawa Tengah, Indonesia",
+        "public": true
+      },
+      "description": {
+        "value": "Menempuh pendidikan sarjana Teknik Komputer dengan pendalaman pada arsitektur sistem cerdas, kecerdasan buatan terapan (computer vision), struktur data, algoritma, serta pengembangan perangkat lunak terintegrasi.",
+        "public": true
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "yolo-object-detection",
+      "title": {
+        "value": "Object Detection dengan YOLO",
+        "public": true
+      },
+      "badge": {
+        "value": ">90% EVALUATION",
+        "public": true
+      },
+      "category": {
+        "value": "AI / COMPUTER VISION",
+        "public": true
+      },
+      "flagship": {
+        "value": true,
+        "public": true
+      },
+      "description": {
+        "value": "Mengembangkan model deteksi objek untuk mengidentifikasi penyakit pada tumbuhan dan manusia menggunakan framework YOLO dengan hasil evaluasi di atas 90%. Dilengkapi arsitektur CNN deep learning dan pipeline image processing komprehensif.",
+        "public": true
+      },
+      "tech_stack": {
+        "value": ["YOLO", "Computer Vision", "Python", "CNN", "Image Processing"],
+        "public": true
+      },
+      "assets": {
+        "image": {
+          "source": "/project-ai.jpg",
+          "alt": "Object Detection dengan YOLO framework visualization and datasets",
+          "public": true
+        }
+      },
+      "links": {
+        "github": {
+          "url": null,
+          "status": "N/A",
+          "note": "Offline research model",
+          "public": false
+        },
+        "live_demo": {
+          "url": null,
+          "status": "N/A",
+          "note": "Offline research model",
+          "public": false
+        }
+      }
+    },
+    {
+      "id": "sibarista-tourism-system",
+      "title": {
+        "value": "SIBARISTA Tourism Info System",
+        "public": true
+      },
+      "badge": {
+        "value": "RESTful API & RBAC",
+        "public": true
+      },
+      "category": {
+        "value": "BACKEND & API",
+        "public": true
+      },
+      "flagship": {
+        "value": false,
+        "public": true
+      },
+      "description": {
+        "value": "Komponen backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Mengimplementasikan autentikasi JWT dan Role-Based Access Control (RBAC), Public API dengan pagination, serta integrasi UploadService dengan Cloudinary.",
+        "public": true
+      },
+      "tech_stack": {
+        "value": ["NestJS", "TypeScript", "Prisma ORM", "PostgreSQL (Neon)", "JWT", "Cloudinary"],
+        "public": true
+      },
+      "assets": {
+        "image": {
+          "source": null,
+          "alt": null,
+          "public": true
+        }
+      },
+      "links": {
+        "github": {
+          "url": null,
+          "status": "TODO",
+          "note": "Local remote https://github.com/RobertusWilliamSusanto/Sibarista-Disbudpar is currently private (HTTP 404)",
+          "public": true
+        },
+        "live_demo": {
+          "url": "https://sibarista-disbudpar.vercel.app",
+          "status": "VERIFIED_200",
+          "note": "Production portal for SIBARISTA Desa Wisata Semarang (Backend API by Robertus)",
+          "public": true
+        }
+      }
+    },
+    {
+      "id": "kriptografi-klasik-security",
+      "title": {
+        "value": "Kriptografi Klasik & Security Tools",
+        "public": true
+      },
+      "badge": {
+        "value": "SECURITY & MATH",
+        "public": true
+      },
+      "category": {
+        "value": "SECURITY",
+        "public": true
+      },
+      "flagship": {
+        "value": false,
+        "public": true
+      },
+      "description": {
+        "value": "Kalkulator kriptografi klasik untuk enkripsi dan dekripsi algoritma kriptografi klasik (Vigenère, Playfair, Hill cipher, Caesar) dengan implementasi matematis presisi tinggi dan visualisasi alur enkripsi.",
+        "public": true
+      },
+      "tech_stack": {
+        "value": ["Python", "Cryptography", "Math", "Algorithms"],
+        "public": true
+      },
+      "assets": {
+        "image": {
+          "source": "/Kriptografi.jpg",
+          "alt": "Classic cryptography calculator tool interface",
+          "public": true
+        }
+      },
+      "links": {
+        "github": {
+          "url": "https://github.com/RobertusWilliamSusanto/Tugas-Proyek-Kriptografi-Klasik",
+          "status": "VERIFIED_200",
+          "note": "Verified public repo matching classical cryptography project",
+          "public": true
+        },
+        "live_demo": {
+          "url": null,
+          "status": "TODO",
+          "note": "Live demo pending deployment",
+          "public": true
+        }
+      }
+    },
+    {
+      "id": "digital-portfolio-web-apps",
+      "title": {
+        "value": "Digital Portfolio & Web Applications",
+        "public": true
+      },
+      "badge": {
+        "value": "Next.js & Tailwind",
+        "public": true
+      },
+      "category": {
+        "value": "FRONTEND & WEB SUITE",
+        "public": true
+      },
+      "flagship": {
+        "value": false,
+        "public": true
+      },
+      "description": {
+        "value": "Digital portfolio dan aplikasi To-Do List otomatis yang dikembangkan dengan Python lalu dikonversi menjadi aplikasi web responsif modern menggunakan framework JavaScript, React/Next.js, dan Tailwind CSS.",
+        "public": true
+      },
+      "tech_stack": {
+        "value": ["JavaScript", "React/Next.js", "Python", "Tailwind CSS"],
+        "public": true
+      },
+      "assets": {
+        "image": {
+          "source": "/project-todo.jpg",
+          "alt": "Task management and web application interface",
+          "public": true
+        }
+      },
+      "links": {
+        "portfolio_live": {
+          "url": "https://myportfolio-zeta-peach-42.vercel.app",
+          "status": "VERIFIED_200",
+          "public": true
+        },
+        "todo_live": {
+          "url": "https://oplan-five.vercel.app",
+          "status": "VERIFIED_200",
+          "public": true
+        },
+        "github": {
+          "url": "https://github.com/RobertusWilliamSusanto/Myportfolio",
+          "status": "VERIFIED_200",
+          "public": true
+        }
+      }
+    },
+    {
+      "id": "expense-tracker-automation",
+      "title": {
+        "value": "Expense Tracker & Automation Tools",
+        "public": true
+      },
+      "badge": {
+        "value": "TOOLING & AUTOMATION",
+        "public": true
+      },
+      "category": {
+        "value": "TOOLING",
+        "public": true
+      },
+      "flagship": {
+        "value": false,
+        "public": true
+      },
+      "description": {
+        "value": "Aplikasi pelacak pengeluaran otomatis dan perkakas produktivitas berbasis Python untuk pembukuan terstruktur dan penganggaran keuangan pribadi.",
+        "public": true
+      },
+      "tech_stack": {
+        "value": ["Python", "Data Management", "Automation"],
+        "public": true
+      },
+      "assets": {
+        "image": {
+          "source": null,
+          "alt": null,
+          "public": true
+        }
+      },
+      "links": {
+        "live_demo": {
+          "url": "https://expense-tracker-hp27gucq6-robertuswilliamsusantos-projects.vercel.app",
+          "status": "VERIFIED_200",
+          "public": true
+        },
+        "github": {
+          "url": null,
+          "status": "TODO",
+          "note": "https://github.com/RobertusWilliamSusanto/expense-tracker is currently private (HTTP 404)",
+          "public": true
+        }
+      }
+    }
+  ],
+  "experience": [
+    {
+      "id": "disbudpar-semarang-intern",
+      "title": {
+        "value": "Backend Developer Intern — SIBARISTA System",
+        "public": true
+      },
+      "institution": {
+        "value": "Dinas Kebudayaan dan Pariwisata Kota Semarang",
+        "public": true
+      },
+      "period": {
+        "value": "22 Juni 2026 — 14 Agustus 2026",
+        "public": true
+      },
+      "type": {
+        "value": "Pengalaman Teknis / Magang",
+        "public": true
+      },
+      "description": {
+        "value": "Mengembangkan komponen backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon), termasuk pengembangan RESTful API, restrukturisasi skema basis data, implementasi autentikasi JWT dan RBAC, Public API dengan pagination, serta integrasi UploadService dengan Cloudinary.",
+        "public": true
+      },
+      "tags": {
+        "value": ["NestJS", "TypeScript", "Prisma ORM", "PostgreSQL (Neon)", "JWT & RBAC", "Cloudinary"],
+        "public": true
+      }
+    },
+    {
+      "id": "dpa-tekkom-undip",
+      "title": {
+        "value": "Anggota Dewan Perwakilan Angkatan",
+        "public": true
+      },
+      "institution": {
+        "value": "Teknik Komputer Universitas Diponegoro",
+        "public": true
+      },
+      "period": {
+        "value": "2026 — Sekarang",
+        "public": true
+      },
+      "type": {
+        "value": "Organisasi Mahasiswa",
+        "public": true
+      },
+      "description": {
+        "value": "Merumuskan Standar Operasional Prosedur (SOP) anggaran serta terlibat dalam penyusunan alokasi dana untuk mendukung pengelolaan yang transparan dan akuntabel.",
+        "public": true
+      },
+      "tags": {
+        "value": ["SOP & Anggaran", "Governance", "Leadership"],
+        "public": true
+      }
+    },
+    {
+      "id": "pmk-ft-2026",
+      "title": {
+        "value": "Pengurus PMK FT 2026",
+        "public": true
+      },
+      "institution": {
+        "value": "Fakultas Teknik Universitas Diponegoro",
+        "public": true
+      },
+      "period": {
+        "value": "2026 — Sekarang",
+        "public": true
+      },
+      "type": {
+        "value": "Organisasi Mahasiswa / Kepengurusan",
+        "public": true
+      },
+      "description": {
+        "value": "Merancang dan mengeksekusi strategi visual media sosial untuk meningkatkan interaksi pengikut dan memperkuat identitas digital organisasi.",
+        "public": true
+      },
+      "tags": {
+        "value": ["Desain Grafis", "Identitas Digital", "Figma"],
+        "public": true
+      }
+    },
+    {
+      "id": "panitia-prakarsa-ft-2025",
+      "title": {
+        "value": "Panitia Prakarsa FT 2025",
+        "public": true
+      },
+      "institution": {
+        "value": "Fakultas Teknik Universitas Diponegoro",
+        "public": true
+      },
+      "period": {
+        "value": "21 Agustus 2025",
+        "public": true
+      },
+      "type": {
+        "value": "Kepanitiaan Fakultas",
+        "public": true
+      },
+      "description": {
+        "value": "Mengoordinasikan kebutuhan infrastruktur panggung dan tata letak teknis untuk kegiatan tingkat fakultas yang dihadiri ratusan peserta.",
+        "public": true
+      },
+      "tags": {
+        "value": ["Infrastruktur Panggung", "Tata Letak Teknis", "Logistik Acara"],
+        "public": true
+      }
+    }
+  ],
+  "skills": {
+    "programming": {
+      "category": {
+        "value": "Programming",
+        "public": true
+      },
+      "description": {
+        "value": "Core programming languages for algorithms and backend development.",
+        "public": true
+      },
+      "items": {
+        "value": ["Python", "C++", "TypeScript"],
+        "public": true
+      }
+    },
+    "ai_ml": {
+      "category": {
+        "value": "AI & Machine Learning",
+        "public": true
+      },
+      "description": {
+        "value": "Object detection frameworks, neural nets, and visual data processing.",
+        "public": true
+      },
+      "items": {
+        "value": ["CNN", "YOLO", "Image Processing"],
+        "public": true
+      }
+    },
+    "tools_design": {
+      "category": {
+        "value": "Tools & Design",
+        "public": true
+      },
+      "description": {
+        "value": "Data analysis, computation, prototyping, and UI design.",
+        "public": true
+      },
+      "items": {
+        "value": ["NumPy", "Matplotlib", "Figma", "Canva"],
+        "public": true
+      }
+    },
+    "hardware_embedded": {
+      "category": {
+        "value": "Hardware & Embedded",
+        "public": true
+      },
+      "description": {
+        "value": "Embedded logic, digital circuits, and simulation tools.",
+        "public": true
+      },
+      "items": {
+        "value": ["Microcontroller", "Digital Logic", "Circuit Simulation", "Wokwi", "Tinkercad"],
+        "public": true
+      }
+    },
+    "backend_cloud": {
+      "category": {
+        "value": "Backend & Cloud",
+        "public": true
+      },
+      "description": {
+        "value": "Production backend frameworks, ORMs, and databases from intern experience.",
+        "public": true
+      },
+      "items": {
+        "value": ["NestJS", "Prisma ORM", "PostgreSQL", "Cloudinary"],
+        "public": true
+      }
+    },
+    "languages": {
+      "category": {
+        "value": "Languages",
+        "public": true
+      },
+      "description": {
+        "value": "Spoken and written communication proficiencies.",
+        "public": true
+      },
+      "items": {
+        "value": [
+          { "name": "Indonesian", "level": "Native" },
+          { "name": "English", "level": "Intermediate" }
+        ],
+        "public": true
+      }
+    }
+  },
+  "certifications": [
+    {
+      "name": {
+        "value": "Cisco Jaringan Komputer (Packet Tracer)",
+        "public": true
+      },
+      "category": {
+        "value": "Networking",
+        "public": true
+      }
+    },
+    {
+      "name": {
+        "value": "KP Dinas Kebudayaan dan Pariwisata Kota Semarang",
+        "public": true
+      },
+      "category": {
+        "value": "Internship",
+        "public": true
+      }
+    },
+    {
+      "name": {
+        "value": "Panitia Prakarsa FT",
+        "public": true
+      },
+      "category": {
+        "value": "Organization / Committee",
+        "public": true
+      }
+    },
+    {
+      "name": {
+        "value": "LKKMPD (Latihan Keterampilan Manajemen Mahasiswa Pra-Dasar)",
+        "public": true
+      },
+      "category": {
+        "value": "Leadership",
+        "public": true
+      }
+    },
+    {
+      "name": {
+        "value": "Volunteer Himaskom Menanam",
+        "public": true
+      },
+      "category": {
+        "value": "Community Service",
+        "public": true
+      }
+    }
+  ],
+  "links": {
+    "email": {
+      "url": "mailto:robertuswilliamsusanto@gmail.com",
+      "display": "robertuswilliamsusanto@gmail.com",
+      "public": true
+    },
+    "github": {
+      "url": "https://github.com/RobertusWilliamSusanto",
+      "display": "github.com/RobertusWilliamSusanto",
+      "public": true
+    },
+    "linkedin": {
+      "url": "https://www.linkedin.com/in/robertuswilliamsusanto",
+      "display": "linkedin.com/in/robertuswilliamsusanto",
+      "public": true
+    },
+    "portfolio": {
+      "url": "https://myportfolio-zeta-peach-42.vercel.app",
+      "display": "myportfolio-zeta-peach-42.vercel.app",
+      "public": true
+    },
+    "cv_pdf": {
+      "url": "/CV.pdf",
+      "display": "Download CV",
+      "public": true
+    }
+  }
+}
