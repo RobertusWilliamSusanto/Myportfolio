@@ -1,0 +1,108 @@
+{
+  "diffResult": {
+    "results": [
+      {
+        "test": "1440px reduced",
+        "diffPercent": 0.54292391180816,
+        "passed": false
+      },
+      {
+        "test": "768px reduced",
+        "diffPercent": 5.406831100612649,
+        "passed": false
+      },
+      {
+        "test": "390px reduced",
+        "diffPercent": 0.3544947341324469,
+        "passed": true
+      },
+      {
+        "test": "1440px animated",
+        "diffPercent": 0.09217430010986097,
+        "passed": true
+      },
+      {
+        "test": "768px animated",
+        "diffPercent": 0.1419761263374752,
+        "passed": true
+      },
+      {
+        "test": "390px animated",
+        "diffPercent": 0.20190488981409976,
+        "passed": true
+      }
+    ],
+    "consoleErrors": []
+  },
+  "lighthouse": {
+    "runs": [
+      {
+        "perf": 98,
+        "a11y": 100,
+        "bp": 100,
+        "seo": 100,
+        "fcp": 1507,
+        "lcp": 2182,
+        "cls": 0.0016,
+        "tbt": 0,
+        "lcpElement": "unknown"
+      },
+      {
+        "perf": 99,
+        "a11y": 100,
+        "bp": 100,
+        "seo": 100,
+        "fcp": 1507,
+        "lcp": 2032,
+        "cls": 0.0016,
+        "tbt": 0,
+        "lcpElement": "unknown"
+      },
+      {
+        "perf": 99,
+        "a11y": 100,
+        "bp": 100,
+        "seo": 100,
+        "fcp": 1507,
+        "lcp": 2032,
+        "cls": 0.0016,
+        "tbt": 0,
+        "lcpElement": "unknown"
+      },
+      {
+        "perf": 99,
+        "a11y": 100,
+        "bp": 100,
+        "seo": 100,
+        "fcp": 1507,
+        "lcp": 2107,
+        "cls": 0.0016,
+        "tbt": 1,
+        "lcpElement": "unknown"
+      },
+      {
+        "perf": 99,
+        "a11y": 100,
+        "bp": 100,
+        "seo": 100,
+        "fcp": 1524,
+        "lcp": 2049,
+        "cls": 0.0016,
+        "tbt": 14,
+        "lcpElement": "unknown"
+      }
+    ],
+    "median": {
+      "perf": 99,
+      "a11y": 100,
+      "bp": 100,
+      "seo": 100,
+      "fcp": 1507,
+      "lcp": 2032,
+      "cls": 0.0016,
+      "tbt": 0,
+      "lcpElement": "unknown"
+    }
+  },
+  "gatePassed": false
+}

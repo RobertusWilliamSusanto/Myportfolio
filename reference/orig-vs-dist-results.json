@@ -1,0 +1,35 @@
+{
+  "results": [
+    {
+      "test": "1440px reduced",
+      "pct": 0.44687843315528275,
+      "passed": true
+    },
+    {
+      "test": "768px reduced",
+      "pct": 5.404003965236432,
+      "passed": false
+    },
+    {
+      "test": "390px reduced",
+      "pct": 0.15258984431834716,
+      "passed": true
+    },
+    {
+      "test": "1440px animated",
+      "pct": 0,
+      "passed": true
+    },
+    {
+      "test": "768px animated",
+      "pct": 0,
+      "passed": true
+    },
+    {
+      "test": "390px animated",
+      "pct": 0,
+      "passed": true
+    }
+  ],
+  "allPassed": false
+}

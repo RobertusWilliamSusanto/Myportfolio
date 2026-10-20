@@ -13,21 +13,30 @@
   },
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
-    "dev": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --watch",
-    "build": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --minify && npx @tailwindcss/cli -i src/styles/input.css -o public/css/style.css --minify && node scripts/build-html.js",
-    "build:css": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --minify"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "legacy:dev": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --watch",
+    "legacy:build": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --minify && npx @tailwindcss/cli -i src/styles/input.css -o public/css/style.css --minify && node scripts/build-html.js"
   },
   "dependencies": {
+    "@astrojs/preact": "^6.1.0",
+    "astro": "^7.4.1",
     "framer-motion": "^12.35.2",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
+    "pixelmatch": "^8.0.0",
+    "pngjs": "^7.0.0",
+    "preact": "^11.0.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-simple-typewriter": "^5.0.1"
+    "react-simple-typewriter": "^5.0.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

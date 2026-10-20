@@ -44,3 +44,8 @@ Desktop.ini
 *.bak
 *.swp
 *.swo
+
+# Astro
+dist/
+.astro/
+reference/diff/
