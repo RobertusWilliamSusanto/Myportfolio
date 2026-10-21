@@ -1,0 +1,96 @@
+@import "tailwindcss";
+@import "./motion.css";
+
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/geist-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --bg: #131313;
+  --surface: #131313;
+  --surface-container-lowest: #0e0e0e;
+  --surface-container-low: #1c1b1b;
+  --surface-container: #201f1f;
+  --surface-container-high: #2a2a2a;
+  --surface-container-highest: #353434;
+  --surface-bright: #3a3939;
+  --primary: #ffffff;
+  --on-primary: #121212;
+  --primary-container: #e1e2e4;
+  --on-surface: #e5e2e1;
+  --on-surface-variant: #c4c7c9;
+  --outline: #8e9193;
+  --outline-variant: #444749;
+  --secondary: #34d399;
+  --secondary-container: #064e3b;
+  --secondary-fixed: #a7f3d0;
+  --secondary-fixed-dim: #6ee7b7;
+}
+
+html.light {
+  --bg: #f8f9fa;
+  --surface: #f8f9fa;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f1f3f5;
+  --surface-container: #e9ecef;
+  --surface-container-high: #dee2e6;
+  --surface-container-highest: #ced4da;
+  --surface-bright: #ffffff;
+  --primary: #121212;
+  --on-primary: #ffffff;
+  --primary-container: #e2e8f0;
+  --on-surface: #1a1a1a;
+  --on-surface-variant: #495057;
+  --outline: #6c757d;
+  --outline-variant: #ced4da;
+  --secondary: #059669;
+  --secondary-container: #d1fae5;
+  --secondary-fixed: #065f46;
+  --secondary-fixed-dim: #047857;
+}
+
+@theme {
+  --color-surface: var(--surface);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-surface-bright: var(--surface-bright);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-secondary-fixed: var(--secondary-fixed);
+  --color-secondary-fixed-dim: var(--secondary-fixed-dim);
+
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Safe areas for mobile devices */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}

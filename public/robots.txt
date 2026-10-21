@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://myportfolio-zeta-peach-42.vercel.app/sitemap.xml

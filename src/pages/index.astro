@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import MobileDrawer from '../components/MobileDrawer.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Projects from '../components/Projects.astro';
+import Experience from '../components/Experience.astro';
+import Skills from '../components/Skills.astro';
+import Education from '../components/Education.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import BottomNav from '../components/BottomNav.astro';
+import ChatbotMount from '../components/ChatbotMount.astro';
+import ProjectModal from '../islands/ProjectModal';
+---
+<BaseLayout>
+  <!-- Header / Navigation -->
+  <Navbar />
+
+  <!-- Mobile Drawer Overlay Menu -->
+  <MobileDrawer />
+
+  <!-- Main Content Landmark -->
+  <main id="main-content" class="w-full pt-16 bg-surface min-h-screen">
+    <!-- Background Dot Pattern (CSS radial gradient) -->
+    <div class="relative w-full overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none opacity-[0.04] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] z-0" aria-hidden="true"></div>
+      <!-- Static Hero Depth Glow (E5) -->
+      <div class="hero-glow" aria-hidden="true"></div>
+
+      <!-- Hero Section -->
+      <Hero />
+
+      <!-- About Section -->
+      <About />
+
+      <!-- Selected Projects -->
+      <Projects />
+
+      <!-- Experience & Leadership Timeline -->
+      <Experience />
+
+      <!-- Skills Matrix -->
+      <Skills />
+
+      <!-- Education & Credentials -->
+      <Education />
+
+      <!-- Contact Section -->
+      <Contact />
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <Footer />
+
+  <!-- Mobile Bottom Sticky Navigation -->
+  <BottomNav />
+
+  <!-- Native HTML5 Project Detail Dialog Island (I3) -->
+  <ProjectModal client:idle />
+
+  <!-- Lazy Chatbot Placeholder Mount Point -->
+  <ChatbotMount />
+</BaseLayout>

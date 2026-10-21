@@ -1,0 +1,107 @@
+---
+import '../styles/global.css';
+import { profile } from '../data/profile';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Robertus William Susanto — Portfolio",
+  description = "Portfolio of Robertus William Susanto - Computer Engineering Student at Diponegoro University. Focusing on AI Development (Computer Vision, YOLO >90%) and Software Engineering."
+} = Astro.props;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": profile.identity.name.value,
+  "jobTitle": "Computer Engineering Student",
+  "url": profile.links.portfolio.url,
+  "image": `${profile.links.portfolio.url}/images/profile-352.webp`,
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": profile.education[0]?.institution.value || "Universitas Diponegoro"
+  },
+  "sameAs": [
+    profile.links.github.url,
+    profile.links.linkedin.url
+  ],
+  "knowsAbout": [
+    "Artificial Intelligence",
+    "Computer Vision",
+    "YOLO",
+    "Convolutional Neural Networks",
+    "Software Engineering",
+    "NestJS",
+    "TypeScript",
+    "Python"
+  ]
+};
+---
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="author" content="Robertus William Susanto">
+  <link rel="canonical" href="https://myportfolio-zeta-peach-42.vercel.app/">
+  <link rel="icon" href="/favicon.ico">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://myportfolio-zeta-peach-42.vercel.app/">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content="Computer Engineering Student at Diponegoro University. Focusing on AI Development (Computer Vision, YOLO >90%) and Software Engineering.">
+  <meta property="og:image" content="https://myportfolio-zeta-peach-42.vercel.app/images/profile-352.webp">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content="Computer Engineering Student at Diponegoro University. Focusing on AI Development (Computer Vision, YOLO >90%) and Software Engineering.">
+  <meta name="twitter:image" content="https://myportfolio-zeta-peach-42.vercel.app/images/profile-352.webp">
+
+  <!-- Preload Critical Hero Font -->
+  <link rel="preload" href="/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Critical Theme & Anti-FOUC Script -->
+  <script is:inline>
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'light') {
+          document.documentElement.classList.add('light');
+          document.documentElement.classList.remove('dark');
+        } else if (saved === 'dark' || prefersDark) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {
+        document.documentElement.classList.add('dark');
+      }
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+
+  <!-- JSON-LD Structured Data Schema for Person -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)} />
+</head>
+<body class="bg-surface text-on-surface font-sans antialiased selection:bg-secondary-container selection:text-secondary-fixed">
+  <!-- Scroll Progress Bar (E5 Zero-JS CSS Animation Timeline) -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Skip to Main Content Link for A11y -->
+  <a href="#main-content" class="sr-only">Skip to main content</a>
+
+  <slot />
+
+  <!-- Deferred Vanilla JS -->
+  <script src="/js/main.js" defer></script>
+  <script src="/js/motion.js" defer></script>
+</body>
+</html>
