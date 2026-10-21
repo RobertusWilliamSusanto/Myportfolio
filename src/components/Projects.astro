@@ -30,12 +30,17 @@ import ProjectFilter from '../islands/ProjectFilter';
               <span id="yolo-precision-counter" class="px-2.5 py-1 rounded bg-secondary-container text-secondary-fixed font-mono text-[11px] font-semibold tracking-wide">&gt;90% EVALUATION</span>
               <span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-mono text-[11px]">AI / COMPUTER VISION</span>
             </div>
-            <span class="font-mono text-[11px] text-outline uppercase tracking-wider">FLAGSHIP</span>
+            <button type="button" data-project-trigger="yolo" class="font-mono text-[11px] text-outline uppercase tracking-wider hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View Object Detection project specifications">
+              <span>FLAGSHIP</span>
+              <span class="text-secondary">↗</span>
+            </button>
           </div>
 
           <div>
             <h3 class="text-xl md:text-2xl font-semibold text-primary group-hover:text-secondary transition-colors">
-              Object Detection dengan YOLO
+              <button type="button" data-project-trigger="yolo" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
+                Object Detection dengan YOLO
+              </button>
             </h3>
             <p class="text-sm md:text-base text-on-surface-variant mt-2 max-w-2xl leading-relaxed">
               Mengembangkan model deteksi objek untuk mengidentifikasi penyakit pada tumbuhan dan manusia menggunakan framework YOLO dengan hasil evaluasi di atas 90%. Dilengkapi arsitektur CNN deep learning dan pipeline image processing komprehensif.
@@ -60,11 +65,16 @@ import ProjectFilter from '../islands/ProjectFilter';
         <div class="p-6 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <span class="px-2.5 py-1 rounded bg-surface-container-high text-secondary font-mono text-[11px] font-semibold">RESTful API &amp; RBAC</span>
-            <span class="font-mono text-[11px] text-outline">KOTA SEMARANG</span>
+            <button type="button" data-project-trigger="sibarista" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View SIBARISTA project specifications">
+              <span>KOTA SEMARANG</span>
+              <span class="text-secondary">↗</span>
+            </button>
           </div>
           <div>
             <h3 class="text-lg md:text-xl font-semibold text-primary group-hover:text-secondary transition-colors">
-              SIBARISTA Tourism Info System
+              <button type="button" data-project-trigger="sibarista" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
+                SIBARISTA Tourism Info System
+              </button>
             </h3>
             <p class="text-xs md:text-sm text-on-surface-variant mt-2 leading-relaxed">
               Arsitektur backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Dilengkapi autentikasi JWT &amp; RBAC, Public API pagination, dan integrasi Cloudinary.
@@ -86,7 +96,9 @@ import ProjectFilter from '../islands/ProjectFilter';
             </svg>
             <span>Live Portal</span>
           </a>
-          <span class="font-mono text-[11px] text-outline">NEON DB</span>
+          <button type="button" data-project-trigger="sibarista" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label="View SIBARISTA technical details">
+            NEON DB
+          </button>
         </div>
       </article>
 
@@ -95,11 +107,16 @@ import ProjectFilter from '../islands/ProjectFilter';
         <div class="p-6 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[11px]">SECURITY</span>
-            <span class="font-mono text-[11px] text-outline">PYTHON</span>
+            <button type="button" data-project-trigger="kriptografi" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View Kriptografi project specifications">
+              <span>PYTHON</span>
+              <span class="text-secondary">↗</span>
+            </button>
           </div>
           <div>
             <h3 class="text-lg md:text-xl font-semibold text-primary group-hover:text-secondary transition-colors">
-              Kriptografi Klasik &amp; Security Tools
+              <button type="button" data-project-trigger="kriptografi" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
+                Kriptografi Klasik &amp; Security Tools
+              </button>
             </h3>
             <p class="text-xs md:text-sm text-on-surface-variant mt-2 leading-relaxed">
               Kalkulator kriptografi klasik untuk enkripsi dan dekripsi algoritma kriptografi klasik (Vigenère, Playfair, Hill cipher, Caesar) dengan implementasi matematis presisi tinggi.
@@ -118,7 +135,9 @@ import ProjectFilter from '../islands/ProjectFilter';
             </svg>
             <span>Repository</span>
           </a>
-          <span class="font-mono text-[11px] text-outline">CIPHER CORE</span>
+          <button type="button" data-project-trigger="kriptografi" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label="View Kriptografi technical details">
+            CIPHER CORE
+          </button>
         </div>
       </article>
 
@@ -130,11 +149,16 @@ import ProjectFilter from '../islands/ProjectFilter';
               <span class="px-2.5 py-1 rounded bg-surface-container-high text-secondary font-mono text-[11px] font-semibold">Next.js &amp; Tailwind</span>
               <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">FRONTEND</span>
             </div>
-            <span class="font-mono text-[11px] text-outline">WEB SUITE</span>
+            <button type="button" data-project-trigger="portfolio" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View Portfolio project specifications">
+              <span>WEB SUITE</span>
+              <span class="text-secondary">↗</span>
+            </button>
           </div>
           <div>
             <h3 class="text-lg md:text-xl font-semibold text-primary group-hover:text-secondary transition-colors">
-              Digital Portfolio &amp; Web Applications
+              <button type="button" data-project-trigger="portfolio" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
+                Digital Portfolio &amp; Web Applications
+              </button>
             </h3>
             <p class="text-sm md:text-base text-on-surface-variant mt-2 max-w-xl leading-relaxed">
               Personal portfolio and automated To-Do list developed in Python and converted into responsive modern web applications with component-driven architecture and persistent state.
@@ -168,7 +192,9 @@ import ProjectFilter from '../islands/ProjectFilter';
               <span>Repository</span>
             </a>
           </div>
-          <span class="font-mono text-[11px] text-outline">MODERN WEB STACK</span>
+          <button type="button" data-project-trigger="portfolio" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label="View Portfolio technical details">
+            MODERN WEB STACK
+          </button>
         </div>
       </article>
 
@@ -177,11 +203,16 @@ import ProjectFilter from '../islands/ProjectFilter';
         <div class="p-6 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[11px]">TOOLING</span>
-            <span class="font-mono text-[11px] text-outline">PYTHON</span>
+            <button type="button" data-project-trigger="expense-tracker" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View Expense Tracker project specifications">
+              <span>PYTHON</span>
+              <span class="text-secondary">↗</span>
+            </button>
           </div>
           <div>
             <h3 class="text-lg md:text-xl font-semibold text-primary group-hover:text-secondary transition-colors">
-              Expense Tracker &amp; Automation Tools
+              <button type="button" data-project-trigger="expense-tracker" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
+                Expense Tracker &amp; Automation Tools
+              </button>
             </h3>
             <p class="text-xs md:text-sm text-on-surface-variant mt-2 leading-relaxed">
               Automated personal expense tracker and productivity tooling for structured ledger bookkeeping and personal budgeting.
@@ -199,7 +230,9 @@ import ProjectFilter from '../islands/ProjectFilter';
             </svg>
             <span>Live App</span>
           </a>
-          <span class="font-mono text-[11px] text-outline">AUTOMATION</span>
+          <button type="button" data-project-trigger="expense-tracker" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label="View Expense Tracker technical details">
+            AUTOMATION
+          </button>
         </div>
       </article>
 

@@ -12,6 +12,7 @@ import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import BottomNav from '../components/BottomNav.astro';
 import ChatbotMount from '../components/ChatbotMount.astro';
+import ProjectModal from '../islands/ProjectModal';
 ---
 <BaseLayout>
   <!-- Header / Navigation -->
@@ -56,6 +57,9 @@ import ChatbotMount from '../components/ChatbotMount.astro';
 
   <!-- Mobile Bottom Sticky Navigation -->
   <BottomNav />
+
+  <!-- Native HTML5 Project Detail Dialog Island (I3) -->
+  <ProjectModal client:idle />
 
   <!-- Lazy Chatbot Placeholder Mount Point -->
   <ChatbotMount />
