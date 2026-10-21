@@ -1,3 +1,4 @@
+# Dependencies
 node_modules/
 /.pnp
 .pnp.*
@@ -7,17 +8,17 @@ node_modules/
 !.yarn/releases
 !.yarn/versions
 
-/.next/
-/out/
-/build/
-/.turbo/
-/coverage/
+# Build output & frameworks
+dist/
+build/
+out/
+.astro/
+.next/
+.turbo/
+.vercel/
+coverage/
 
-*.log
-npm-debug.log*
-yarn-debug.log*
-pnpm-debug.log*
-
+# Environment & secrets
 .env
 .env.local
 .env.development.local
@@ -25,27 +26,52 @@ pnpm-debug.log*
 .env.production.local
 .env*
 !.env.example
-
-.vercel
-*.tsbuildinfo
-
-.DS_Store
-Thumbs.db
-Desktop.ini
 *.pem
+*.key
 
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-.idea/
+# Pipeline artifacts & visual regression
+/reference/*.png
+/reference/*.json
+/reference/diff/
+/screenshots/
+lighthouse-*.json
+*.report.html
+.lighthouseci/
+*-baseline.json
+baseline-*.json
+test-results/
+playwright-report/
+blob-report/
 
+# Tool & build caches
+.cache/
+.eslintcache
+*.tsbuildinfo
 .tmp/
 *.tmp
 *.bak
 *.swp
 *.swo
 
-# Astro
-dist/
-.astro/
-reference/diff/
+# Operating system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# Editor & IDE files
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# Agent tools & assistants
+.gemini/
+.claude/
+.cursor/
+
+# Root-level duplicate asset copies
+/CV.pdf
+/favicon.ico
+/fonts/
+/images/
