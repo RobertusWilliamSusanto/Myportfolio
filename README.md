@@ -2,7 +2,7 @@
 
 This repository contains the official source code for the personal portfolio website of **Robertus William Susanto** (Undergraduate Computer Engineering Student at Diponegoro University).
 
-- **Live Website:** [Portfolio Website](myportfolio-zeta-peach-42.vercel.app)
+- **Live Website:** [Web Portofolio](https://myportfolio-zeta-peach-42.vercel.app)
 - **Primary Focus:** AI Development (Computer Vision), Software Engineering, Computer Networking
 
 ---
