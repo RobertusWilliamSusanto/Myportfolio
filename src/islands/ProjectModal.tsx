@@ -96,7 +96,7 @@ const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'Visual summary analytics untuk evaluasi anggaran bulanan',
       'Clean responsive user interface untuk input transaksi cepat'
     ],
-    demoUrl: 'https://expense-tracker-hp27gucq6-robertuswilliamsusantos-projects.vercel.app',
+    demoUrl: 'https://expense-tracker-six-sigma-30.vercel.app',
     repoUrl: null
   }
 };
