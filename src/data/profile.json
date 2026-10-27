@@ -217,9 +217,9 @@
           "public": true
         },
         "live_demo": {
-          "url": null,
-          "status": "TODO",
-          "note": "Live demo pending deployment",
+          "url": "https://tugas-proyek-kriptografi-klasik.vercel.app",
+          "status": "VERIFIED_200",
+          "note": "Verified live demo deployment on Vercel",
           "public": true
         }
       }

@@ -62,7 +62,7 @@ const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'Automated key stream generator untuk Vigenère Cipher',
       'Validasi integritas input dan penanganan karakter non-alfabetik'
     ],
-    demoUrl: null,
+    demoUrl: 'https://tugas-proyek-kriptografi-klasik.vercel.app',
     repoUrl: 'https://github.com/RobertusWilliamSusanto/Tugas-Proyek-Kriptografi-Klasik'
   },
   'portfolio': {

@@ -33,7 +33,8 @@ const projects: Project[] = [
     description: "Developed a web-based modular cryptography tool implementing classic cipher algorithms (Caesar, Vigenère, Playfair) with automated key validation and encryption/decryption state visualization.",
     tech: ["Python", "Flask", "Cryptography", "Algorithms"],
     image: "/Kriptografi.jpg",
-    githubUrl: "https://github.com/RobertusWilliamSusanto"
+    githubUrl: "https://github.com/RobertusWilliamSusanto/Tugas-Proyek-Kriptografi-Klasik",
+    demoUrl: "https://tugas-proyek-kriptografi-klasik.vercel.app"
   }
 ];
 
