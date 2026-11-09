@@ -18,7 +18,10 @@ const {
 
 const canonicalUrl = lang === 'id'
   ? "https://myportfolio-zeta-peach-42.vercel.app/"
-  : "https://myportfolio-zeta-peach-42.vercel.app/en/";
+  : "https://myportfolio-zeta-peach-42.vercel.app/en";
+
+const ogLocale = lang === 'id' ? 'id_ID' : 'en_US';
+const ogLocaleAlternate = lang === 'id' ? 'en_US' : 'id_ID';
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -59,12 +62,14 @@ const skipToContentText = lang === 'id' ? 'Lewati ke konten utama' : 'Skip to ma
   <meta name="author" content="Robertus William Susanto">
   <link rel="canonical" href={canonicalUrl}>
   <link rel="alternate" hreflang="id" href="https://myportfolio-zeta-peach-42.vercel.app/">
-  <link rel="alternate" hreflang="en" href="https://myportfolio-zeta-peach-42.vercel.app/en/">
+  <link rel="alternate" hreflang="en" href="https://myportfolio-zeta-peach-42.vercel.app/en">
   <link rel="alternate" hreflang="x-default" href="https://myportfolio-zeta-peach-42.vercel.app/">
   <link rel="icon" href="/favicon.ico">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
+  <meta property="og:locale" content={ogLocale}>
+  <meta property="og:locale:alternate" content={ogLocaleAlternate}>
   <meta property="og:url" content={canonicalUrl}>
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>

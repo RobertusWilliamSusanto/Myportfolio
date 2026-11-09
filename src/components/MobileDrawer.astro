@@ -15,7 +15,7 @@ const eduLabel = lang === 'id' ? 'Pendidikan & Kredensial' : 'Education & Creden
 const contactLabel = lang === 'id' ? 'Kontak' : 'Contact';
 const closeAria = lang === 'id' ? 'Tutup menu navigasi' : 'Close navigation menu';
 const openToWorkText = lang === 'id' ? 'TERSEDIA UNTUK PELUANG' : 'OPEN TO WORK';
-const targetHref = lang === 'id' ? '/en/' : '/';
+const targetHref = lang === 'id' ? '/en' : '/';
 const switchAria = lang === 'id' ? 'Switch language to English' : 'Ganti bahasa ke Bahasa Indonesia';
 ---
 <div id="mobile-drawer" class="hidden fixed inset-0 z-50 bg-surface/95 backdrop-blur-2xl p-6 flex flex-col justify-between pt-safe pb-safe" aria-hidden="true">
@@ -34,7 +34,7 @@ const switchAria = lang === 'id' ? 'Switch language to English' : 'Ganti bahasa 
               lang="en" 
               hreflang="en" 
               aria-label={switchAria}
-              onclick="if(window.location.hash) this.href = '/en/' + window.location.hash"
+              onclick="if(window.location.hash) this.href = '/en' + window.location.hash"
             >
               EN
             </a>
