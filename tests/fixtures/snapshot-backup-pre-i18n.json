@@ -1,0 +1,138 @@
+{
+  "_source": "backup-pre-i18n",
+  "generated_at": "2026-11-09",
+  "identity": {
+    "name": "Robertus William Susanto",
+    "email": "robertuswilliamsusanto@gmail.com",
+    "university_id": "Universitas Diponegoro",
+    "university_en": "Diponegoro University"
+  },
+  "education": {
+    "institution_id": "Universitas Diponegoro",
+    "institution_en": "Diponegoro University",
+    "faculty_dept_id": "Fakultas Teknik — Jurusan Teknik Komputer",
+    "faculty_dept_en": "Faculty of Engineering — Computer Engineering Major",
+    "degree_badge_id": "PROGRAM SARJANA (S1)",
+    "degree_badge_en": "UNDERGRADUATE DEGREE",
+    "period_id": "AGUSTUS 2024 — SEKARANG",
+    "period_en": "AUGUST 2024 — PRESENT"
+  },
+  "projects": [
+    {
+      "id": "yolo-object-detection",
+      "title_id": "Object Detection dengan YOLO",
+      "title_en": "Object Detection with YOLO",
+      "badge": ">90% EVALUATION",
+      "tags": ["YOLO", "Computer Vision", "Python", "CNN"]
+    },
+    {
+      "id": "sibarista-tourism-system",
+      "title_id": "SIBARISTA Tourism Info System",
+      "title_en": "SIBARISTA Tourism Info System",
+      "badge": "RESTful API & RBAC",
+      "tags": ["NestJS", "TypeScript", "Prisma", "PostgreSQL"]
+    },
+    {
+      "id": "classical-cryptography",
+      "title_id": "Kriptografi Klasik & Security Tools",
+      "title_en": "Classical Cryptography & Security Tools",
+      "badge": "SECURITY",
+      "tags": ["React", "TypeScript", "Tailwind CSS", "Vite", "Cryptography", "Classical Ciphers"]
+    },
+    {
+      "id": "digital-portfolio-web-apps",
+      "title_id": "Digital Portfolio & Web Applications",
+      "title_en": "Digital Portfolio & Web Applications",
+      "badge": "Next.js & Tailwind",
+      "tags": ["JavaScript", "React/Next.js", "Python", "Tailwind CSS"]
+    },
+    {
+      "id": "expense-tracker-automation",
+      "title_id": "Expense Tracker & Automation Tools",
+      "title_en": "Expense Tracker & Automation Tools",
+      "badge": "TOOLING",
+      "tags": ["Python", "Tkinter", "File I/O", "Automation"]
+    }
+  ],
+  "experience": [
+    {
+      "id": "sibarista-backend-internship",
+      "title_id": "Backend Developer Intern — SIBARISTA System",
+      "title_en": "Backend Developer Intern — SIBARISTA System",
+      "institution_id": "Dinas Kebudayaan dan Pariwisata Kota Semarang",
+      "institution_en": "Dinas Kebudayaan dan Pariwisata Kota Semarang",
+      "period_id": "22 JUNI 2026 — 14 AGUSTUS 2026",
+      "period_en": "22 JUNE 2026 — 14 AUGUST 2026",
+      "type_id": "Magang / Kerja Praktik",
+      "type_en": "Internship / Practical Work"
+    },
+    {
+      "id": "dpa-tekkom-undip",
+      "title_id": "Anggota Dewan Perwakilan Angkatan",
+      "title_en": "Class Representative Council (DPA) Member",
+      "institution_id": "Teknik Komputer Universitas Diponegoro",
+      "institution_en": "Teknik Komputer Universitas Diponegoro",
+      "period_id": "2026 — SEKARANG",
+      "period_en": "2026 — PRESENT",
+      "type_id": "Organisasi Mahasiswa",
+      "type_en": "Student Organization"
+    },
+    {
+      "id": "pmk-ft-2026",
+      "title_id": "Pengurus PMK FT 2026",
+      "title_en": "PMK FT 2026 Committee Member",
+      "institution_id": "Fakultas Teknik Universitas Diponegoro",
+      "institution_en": "Fakultas Teknik Universitas Diponegoro",
+      "period_id": "2026 — SEKARANG",
+      "period_en": "2026 — PRESENT",
+      "type_id": "Kepanitiaan & Pengurus",
+      "type_en": "Committee & Management"
+    },
+    {
+      "id": "panitia-prakarsa-ft-2025",
+      "title_id": "Panitia Prakarsa FT 2025",
+      "title_en": "Committee Member — Prakarsa FT 2025",
+      "institution_id": "Fakultas Teknik Universitas Diponegoro",
+      "institution_en": "Fakultas Teknik Universitas Diponegoro",
+      "period_id": "21 AGUSTUS 2025",
+      "period_en": "21 AUGUST 2025",
+      "type_id": "Kepanitiaan Fakultas",
+      "type_en": "Faculty Committee"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "Cisco Jaringan Komputer (Packet Tracer)",
+      "en": "Cisco Computer Networking (Packet Tracer)"
+    },
+    {
+      "id": "KP Dinas Kebudayaan dan Pariwisata Kota Semarang",
+      "en": "Internship — Dinas Kebudayaan dan Pariwisata Kota Semarang"
+    },
+    {
+      "id": "Panitia Prakarsa FT",
+      "en": "Prakarsa FT Committee"
+    },
+    {
+      "id": "LKKMPD (Latihan Keterampilan Manajemen Mahasiswa Pra-Dasar)",
+      "en": "LKKMPD (Pre-Basic Student Management Skills Training)"
+    },
+    {
+      "id": "Volunteer Himaskom Menanam",
+      "en": "Himaskom Tree Planting Volunteer"
+    }
+  ],
+  "forbidden_unverified_terms": [
+    "Udang",
+    "Vaname",
+    "PilahSampah",
+    "Rembang",
+    "Raspberry",
+    "S.T.",
+    "Bachelor of Engineering",
+    "Departemen Teknik Komputer",
+    "Culture & Tourism Office",
+    "DPA PMK FEB",
+    "UKM Penelitian Prakarsa"
+  ]
+}
