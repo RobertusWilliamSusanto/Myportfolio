@@ -1,15 +1,33 @@
 ---
+import type { Lang } from '../data/profile';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'id' } = Astro.props;
+
+const sectionTag = lang === 'id' ? 'HUBUNGI SAYA' : 'GET IN TOUCH';
+const sectionTitle = lang === 'id' ? 'Mari bangun sesuatu yang bermakna.' : 'Let’s build something meaningful.';
+const sectionDesc = lang === 'id'
+  ? 'Tertarik berkolaborasi dalam rekayasa sistem AI, Computer Vision, atau arsitektur backend software engineering? Silakan hubungi saya melalui email resmi di bawah ini.'
+  : 'Interested in collaborating on AI system engineering, Computer Vision, or backend software engineering? Feel free to reach out via my official email below.';
+
+const sendEmailText = lang === 'id' ? 'Kirim Email Langsung' : 'Send Direct Email';
+const copyEmailText = lang === 'id' ? 'Salin robertuswilliamsusanto@gmail.com' : 'Copy robertuswilliamsusanto@gmail.com';
+const copiedFeedback = lang === 'id' ? 'TERSALIN KE CLIPBOARD!' : 'COPIED TO CLIPBOARD!';
+const copyAria = lang === 'id' ? 'Salin alamat email' : 'Copy email address';
 ---
 <!-- CONTACT & ENGAGEMENT SECTION -->
-<section id="contact" class="scroll-reveal relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-20 border-t border-outline-variant/20" aria-label="Contact Section">
+<section id="contact" class="scroll-reveal relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-20 border-t border-outline-variant/20" aria-label={sectionTitle}>
   <div class="rounded-xl bg-surface-container-low border border-outline-variant/30 p-8 md:p-12 shadow-xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
     <div class="flex flex-col gap-3 max-w-xl">
-      <span class="font-mono text-xs uppercase tracking-widest text-outline font-semibold">GET IN TOUCH</span>
+      <span class="font-mono text-xs uppercase tracking-widest text-outline font-semibold">{sectionTag}</span>
       <h2 class="text-2xl sm:text-3xl font-semibold text-primary">
-        Let’s build something meaningful.
+        {sectionTitle}
       </h2>
       <p class="text-sm md:text-base text-on-surface-variant leading-relaxed">
-        Tertarik berkolaborasi dalam rekayasa sistem AI, Computer Vision, atau arsitektur backend software engineering? Silakan hubungi saya melalui email resmi di bawah ini.
+        {sectionDesc}
       </p>
     </div>
 
@@ -18,14 +36,14 @@
         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
         </svg>
-        <span>Kirim Email Langsung</span>
+        <span>{sendEmailText}</span>
       </a>
 
-      <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded bg-surface-container-high border border-outline-variant/30 text-on-surface text-sm font-medium hover:bg-surface-bright hover-lift min-h-[44px]" onclick="copyEmailAddress(this)">
+      <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded bg-surface-container-high border border-outline-variant/30 text-on-surface text-sm font-medium hover:bg-surface-bright hover-lift min-h-[44px]" onclick="copyEmailAddress(this)" aria-label={copyAria} data-copied-text={copiedFeedback} data-original-text={copyEmailText}>
         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
         </svg>
-        <span class="copy-label font-mono text-xs">Copy robertuswilliamsusanto@gmail.com</span>
+        <span class="copy-label font-mono text-xs">{copyEmailText}</span>
       </button>
 
       <!-- Social Links -->
