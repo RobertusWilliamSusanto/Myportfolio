@@ -1,10 +1,22 @@
 import { z } from 'zod';
 
+export const LocalizedStringSchema = z.union([
+  z.string(),
+  z.object({
+    id: z.string(),
+    en: z.string()
+  })
+]);
+
+export type LocalizedString = z.infer<typeof LocalizedStringSchema>;
+
 export const PublicFieldSchema = <T extends z.ZodTypeAny>(valueSchema: T) =>
   z.object({
     value: valueSchema,
     public: z.boolean()
   });
+
+export const LocalizedPublicField = PublicFieldSchema(LocalizedStringSchema);
 
 export const ProjectLinkItemSchema = z.object({
   url: z.string().nullable().optional(),
@@ -15,16 +27,16 @@ export const ProjectLinkItemSchema = z.object({
 
 export const ProjectItemSchema = z.object({
   id: z.string(),
-  title: PublicFieldSchema(z.string()),
-  badge: PublicFieldSchema(z.string().optional()).optional(),
-  category: PublicFieldSchema(z.string()),
+  title: LocalizedPublicField,
+  badge: PublicFieldSchema(LocalizedStringSchema.optional()).optional(),
+  category: LocalizedPublicField,
   flagship: PublicFieldSchema(z.boolean().optional()).optional(),
-  description: PublicFieldSchema(z.string()),
+  description: LocalizedPublicField,
   tech_stack: PublicFieldSchema(z.array(z.string())),
   assets: z.object({
     image: z.object({
       source: z.string().nullable().optional(),
-      alt: z.string().nullable().optional(),
+      alt: LocalizedStringSchema.nullable().optional(),
       public: z.boolean()
     }).optional()
   }).optional(),
@@ -32,8 +44,8 @@ export const ProjectItemSchema = z.object({
 });
 
 export const SkillCategorySchema = z.object({
-  category: PublicFieldSchema(z.string()),
-  description: PublicFieldSchema(z.string()),
+  category: LocalizedPublicField,
+  description: LocalizedPublicField,
   items: z.object({
     value: z.union([
       z.array(z.string()),
@@ -61,7 +73,7 @@ export const ProfileSchema = z.object({
     phone: PublicFieldSchema(z.string().nullable()),
     student_id: PublicFieldSchema(z.string().nullable()),
     availability: z.object({
-      status: z.string(),
+      status: LocalizedStringSchema,
       open_to_work: z.boolean(),
       public: z.boolean()
     })
@@ -72,33 +84,33 @@ export const ProfileSchema = z.object({
   }),
   education: z.array(
     z.object({
-      institution: PublicFieldSchema(z.string()),
-      faculty: PublicFieldSchema(z.string()),
-      department: PublicFieldSchema(z.string()),
-      degree: PublicFieldSchema(z.string()),
-      period: PublicFieldSchema(z.string()),
-      status: PublicFieldSchema(z.string()),
-      location: PublicFieldSchema(z.string()),
-      description: PublicFieldSchema(z.string())
+      institution: LocalizedPublicField,
+      faculty: LocalizedPublicField,
+      department: LocalizedPublicField,
+      degree: LocalizedPublicField,
+      period: LocalizedPublicField,
+      status: LocalizedPublicField,
+      location: LocalizedPublicField,
+      description: LocalizedPublicField
     })
   ),
   projects: z.array(ProjectItemSchema),
   experience: z.array(
     z.object({
       id: z.string(),
-      title: PublicFieldSchema(z.string()),
-      institution: PublicFieldSchema(z.string()),
-      period: PublicFieldSchema(z.string()),
-      type: PublicFieldSchema(z.string()),
-      description: PublicFieldSchema(z.string()),
+      title: LocalizedPublicField,
+      institution: LocalizedPublicField,
+      period: LocalizedPublicField,
+      type: LocalizedPublicField,
+      description: LocalizedPublicField,
       tags: PublicFieldSchema(z.array(z.string()))
     })
   ),
   skills: z.record(z.string(), SkillCategorySchema),
   certifications: z.array(
     z.object({
-      name: PublicFieldSchema(z.string()),
-      category: PublicFieldSchema(z.string())
+      name: LocalizedPublicField,
+      category: LocalizedPublicField
     })
   ).optional(),
   links: z.record(

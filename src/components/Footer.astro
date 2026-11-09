@@ -1,10 +1,25 @@
 ---
+import type { Lang } from '../data/profile';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'id' } = Astro.props;
+
+const copyNotice = lang === 'id'
+  ? '© 2026 Robertus William Susanto. Mahasiswa Teknik Komputer Universitas Diponegoro.'
+  : '© 2026 Robertus William Susanto. Computer Engineering Student at Diponegoro University.';
+
+const subLine = lang === 'id'
+  ? 'Semarang, Indonesia • AI & Rekayasa Perangkat Lunak'
+  : 'Semarang, Indonesia • AI & Software Engineering';
 ---
 <footer class="w-full bg-surface-container-lowest border-t border-outline-variant/30 py-12 pb-24 lg:pb-12" role="contentinfo">
   <div class="max-w-[1280px] mx-auto px-4 md:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
     <div class="flex flex-col gap-1 text-center md:text-left">
-      <p class="text-xs text-on-surface-variant m-0">© 2026 Robertus William Susanto. Computer Engineering Student at Universitas Diponegoro.</p>
-      <p class="font-mono text-[11px] text-outline m-0">Semarang, Indonesia • AI &amp; Software Engineering</p>
+      <p class="text-xs text-on-surface-variant m-0">{copyNotice}</p>
+      <p class="font-mono text-[11px] text-outline m-0">{subLine}</p>
     </div>
 
     <div class="flex items-center gap-6">

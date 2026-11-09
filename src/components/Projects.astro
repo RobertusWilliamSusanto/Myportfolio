@@ -1,28 +1,45 @@
 ---
 import YoloDemo from '../islands/YoloDemo';
 import ProjectFilter from '../islands/ProjectFilter';
+import { projects, getLocalized, type Lang } from '../data/profile';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'id' } = Astro.props;
+
+const sectionTitle = lang === 'id' ? 'Portofolio Teknis & Sistem' : 'Technical Portfolio & Systems';
+const sectionSubtitle = lang === 'id' ? 'Artefak Teknis & Sistem Pilihan' : 'Selected Technical Artifacts & Systems';
+
+const card1 = projects[0];
+const card2 = projects[1];
+const card3 = projects[2];
+const card4 = projects[3];
+const card5 = projects[4];
+
+const openLiveDemoText = lang === 'id' ? 'Buka Live Demo' : 'Open Live Demo';
+const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
 ---
 <!-- SELECTED PROJECTS (BENTO GRID SECTION) -->
-<section id="projects" class="scroll-reveal relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-16 border-t border-outline-variant/20" aria-label="Selected Technical Projects">
+<section id="projects" class="scroll-reveal relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-16 border-t border-outline-variant/20" aria-label={sectionTitle}>
   <div class="flex flex-col gap-8">
     
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
         <span class="font-mono text-xs uppercase tracking-widest text-outline font-semibold">SELECTED PROJECTS</span>
-        <h2 class="text-2xl sm:text-3xl font-semibold text-primary mt-1">Technical Portfolio &amp; Systems</h2>
+        <h2 class="text-2xl sm:text-3xl font-semibold text-primary mt-1">{sectionTitle}</h2>
       </div>
-      <!-- Defect 5 Fixed: Clean technical subtitle without unverifiable wording -->
-      <span class="font-mono text-xs text-outline">Selected Technical Artifacts &amp; Systems</span>
+      <span class="font-mono text-xs text-outline">{sectionSubtitle}</span>
     </div>
 
     <!-- I2 Interactive Filter Chips (Hydrated Preact Island) -->
-    <ProjectFilter client:visible />
+    <ProjectFilter client:visible lang={lang} />
 
     <!-- Bento Grid Container with Stagger Group (E4 Ladder A) -->
     <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-group">
 
       <!-- Card 1: Flagship YOLO Card (Spans 2 cols on lg) -->
-      <!-- Defect 2 Fixed: Fixed aspect-ratio image container, clean layout, no overlapping elements, no dead black area -->
       <article data-domain="ai" class="scroll-reveal card-interactive group lg:col-span-2 rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
         <div class="p-6 md:p-8 flex flex-col gap-4">
           <div class="flex flex-wrap items-center justify-between gap-3">
@@ -30,7 +47,7 @@ import ProjectFilter from '../islands/ProjectFilter';
               <span id="yolo-precision-counter" class="px-2.5 py-1 rounded bg-secondary-container text-secondary-fixed font-mono text-[11px] font-semibold tracking-wide">&gt;90% EVALUATION</span>
               <span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-mono text-[11px]">AI / COMPUTER VISION</span>
             </div>
-            <button type="button" data-project-trigger="yolo" class="font-mono text-[11px] text-outline uppercase tracking-wider hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View Object Detection project specifications">
+            <button type="button" data-project-trigger="yolo" class="font-mono text-[11px] text-outline uppercase tracking-wider hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label={lang === 'id' ? 'Lihat spesifikasi proyek Object Detection' : 'View Object Detection project specifications'}>
               <span>FLAGSHIP</span>
               <span class="text-secondary">↗</span>
             </button>
@@ -39,11 +56,11 @@ import ProjectFilter from '../islands/ProjectFilter';
           <div>
             <h3 class="text-xl md:text-2xl font-semibold text-primary group-hover:text-secondary transition-colors">
               <button type="button" data-project-trigger="yolo" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
-                Object Detection dengan YOLO
+                {getLocalized(card1.title, lang)}
               </button>
             </h3>
             <p class="text-sm md:text-base text-on-surface-variant mt-2 max-w-2xl leading-relaxed">
-              Mengembangkan model deteksi objek untuk mengidentifikasi penyakit pada tumbuhan dan manusia menggunakan framework YOLO dengan hasil evaluasi di atas 90%. Dilengkapi arsitektur CNN deep learning dan pipeline image processing komprehensif.
+              {getLocalized(card1.description, lang)}
             </p>
           </div>
 
@@ -65,7 +82,7 @@ import ProjectFilter from '../islands/ProjectFilter';
         <div class="p-6 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <span class="px-2.5 py-1 rounded bg-surface-container-high text-secondary font-mono text-[11px] font-semibold">RESTful API &amp; RBAC</span>
-            <button type="button" data-project-trigger="sibarista" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View SIBARISTA project specifications">
+            <button type="button" data-project-trigger="sibarista" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label={lang === 'id' ? 'Lihat rincian teknis SIBARISTA' : 'View SIBARISTA technical details'}>
               <span>KOTA SEMARANG</span>
               <span class="text-secondary">↗</span>
             </button>
@@ -73,11 +90,11 @@ import ProjectFilter from '../islands/ProjectFilter';
           <div>
             <h3 class="text-lg md:text-xl font-semibold text-primary group-hover:text-secondary transition-colors">
               <button type="button" data-project-trigger="sibarista" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
-                SIBARISTA Tourism Info System
+                {getLocalized(card2.title, lang)}
               </button>
             </h3>
             <p class="text-xs md:text-sm text-on-surface-variant mt-2 leading-relaxed">
-              Arsitektur backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Dilengkapi autentikasi JWT &amp; RBAC, Public API pagination, dan integrasi Cloudinary.
+              {getLocalized(card2.description, lang)}
             </p>
           </div>
           <div class="flex flex-wrap gap-1.5 pt-1">
@@ -96,18 +113,18 @@ import ProjectFilter from '../islands/ProjectFilter';
             </svg>
             <span>Live Portal</span>
           </a>
-          <button type="button" data-project-trigger="sibarista" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label="View SIBARISTA technical details">
+          <button type="button" data-project-trigger="sibarista" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label={lang === 'id' ? 'Lihat rincian teknis SIBARISTA' : 'View SIBARISTA technical details'}>
             NEON DB
           </button>
         </div>
       </article>
 
-      <!-- Card 3: Kriptografi Klasik & Security Tools -->
+      <!-- Card 3: Classical Cryptography & Security Tools -->
       <article data-domain="security" class="scroll-reveal card-interactive group rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
         <div class="p-6 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[11px]">SECURITY</span>
-            <button type="button" data-project-trigger="kriptografi" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View Kriptografi project specifications">
+            <button type="button" data-project-trigger="kriptografi" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label={lang === 'id' ? 'Buka rincian proyek Kriptografi' : 'View Cryptography project specifications'}>
               <span>REACT + TS</span>
               <span class="text-secondary">↗</span>
             </button>
@@ -115,11 +132,11 @@ import ProjectFilter from '../islands/ProjectFilter';
           <div>
             <h3 class="text-lg md:text-xl font-semibold text-primary group-hover:text-secondary transition-colors">
               <button type="button" data-project-trigger="kriptografi" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
-                Kriptografi Klasik &amp; Security Tools
+                {getLocalized(card3.title, lang)}
               </button>
             </h3>
             <p class="text-xs md:text-sm text-on-surface-variant mt-2 leading-relaxed">
-              Aplikasi web untuk enkripsi dan dekripsi teks dengan lima cipher klasik: Hill 2×2, Vigenère, Playfair, Affine, dan Caesar. Dilengkapi validasi matriks kunci Hill (determinan dan invers modular), riwayat sesi yang bisa dicari, serta ekspor/impor JSON.
+              {getLocalized(card3.description, lang)}
             </p>
           </div>
           <div class="flex flex-wrap gap-1.5 pt-1">
@@ -137,16 +154,16 @@ import ProjectFilter from '../islands/ProjectFilter';
               <svg class="w-4 h-4 fill-current text-secondary" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
               </svg>
-              <span>Live App</span>
+              <span>{openLiveDemoText}</span>
             </a>
             <a class="inline-flex items-center gap-1.5 text-xs text-primary hover:text-secondary transition-colors font-medium min-h-[44px]" href="https://github.com/RobertusWilliamSusanto/Tugas-Proyek-Kriptografi-Klasik" target="_blank" rel="noopener noreferrer">
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2A10 10 0 002 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/>
               </svg>
-              <span>Repository</span>
+              <span>{sourceCodeText}</span>
             </a>
           </div>
-          <button type="button" data-project-trigger="kriptografi" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label="View Kriptografi technical details">
+          <button type="button" data-project-trigger="kriptografi" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label={lang === 'id' ? 'Lihat rincian teknis Kriptografi' : 'View Cryptography technical details'}>
             CIPHER CORE
           </button>
         </div>
@@ -160,7 +177,7 @@ import ProjectFilter from '../islands/ProjectFilter';
               <span class="px-2.5 py-1 rounded bg-surface-container-high text-secondary font-mono text-[11px] font-semibold">Next.js &amp; Tailwind</span>
               <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">FRONTEND</span>
             </div>
-            <button type="button" data-project-trigger="portfolio" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View Portfolio project specifications">
+            <button type="button" data-project-trigger="portfolio" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label={lang === 'id' ? 'Lihat rincian spesifikasi portofolio' : 'View Portfolio project specifications'}>
               <span>WEB SUITE</span>
               <span class="text-secondary">↗</span>
             </button>
@@ -168,18 +185,17 @@ import ProjectFilter from '../islands/ProjectFilter';
           <div>
             <h3 class="text-lg md:text-xl font-semibold text-primary group-hover:text-secondary transition-colors">
               <button type="button" data-project-trigger="portfolio" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
-                Digital Portfolio &amp; Web Applications
+                {getLocalized(card4.title, lang)}
               </button>
             </h3>
             <p class="text-sm md:text-base text-on-surface-variant mt-2 max-w-xl leading-relaxed">
-              Personal portfolio and automated To-Do list developed in Python and converted into responsive modern web applications with component-driven architecture and persistent state.
+              {getLocalized(card4.description, lang)}
             </p>
           </div>
           <div class="flex flex-wrap gap-2 pt-1">
-            <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">JavaScript</span>
-            <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">React/Next.js</span>
-            <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Python</span>
-            <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Tailwind CSS</span>
+            {card4.tech_stack.value.map((tech: string) => (
+              <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
+            ))}
           </div>
         </div>
         <div class="p-6 md:p-8 pt-0 flex flex-wrap items-center justify-between gap-4 border-t border-outline-variant/20 pt-4">
@@ -200,10 +216,10 @@ import ProjectFilter from '../islands/ProjectFilter';
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2A10 10 0 002 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/>
               </svg>
-              <span>Repository</span>
+              <span>{sourceCodeText}</span>
             </a>
           </div>
-          <button type="button" data-project-trigger="portfolio" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label="View Portfolio technical details">
+          <button type="button" data-project-trigger="portfolio" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label={lang === 'id' ? 'Lihat rincian teknis Portofolio' : 'View Portfolio technical details'}>
             MODERN WEB STACK
           </button>
         </div>
@@ -214,7 +230,7 @@ import ProjectFilter from '../islands/ProjectFilter';
         <div class="p-6 flex flex-col gap-4">
           <div class="flex items-center justify-between">
             <span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[11px]">TOOLING</span>
-            <button type="button" data-project-trigger="expense-tracker" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label="View Expense Tracker project specifications">
+            <button type="button" data-project-trigger="expense-tracker" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label={lang === 'id' ? 'Lihat rincian spesifikasi Expense Tracker' : 'View Expense Tracker project specifications'}>
               <span>PYTHON</span>
               <span class="text-secondary">↗</span>
             </button>
@@ -222,16 +238,17 @@ import ProjectFilter from '../islands/ProjectFilter';
           <div>
             <h3 class="text-lg md:text-xl font-semibold text-primary group-hover:text-secondary transition-colors">
               <button type="button" data-project-trigger="expense-tracker" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
-                Expense Tracker &amp; Automation Tools
+                {getLocalized(card5.title, lang)}
               </button>
             </h3>
             <p class="text-xs md:text-sm text-on-surface-variant mt-2 leading-relaxed">
-              Automated personal expense tracker and productivity tooling for structured ledger bookkeeping and personal budgeting.
+              {getLocalized(card5.description, lang)}
             </p>
           </div>
           <div class="flex flex-wrap gap-1.5 pt-1">
-            <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Python</span>
-            <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Data Management</span>
+            {card5.tech_stack.value.map((tech: string) => (
+              <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
+            ))}
           </div>
         </div>
         <div class="p-6 pt-0 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
@@ -239,9 +256,9 @@ import ProjectFilter from '../islands/ProjectFilter';
             <svg class="w-4 h-4 fill-current text-secondary" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
             </svg>
-            <span>Live App</span>
+            <span>{openLiveDemoText}</span>
           </a>
-          <button type="button" data-project-trigger="expense-tracker" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label="View Expense Tracker technical details">
+          <button type="button" data-project-trigger="expense-tracker" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label={lang === 'id' ? 'Lihat rincian teknis Expense Tracker' : 'View Expense Tracker technical details'}>
             AUTOMATION
           </button>
         </div>

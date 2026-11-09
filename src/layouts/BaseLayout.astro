@@ -1,27 +1,35 @@
 ---
 import '../styles/global.css';
-import { profile } from '../data/profile';
+import { profile, type Lang } from '../data/profile';
 
 interface Props {
+  lang?: Lang;
   title?: string;
   description?: string;
 }
 
 const {
-  title = "Robertus William Susanto — Portfolio",
-  description = "Portfolio of Robertus William Susanto - Computer Engineering Student at Diponegoro University. Focusing on AI Development (Computer Vision, YOLO >90%) and Software Engineering."
+  lang = 'id',
+  title = lang === 'id' ? "Robertus William Susanto — Portofolio" : "Robertus William Susanto — Portfolio",
+  description = lang === 'id' 
+    ? "Portofolio Robertus William Susanto - Mahasiswa Teknik Komputer Universitas Diponegoro. Berfokus pada Artificial Intelligence, Computer Vision, dan Rekayasa Perangkat Lunak."
+    : "Portfolio of Robertus William Susanto - Computer Engineering Student at Diponegoro University. Focusing on AI Development (Computer Vision, YOLO >90%) and Software Engineering."
 } = Astro.props;
+
+const canonicalUrl = lang === 'id'
+  ? "https://myportfolio-zeta-peach-42.vercel.app/"
+  : "https://myportfolio-zeta-peach-42.vercel.app/en/";
 
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": profile.identity.name.value,
-  "jobTitle": "Computer Engineering Student",
-  "url": profile.links.portfolio.url,
+  "jobTitle": lang === 'id' ? "Mahasiswa Teknik Komputer" : "Computer Engineering Student",
+  "url": canonicalUrl,
   "image": `${profile.links.portfolio.url}/images/profile-352.webp`,
   "alumniOf": {
     "@type": "CollegeOrUniversity",
-    "name": profile.education[0]?.institution.value || "Universitas Diponegoro"
+    "name": "Universitas Diponegoro"
   },
   "sameAs": [
     profile.links.github.url,
@@ -38,29 +46,34 @@ const personSchema = {
     "Python"
   ]
 };
+
+const skipToContentText = lang === 'id' ? 'Lewati ke konten utama' : 'Skip to main content';
 ---
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang={lang} class="dark scroll-smooth">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content={description}>
   <meta name="author" content="Robertus William Susanto">
-  <link rel="canonical" href="https://myportfolio-zeta-peach-42.vercel.app/">
+  <link rel="canonical" href={canonicalUrl}>
+  <link rel="alternate" hreflang="id" href="https://myportfolio-zeta-peach-42.vercel.app/">
+  <link rel="alternate" hreflang="en" href="https://myportfolio-zeta-peach-42.vercel.app/en/">
+  <link rel="alternate" hreflang="x-default" href="https://myportfolio-zeta-peach-42.vercel.app/">
   <link rel="icon" href="/favicon.ico">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://myportfolio-zeta-peach-42.vercel.app/">
+  <meta property="og:url" content={canonicalUrl}>
   <meta property="og:title" content={title}>
-  <meta property="og:description" content="Computer Engineering Student at Diponegoro University. Focusing on AI Development (Computer Vision, YOLO >90%) and Software Engineering.">
+  <meta property="og:description" content={description}>
   <meta property="og:image" content="https://myportfolio-zeta-peach-42.vercel.app/images/profile-352.webp">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content={title}>
-  <meta name="twitter:description" content="Computer Engineering Student at Diponegoro University. Focusing on AI Development (Computer Vision, YOLO >90%) and Software Engineering.">
+  <meta name="twitter:description" content={description}>
   <meta name="twitter:image" content="https://myportfolio-zeta-peach-42.vercel.app/images/profile-352.webp">
 
   <!-- Preload Critical Hero Font -->
@@ -96,7 +109,7 @@ const personSchema = {
   <div id="scroll-progress" aria-hidden="true"></div>
 
   <!-- Skip to Main Content Link for A11y -->
-  <a href="#main-content" class="sr-only">Skip to main content</a>
+  <a href="#main-content" class="sr-only">{skipToContentText}</a>
 
   <slot />
 

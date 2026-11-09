@@ -1,0 +1,52 @@
+{
+  "_description": "Daftar allowlist perubahan yang disetujui secara tertulis oleh pengguna",
+  "approved_changes": {
+    "card3_cryptography_stack": {
+      "approved_in": "Tahap 0",
+      "badge": "SECURITY",
+      "tags": ["React", "TypeScript", "Tailwind CSS", "Vite", "Cryptography", "Classical Ciphers"]
+    },
+    "card4_description_alignment": {
+      "approved_in": "Prompt 6",
+      "en_description": "Personal digital portfolio and automated To-Do list app, developed in Python and converted into modern responsive web applications using JavaScript, React/Next.js, and Tailwind CSS."
+    },
+    "education_degree_and_dept": {
+      "approved_in": "Prompt 8",
+      "degree_id": "PROGRAM SARJANA (S1)",
+      "degree_en": "UNDERGRADUATE DEGREE",
+      "dept_id": "Fakultas Teknik — Jurusan Teknik Komputer",
+      "dept_en": "Faculty of Engineering — Computer Engineering Major"
+    },
+    "experience_titles_and_types": {
+      "approved_in": "Prompt 8",
+      "exp1_type_id": "Magang / Kerja Praktik",
+      "exp1_type_en": "Internship / Practical Work",
+      "exp2_institution": "Teknik Komputer Universitas Diponegoro",
+      "exp3_institution": "Fakultas Teknik Universitas Diponegoro",
+      "exp3_type_id": "Kepanitiaan & Pengurus",
+      "exp3_type_en": "Committee & Management"
+    },
+    "certifications_approved": {
+      "approved_in": "Prompt 9",
+      "cert2_en": "Internship — Dinas Kebudayaan dan Pariwisata Kota Semarang",
+      "cert3_en": "Prakarsa FT Committee",
+      "cert4_id": "LKKMPD (Latihan Keterampilan Manajemen Mahasiswa Pra-Dasar)",
+      "cert4_en": "LKKMPD (Pre-Basic Student Management Skills Training)",
+      "cert5_id": "Volunteer Himaskom Menanam",
+      "cert5_en": "Volunteer, Himaskom Menanam"
+    },
+    "card5_tags_restoration": {
+      "approved_in": "Prompt 11",
+      "tags": ["Python", "Data Management"]
+    },
+    "card2_description_restoration": {
+      "approved_in": "Prompt 11",
+      "id": "Arsitektur backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Dilengkapi autentikasi JWT & RBAC, Public API pagination, dan integrasi Cloudinary.",
+      "en": "Backend architecture for the SIBARISTA tourism village information system using NestJS, TypeScript, Prisma ORM, and PostgreSQL (Neon). Equipped with JWT & RBAC authentication, paginated Public API, and Cloudinary integration."
+    },
+    "about_p1_alignment": {
+      "approved_in": "Prompt 11",
+      "note": "Menghapus (>90% evaluasi) dan (>90% evaluation) agar setara dengan backup"
+    }
+  }
+}

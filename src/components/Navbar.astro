@@ -1,5 +1,24 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import type { Lang } from '../data/profile';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'id' } = Astro.props;
+
+const aboutLabel = lang === 'id' ? 'Tentang' : 'About';
+const projectsLabel = lang === 'id' ? 'Proyek' : 'Projects';
+const expLabel = lang === 'id' ? 'Pengalaman' : 'Experience';
+const skillsLabel = lang === 'id' ? 'Keahlian' : 'Skills';
+const eduLabel = lang === 'id' ? 'Pendidikan' : 'Education';
+const contactLabel = lang === 'id' ? 'Kontak' : 'Contact';
+const connectCta = lang === 'id' ? 'Hubungi' : 'Connect';
+
+const targetLang = lang === 'id' ? 'en' : 'id';
+const targetHref = lang === 'id' ? '/en/' : '/';
+const switchAria = lang === 'id' ? 'Switch language to English' : 'Ganti bahasa ke Bahasa Indonesia';
 ---
 <header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30">
   <div class="h-16 max-w-[1280px] mx-auto px-4 md:px-10 flex items-center justify-between gap-6">
@@ -13,26 +32,61 @@ import ThemeToggle from './ThemeToggle.astro';
 
     <!-- Desktop Nav Links -->
     <nav id="desktop-nav" class="hidden lg:flex items-center gap-1" aria-label="Main Navigation">
-      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#about">About</a>
-      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#projects">Projects</a>
-      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#experience">Experience</a>
-      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#skills">Skills</a>
-      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#education">Education</a>
-      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#contact">Contact</a>
+      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#about">{aboutLabel}</a>
+      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#projects">{projectsLabel}</a>
+      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#experience">{expLabel}</a>
+      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#skills">{skillsLabel}</a>
+      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#education">{eduLabel}</a>
+      <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#contact">{contactLabel}</a>
     </nav>
 
     <!-- Action Buttons -->
     <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Language Switcher -->
+      <div class="flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container border border-outline-variant/30 font-mono text-xs">
+        {lang === 'id' ? (
+          <>
+            <span class="font-bold text-primary" aria-current="page">ID</span>
+            <span class="text-outline/40">|</span>
+            <a 
+              href={targetHref} 
+              class="text-outline hover:text-primary transition-colors" 
+              lang="en" 
+              hreflang="en" 
+              aria-label={switchAria}
+              onclick="if(window.location.hash) this.href = '/en/' + window.location.hash"
+            >
+              EN
+            </a>
+          </>
+        ) : (
+          <>
+            <a 
+              href={targetHref} 
+              class="text-outline hover:text-primary transition-colors" 
+              lang="id" 
+              hreflang="id" 
+              aria-label={switchAria}
+              onclick="if(window.location.hash) this.href = '/' + window.location.hash"
+            >
+              ID
+            </a>
+            <span class="text-outline/40">|</span>
+            <span class="font-bold text-primary" aria-current="page">EN</span>
+          </>
+        )}
+      </div>
+
       <!-- Theme Toggle -->
       <ThemeToggle />
 
       <!-- Connect CTA -->
       <a class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded bg-primary text-on-primary text-xs font-semibold hover:bg-primary-container transition-colors min-h-[44px]" href="https://mail.google.com/mail/?view=cm&fs=1&to=robertuswilliamsusanto@gmail.com" target="_blank" rel="noopener noreferrer" onclick="openDirectEmail(event)">
-        Connect
+        {connectCta}
       </a>
 
       <!-- Mobile Drawer Hamburger Button -->
-      <button type="button" id="mobile-drawer-open" aria-label="Open navigation menu" class="lg:hidden w-11 h-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded bg-surface-container border border-outline-variant/30 text-on-surface-variant hover:text-on-surface">
+      <button type="button" id="mobile-drawer-open" aria-label={lang === 'id' ? 'Buka menu navigasi' : 'Open navigation menu'} class="lg:hidden w-11 h-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded bg-surface-container border border-outline-variant/30 text-on-surface-variant hover:text-on-surface">
         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
         </svg>

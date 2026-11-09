@@ -14,10 +14,13 @@ window.openDirectEmail = function(e) {
 window.copyEmailAddress = function(btn) {
   var email = 'robertuswilliamsusanto@gmail.com';
   var label = btn.querySelector('.copy-label') || btn;
-  var originalText = label.textContent;
+  var originalText = btn.getAttribute('data-original-text') || label.textContent;
+  var isId = (document.documentElement.lang || 'id') === 'id';
+  var defaultFeedback = isId ? 'TERSALIN KE CLIPBOARD!' : 'COPIED TO CLIPBOARD!';
+  var feedbackText = btn.getAttribute('data-copied-text') || defaultFeedback;
 
   function showFeedback() {
-    label.textContent = 'COPIED TO CLIPBOARD!';
+    label.textContent = feedbackText;
     btn.classList.add('bg-secondary-container', 'text-secondary-fixed');
     setTimeout(function() {
       label.textContent = originalText;
@@ -25,11 +28,7 @@ window.copyEmailAddress = function(btn) {
     }, 2200);
   }
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(email).then(showFeedback).catch(function() {
-      window.location.href = 'mailto:' + email;
-    });
-  } else {
+  function fallbackCopy() {
     var ta = document.createElement('textarea');
     ta.value = email;
     ta.style.position = 'fixed';
@@ -42,7 +41,13 @@ window.copyEmailAddress = function(btn) {
     } catch (err) {
       window.location.href = 'mailto:' + email;
     }
-    document.body.removeChild(ta);
+    if (ta.parentNode) document.body.removeChild(ta);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(showFeedback).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
   }
 };
 
