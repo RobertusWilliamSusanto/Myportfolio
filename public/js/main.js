@@ -14,10 +14,13 @@ window.openDirectEmail = function(e) {
 window.copyEmailAddress = function(btn) {
   var email = 'robertuswilliamsusanto@gmail.com';
   var label = btn.querySelector('.copy-label') || btn;
-  var originalText = label.textContent;
+  var originalText = btn.getAttribute('data-original-text') || label.textContent;
+  var isId = (document.documentElement.lang || 'id') === 'id';
+  var defaultFeedback = isId ? 'TERSALIN KE CLIPBOARD!' : 'COPIED TO CLIPBOARD!';
+  var feedbackText = btn.getAttribute('data-copied-text') || defaultFeedback;
 
   function showFeedback() {
-    label.textContent = 'COPIED TO CLIPBOARD!';
+    label.textContent = feedbackText;
     btn.classList.add('bg-secondary-container', 'text-secondary-fixed');
     setTimeout(function() {
       label.textContent = originalText;
