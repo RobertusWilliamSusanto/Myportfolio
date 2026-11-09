@@ -181,8 +181,8 @@
       },
       "description": {
         "value": {
-          "id": "Komponen backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Mengimplementasikan autentikasi JWT dan Role-Based Access Control (RBAC), Public API dengan pagination, serta integrasi UploadService dengan Cloudinary.",
-          "en": "Backend architecture for the SIBARISTA tourism village information system using NestJS, TypeScript, Prisma ORM, and PostgreSQL (Neon). Implements JWT authentication, Role-Based Access Control (RBAC), paginated Public API, and Cloudinary upload integration."
+          "id": "Arsitektur backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Dilengkapi autentikasi JWT & RBAC, Public API pagination, dan integrasi Cloudinary.",
+          "en": "Backend architecture for the SIBARISTA tourism village information system using NestJS, TypeScript, Prisma ORM, and PostgreSQL (Neon). Equipped with JWT & RBAC authentication, paginated Public API, and Cloudinary integration."
         },
         "public": true
       },
@@ -346,7 +346,7 @@
         "public": true
       },
       "tech_stack": {
-        "value": ["Python", "Tkinter", "File I/O", "Automation"],
+        "value": ["Python", "Data Management"],
         "public": true
       },
       "assets": {
