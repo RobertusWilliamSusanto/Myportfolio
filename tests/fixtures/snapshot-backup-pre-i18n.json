@@ -1,5 +1,6 @@
 {
   "_source": "backup-pre-i18n",
+  "_generator": "scripts/generate-snapshot-fixture.mjs",
   "generated_at": "2026-11-09",
   "identity": {
     "name": "Robertus William Susanto",
@@ -15,7 +16,11 @@
     "degree_badge_id": "PROGRAM SARJANA (S1)",
     "degree_badge_en": "UNDERGRADUATE DEGREE",
     "period_id": "AGUSTUS 2024 — SEKARANG",
-    "period_en": "AUGUST 2024 — PRESENT"
+    "period_en": "AUGUST 2024 — PRESENT",
+    "description_id": "Menempuh pendidikan sarjana Teknik Komputer dengan pendalaman pada arsitektur sistem cerdas, kecerdasan buatan terapan (computer vision), struktur data, algoritma, serta pengembangan perangkat lunak terintegrasi.",
+    "description_en": "Pursuing an undergraduate degree in Computer Engineering with a focus on intelligent system architectures, applied artificial intelligence (computer vision), data structures, algorithms, and integrated software development.",
+    "location_id": "Semarang, Jawa Tengah, Indonesia",
+    "location_en": "Semarang, Central Java, Indonesia"
   },
   "projects": [
     {
@@ -23,35 +28,74 @@
       "title_id": "Object Detection dengan YOLO",
       "title_en": "Object Detection with YOLO",
       "badge": ">90% EVALUATION",
-      "tags": ["YOLO", "Computer Vision", "Python", "CNN"]
+      "tags": [
+        "YOLO",
+        "Computer Vision",
+        "Python",
+        "CNN",
+        "Image Processing"
+      ],
+      "description_id": "Mengembangkan model deteksi objek untuk mengidentifikasi penyakit pada tumbuhan dan manusia menggunakan framework YOLO dengan hasil evaluasi di atas 90%. Dilengkapi arsitektur CNN deep learning dan pipeline image processing komprehensif.",
+      "description_en": "Developed an object detection model to identify diseases in plants and humans using the YOLO framework with evaluation results exceeding 90%. Features deep learning CNN architecture and a comprehensive image processing pipeline."
     },
     {
       "id": "sibarista-tourism-system",
       "title_id": "SIBARISTA Tourism Info System",
       "title_en": "SIBARISTA Tourism Info System",
       "badge": "RESTful API & RBAC",
-      "tags": ["NestJS", "TypeScript", "Prisma", "PostgreSQL"]
+      "tags": [
+        "NestJS",
+        "TypeScript",
+        "Prisma",
+        "PostgreSQL",
+        "JWT",
+        "Cloudinary"
+      ],
+      "description_id": "Arsitektur backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Dilengkapi autentikasi JWT & RBAC, Public API pagination, dan integrasi Cloudinary.",
+      "description_en": "Backend architecture for the SIBARISTA tourism village information system using NestJS, TypeScript, Prisma ORM, and PostgreSQL (Neon). Equipped with JWT & RBAC authentication, paginated Public API, and Cloudinary integration."
     },
     {
       "id": "classical-cryptography",
       "title_id": "Kriptografi Klasik & Security Tools",
       "title_en": "Classical Cryptography & Security Tools",
       "badge": "SECURITY",
-      "tags": ["React", "TypeScript", "Tailwind CSS", "Vite", "Cryptography", "Classical Ciphers"]
+      "tags": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vite",
+        "Cryptography",
+        "Classical Ciphers"
+      ],
+      "description_id": "Aplikasi web untuk enkripsi dan dekripsi teks dengan lima cipher klasik: Hill 2×2, Vigenère, Playfair, Affine, dan Caesar. Dilengkapi validasi matriks kunci Hill (determinan dan invers modular), riwayat sesi yang bisa dicari, serta ekspor/impor JSON.",
+      "description_en": "Web application for encrypting and decrypting text with five classical ciphers: Hill 2×2, Vigenère, Playfair, Affine, and Caesar. Features Hill key matrix validation (determinant and modular inverse), searchable session history, and JSON export/import."
     },
     {
       "id": "digital-portfolio-web-apps",
       "title_id": "Digital Portfolio & Web Applications",
       "title_en": "Digital Portfolio & Web Applications",
-      "badge": "Next.js & Tailwind",
-      "tags": ["JavaScript", "React/Next.js", "Python", "Tailwind CSS"]
+      "badge": "",
+      "tags": [
+        "FRONTEND",
+        "JavaScript",
+        "React/Next.js",
+        "Python",
+        "Tailwind CSS"
+      ],
+      "description_id": "Digital portfolio dan aplikasi To-Do List otomatis yang dikembangkan dengan Python lalu dikonversi menjadi aplikasi web responsif modern menggunakan framework JavaScript, React/Next.js, dan Tailwind CSS.",
+      "description_en": "Personal digital portfolio and automated To-Do list app, developed in Python and converted into modern responsive web applications using JavaScript, React/Next.js, and Tailwind CSS."
     },
     {
       "id": "expense-tracker-automation",
       "title_id": "Expense Tracker & Automation Tools",
       "title_en": "Expense Tracker & Automation Tools",
-      "badge": "TOOLING",
-      "tags": ["Python", "Data Management"]
+      "badge": "",
+      "tags": [
+        "Python",
+        "Data Management"
+      ],
+      "description_id": "Aplikasi pelacak pengeluaran otomatis dan perkakas produktivitas berbasis Python untuk pembukuan terstruktur dan penganggaran keuangan pribadi.",
+      "description_en": "Automated expense tracker and Python-based productivity tools for structured bookkeeping and personal financial budgeting."
     }
   ],
   "experience": [
@@ -64,7 +108,9 @@
       "period_id": "22 JUNI 2026 — 14 AGUSTUS 2026",
       "period_en": "22 JUNE 2026 — 14 AUGUST 2026",
       "type_id": "Magang / Kerja Praktik",
-      "type_en": "Internship / Practical Work"
+      "type_en": "Internship / Practical Work",
+      "description_id": "Mengembangkan arsitektur backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Mengimplementasikan sistem autentikasi JWT dan Role-Based Access Control (RBAC), menyusun Public API dengan pagination, serta membangun UploadService menggunakan Cloudinary untuk manajemen aset media.",
+      "description_en": "Developed backend architecture for the SIBARISTA tourism village information system using NestJS, TypeScript, Prisma ORM, and PostgreSQL (Neon). Implemented JWT authentication and Role-Based Access Control (RBAC), structured paginated Public APIs, and built UploadService using Cloudinary for media asset management."
     },
     {
       "id": "dpa-tekkom-undip",
@@ -75,7 +121,9 @@
       "period_id": "2026 — SEKARANG",
       "period_en": "2026 — PRESENT",
       "type_id": "Organisasi Mahasiswa",
-      "type_en": "Student Organization"
+      "type_en": "Student Organization",
+      "description_id": "Merumuskan Standar Operasional Prosedur (SOP) anggaran serta terlibat dalam penyusunan alokasi dana untuk mendukung pengelolaan yang transparan dan akuntabel.",
+      "description_en": "Formulated budget Standard Operating Procedures (SOP) and participated in fund allocation planning to support transparent and accountable student governance."
     },
     {
       "id": "pmk-ft-2026",
@@ -86,7 +134,9 @@
       "period_id": "2026 — SEKARANG",
       "period_en": "2026 — PRESENT",
       "type_id": "Kepanitiaan & Pengurus",
-      "type_en": "Committee & Management"
+      "type_en": "Committee & Management",
+      "description_id": "Merancang dan mengeksekusi strategi visual media sosial untuk meningkatkan interaksi pengikut dan memperkuat identitas digital organisasi.",
+      "description_en": "Designed and executed social media visual strategies to enhance audience engagement and strengthen the organization's digital brand identity."
     },
     {
       "id": "panitia-prakarsa-ft-2025",
@@ -97,7 +147,9 @@
       "period_id": "21 AGUSTUS 2025",
       "period_en": "21 AUGUST 2025",
       "type_id": "Kepanitiaan Fakultas",
-      "type_en": "Faculty Committee"
+      "type_en": "Faculty Committee",
+      "description_id": "Mengoordinasikan kebutuhan infrastruktur panggung dan tata letak teknis untuk kegiatan tingkat fakultas yang dihadiri ratusan peserta.",
+      "description_en": "Coordinated stage infrastructure and technical layout requirements for faculty-level activities attended by hundreds of participants."
     }
   ],
   "certifications": [

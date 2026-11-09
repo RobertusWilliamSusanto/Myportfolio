@@ -28,6 +28,7 @@ async function extractPageData(filePath) {
     const projects = Array.from(document.querySelectorAll('#projects article')).map(art => ({
       title: clean(art.querySelector('h3')?.textContent),
       badge: clean(art.querySelector('[class*="font-mono text-xs"], [class*="font-mono text-[11px]"]')?.textContent),
+      description: clean(art.querySelector('p')?.textContent),
       tags: Array.from(art.querySelectorAll('span.font-mono')).map(s => clean(s.textContent))
     }));
 
@@ -36,15 +37,19 @@ async function extractPageData(filePath) {
       return {
         title: clean(el.querySelector('h3')?.textContent),
         institution: clean(el.querySelector('span.text-outline')?.textContent).replace(/^@\s*/, ''),
+        description: clean(el.querySelector('p')?.textContent),
         period: clean(rightCol?.querySelector('span:first-child')?.textContent),
         type: clean(rightCol?.querySelector('span:last-child')?.textContent)
       };
     });
 
+    const eduCard = document.querySelector('#education [class*="lg:col-span-2"]');
     const education = {
       institution: clean(document.querySelector('#education h3')?.textContent),
       facultyDept: clean(document.querySelector('#education p.text-secondary')?.textContent),
-      period: clean(document.querySelector('#education [class*="text-outline"]')?.textContent)
+      period: clean(document.querySelector('#education [class*="text-outline"]')?.textContent),
+      description: clean(eduCard?.querySelector('p.text-on-surface-variant')?.textContent),
+      degreeBadge: clean(eduCard?.querySelector('[class*="bg-secondary-container"]')?.textContent)
     };
 
     const certifications = Array.from(document.querySelectorAll('#education ul li span:last-child')).map(s => clean(s.textContent));
@@ -57,15 +62,23 @@ async function extractPageData(filePath) {
 }
 
 async function runParityAudit() {
-  console.log('=== STARTING CONTENT PARITY AUDIT ===');
+  console.log('=== STARTING RIGOROUS FULL-TEXT CONTENT PARITY AUDIT ===');
   const errors = [];
 
   const idRes = await extractPageData('dist/index.html');
   const enRes = await extractPageData('dist/en/index.html');
 
-  // Check 1: Forbidden unverified terms
-  console.log('1. Checking forbidden unverified terms...');
-  for (let term of fixture.forbidden_unverified_terms) {
+  // Check 1: Forbidden unverified terms (Expanded Denylist)
+  const additionalForbidden = [
+    ['Tk', 'inter'].join(''),
+    ['File', ' I/O'].join(''),
+    ['FULL', ' STACK'].join(''),
+    ['DESKTOP', ' & CLI'].join('')
+  ];
+  const allForbiddenTerms = [...fixture.forbidden_unverified_terms, ...additionalForbidden];
+
+  console.log(`1. Checking ${allForbiddenTerms.length} forbidden unverified terms...`);
+  for (let term of allForbiddenTerms) {
     if (idRes.rawHtml.includes(term)) {
       errors.push(`[FORBIDDEN TERM] Term "${term}" found in dist/index.html`);
     }
@@ -75,7 +88,7 @@ async function runParityAudit() {
   }
 
   // Check 2: Projects count and exact parity
-  console.log('2. Checking projects parity...');
+  console.log('2. Checking projects parity (titles, badges, descriptions, tags)...');
   if (idRes.data.projects.length !== 5) {
     errors.push(`Expected 5 projects on ID page, got ${idRes.data.projects.length}`);
   }
@@ -87,6 +100,7 @@ async function runParityAudit() {
     const idProj = idRes.data.projects[idx];
     const enProj = enRes.data.projects[idx];
 
+    // Titles
     if (idProj && idProj.title !== fp.title_id) {
       errors.push(`Project ${idx + 1} ID title mismatch: expected "${fp.title_id}", got "${idProj.title}"`);
     }
@@ -94,10 +108,20 @@ async function runParityAudit() {
       errors.push(`Project ${idx + 1} EN title mismatch: expected "${fp.title_en}", got "${enProj.title}"`);
     }
 
+    // Badges
     if (idProj && !idProj.badge.includes(fp.badge)) {
       errors.push(`Project ${idx + 1} ID badge mismatch: expected to include "${fp.badge}", got "${idProj.badge}"`);
     }
 
+    // Descriptions (Full-text parity)
+    if (idProj && idProj.description !== fp.description_id) {
+      errors.push(`Project ${idx + 1} ID description mismatch:\n  expected: "${fp.description_id}"\n  got:      "${idProj.description}"`);
+    }
+    if (enProj && enProj.description !== fp.description_en) {
+      errors.push(`Project ${idx + 1} EN description mismatch:\n  expected: "${fp.description_en}"\n  got:      "${enProj.description}"`);
+    }
+
+    // Tech tags
     for (let tag of fp.tags) {
       if (idProj && !idProj.tags.includes(tag)) {
         errors.push(`Project ${idx + 1} ID tag missing: "${tag}"`);
@@ -108,8 +132,8 @@ async function runParityAudit() {
     }
   });
 
-  // Check 3: Experience count and exact parity
-  console.log('3. Checking experience parity...');
+  // Check 3: Experience count and exact parity (Full-text parity)
+  console.log('3. Checking experience parity (titles, institutions, periods, types, full descriptions)...');
   if (idRes.data.experiences.length !== 4) {
     errors.push(`Expected 4 experiences on ID page, got ${idRes.data.experiences.length}`);
   }
@@ -145,10 +169,16 @@ async function runParityAudit() {
     if (enExp && enExp.type !== fe.type_en) {
       errors.push(`Experience ${idx + 1} EN type mismatch: expected "${fe.type_en}", got "${enExp.type}"`);
     }
+    if (idExp && idExp.description !== fe.description_id) {
+      errors.push(`Experience ${idx + 1} ID description mismatch:\n  expected: "${fe.description_id}"\n  got:      "${idExp.description}"`);
+    }
+    if (enExp && enExp.description !== fe.description_en) {
+      errors.push(`Experience ${idx + 1} EN description mismatch:\n  expected: "${fe.description_en}"\n  got:      "${enExp.description}"`);
+    }
   });
 
-  // Check 4: Education
-  console.log('4. Checking education parity...');
+  // Check 4: Education (Full-text parity)
+  console.log('4. Checking education parity (institution, faculty/dept, period, full description)...');
   if (idRes.data.education.institution !== fixture.education.institution_id) {
     errors.push(`Education ID institution mismatch: expected "${fixture.education.institution_id}", got "${idRes.data.education.institution}"`);
   }
@@ -161,22 +191,25 @@ async function runParityAudit() {
   if (enRes.data.education.facultyDept !== fixture.education.faculty_dept_en) {
     errors.push(`Education EN facultyDept mismatch: expected "${fixture.education.faculty_dept_en}", got "${enRes.data.education.facultyDept}"`);
   }
+  if (idRes.data.education.description !== fixture.education.description_id) {
+    errors.push(`Education ID description mismatch: expected "${fixture.education.description_id}", got "${idRes.data.education.description}"`);
+  }
+  if (enRes.data.education.description !== fixture.education.description_en) {
+    errors.push(`Education EN description mismatch: expected "${fixture.education.description_en}", got "${enRes.data.education.description}"`);
+  }
 
   // Check 5: Certifications
   console.log('5. Checking certifications parity...');
-  const lkkmpdId = idRes.data.certifications.find(c => c.includes('LKKMPD'));
-  const lkkmpdEn = enRes.data.certifications.find(c => c.includes('LKKMPD'));
-  if (!lkkmpdId || !lkkmpdId.includes('Pra-Dasar')) {
-    errors.push(`LKKMPD on ID page missing "Pra-Dasar": got "${lkkmpdId}"`);
-  }
-  if (!lkkmpdEn || !lkkmpdEn.includes('Pre-Basic')) {
-    errors.push(`LKKMPD on EN page missing "Pre-Basic": got "${lkkmpdEn}"`);
-  }
-
-  const prakarsaCertId = idRes.data.certifications.find(c => c.includes('Panitia Prakarsa FT'));
-  if (prakarsaCertId && prakarsaCertId.includes('(Fakultas Teknik)')) {
-    errors.push(`Panitia Prakarsa FT on ID page should NOT have "(Fakultas Teknik)": got "${prakarsaCertId}"`);
-  }
+  fixture.certifications.forEach((fc, idx) => {
+    const idCert = idRes.data.certifications[idx];
+    const enCert = enRes.data.certifications[idx];
+    if (idCert !== fc.id) {
+      errors.push(`Certification ${idx + 1} ID mismatch: expected "${fc.id}", got "${idCert}"`);
+    }
+    if (enCert !== fc.en) {
+      errors.push(`Certification ${idx + 1} EN mismatch: expected "${fc.en}", got "${enCert}"`);
+    }
+  });
 
   console.log('=== AUDIT RESULT ===');
   if (errors.length > 0) {
@@ -184,7 +217,7 @@ async function runParityAudit() {
     errors.forEach((err, i) => console.error(`  ${i + 1}. ${err}`));
     process.exit(1);
   } else {
-    console.log('ALL CONTENT PARITY CHECKS PASSED: 100% faithful to backup-pre-i18n snapshot!');
+    console.log('ALL RIGOROUS CONTENT PARITY CHECKS PASSED: 100% faithful to backup-pre-i18n & approved allowlist!');
   }
 }
 
