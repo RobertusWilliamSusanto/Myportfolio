@@ -183,7 +183,7 @@
         "public": true
       },
       "badge": {
-        "value": "SECURITY & MATH",
+        "value": "REACT + TS",
         "public": true
       },
       "category": {
@@ -195,11 +195,11 @@
         "public": true
       },
       "description": {
-        "value": "Kalkulator kriptografi klasik untuk enkripsi dan dekripsi algoritma kriptografi klasik (Vigenère, Playfair, Hill cipher, Caesar) dengan implementasi matematis presisi tinggi dan visualisasi alur enkripsi.",
+        "value": "Aplikasi web untuk enkripsi dan dekripsi teks dengan lima cipher klasik: Hill 2×2, Vigenère, Playfair, Affine, dan Caesar. Dilengkapi validasi matriks kunci Hill (determinan dan invers modular), riwayat sesi yang bisa dicari, serta ekspor/impor JSON.",
         "public": true
       },
       "tech_stack": {
-        "value": ["Python", "Cryptography", "Math", "Algorithms"],
+        "value": ["React", "TypeScript", "Tailwind CSS", "Vite", "Cryptography", "Classical Ciphers"],
         "public": true
       },
       "assets": {
