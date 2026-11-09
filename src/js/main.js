@@ -28,11 +28,7 @@ window.copyEmailAddress = function(btn) {
     }, 2200);
   }
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(email).then(showFeedback).catch(function() {
-      window.location.href = 'mailto:' + email;
-    });
-  } else {
+  function fallbackCopy() {
     var ta = document.createElement('textarea');
     ta.value = email;
     ta.style.position = 'fixed';
@@ -45,7 +41,13 @@ window.copyEmailAddress = function(btn) {
     } catch (err) {
       window.location.href = 'mailto:' + email;
     }
-    document.body.removeChild(ta);
+    if (ta.parentNode) document.body.removeChild(ta);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(showFeedback).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
   }
 };
 
