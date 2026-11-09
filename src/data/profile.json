@@ -64,15 +64,15 @@
       },
       "department": {
         "value": {
-          "id": "Departemen Teknik Komputer",
-          "en": "Department of Computer Engineering"
+          "id": "Jurusan Teknik Komputer",
+          "en": "Computer Engineering Major"
         },
         "public": true
       },
       "degree": {
         "value": {
-          "id": "Sarjana Teknik (S.T.) — Teknik Komputer",
-          "en": "Bachelor of Engineering (S.T.) in Computer Engineering"
+          "id": "Sarjana (S1)",
+          "en": "Undergraduate Degree (S1)"
         },
         "public": true
       },
@@ -346,7 +346,7 @@
         "public": true
       },
       "tech_stack": {
-        "value": ["Python", "Data Management", "Automation"],
+        "value": ["Python", "Tkinter", "File I/O", "Automation"],
         "public": true
       },
       "assets": {
@@ -391,15 +391,15 @@
       },
       "type": {
         "value": {
-          "id": "Pengalaman Teknis / Magang",
-          "en": "Technical Experience / Internship"
+          "id": "Magang / Kerja Praktik",
+          "en": "Internship / Practical Work"
         },
         "public": true
       },
       "description": {
         "value": {
-          "id": "Mengembangkan komponen backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon), termasuk pengembangan RESTful API, restrukturisasi skema basis data, implementasi autentikasi JWT dan RBAC, Public API dengan pagination, serta integrasi UploadService dengan Cloudinary.",
-          "en": "Developed the backend system for the SIBARISTA tourism village platform using NestJS, TypeScript, Prisma ORM, and PostgreSQL (Neon), including RESTful API design, database schema restructuring, JWT & RBAC authentication, paginated Public API endpoints, and media management via Cloudinary UploadService."
+          "id": "Mengembangkan arsitektur backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Mengimplementasikan sistem autentikasi JWT dan Role-Based Access Control (RBAC), menyusun Public API dengan pagination, serta membangun UploadService menggunakan Cloudinary untuk manajemen aset media.",
+          "en": "Developed backend architecture for the SIBARISTA tourism village information system using NestJS, TypeScript, Prisma ORM, and PostgreSQL (Neon). Implemented JWT authentication and Role-Based Access Control (RBAC), structured paginated Public APIs, and built UploadService using Cloudinary for media asset management."
         },
         "public": true
       },
@@ -418,7 +418,7 @@
         "public": true
       },
       "institution": {
-        "value": "Dewan Perwakilan Angkatan (DPA) Teknik Komputer UNDIP",
+        "value": "Teknik Komputer Universitas Diponegoro",
         "public": true
       },
       "period": {
@@ -457,7 +457,7 @@
         "public": true
       },
       "institution": {
-        "value": "PMK FT 2026",
+        "value": "Fakultas Teknik Universitas Diponegoro",
         "public": true
       },
       "period": {
@@ -469,8 +469,8 @@
       },
       "type": {
         "value": {
-          "id": "Organisasi Mahasiswa / Kepengurusan",
-          "en": "Student Organization / Management"
+          "id": "Kepanitiaan & Pengurus",
+          "en": "Committee & Management"
         },
         "public": true
       },
@@ -496,7 +496,7 @@
         "public": true
       },
       "institution": {
-        "value": "Prakarsa FT 2025",
+        "value": "Fakultas Teknik Universitas Diponegoro",
         "public": true
       },
       "period": {
@@ -666,8 +666,8 @@
     {
       "name": {
         "value": {
-          "id": "Panitia Prakarsa FT (Fakultas Teknik)",
-          "en": "Prakarsa FT Committee (Faculty of Engineering)"
+          "id": "Panitia Prakarsa FT",
+          "en": "Prakarsa FT Committee"
         },
         "public": true
       },
@@ -679,7 +679,7 @@
     {
       "name": {
         "value": {
-          "id": "LKKMPD (Latihan Keterampilan Manajemen Mahasiswa)",
+          "id": "LKKMPD (Latihan Keterampilan Manajemen Mahasiswa Pra-Dasar)",
           "en": "LKKMPD (Pre-Basic Student Management Skills Training)"
         },
         "public": true

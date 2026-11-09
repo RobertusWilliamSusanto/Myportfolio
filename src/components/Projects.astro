@@ -193,10 +193,9 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
             </p>
           </div>
           <div class="flex flex-wrap gap-2 pt-1">
-            <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">JavaScript</span>
-            <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">React/Next.js</span>
-            <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Python</span>
-            <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Tailwind CSS</span>
+            {card4.tech_stack.value.map((tech: string) => (
+              <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
+            ))}
           </div>
         </div>
         <div class="p-6 md:p-8 pt-0 flex flex-wrap items-center justify-between gap-4 border-t border-outline-variant/20 pt-4">
@@ -247,8 +246,9 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
             </p>
           </div>
           <div class="flex flex-wrap gap-1.5 pt-1">
-            <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Python</span>
-            <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Data Management</span>
+            {card5.tech_stack.value.map((tech: string) => (
+              <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
+            ))}
           </div>
         </div>
         <div class="p-6 pt-0 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
