@@ -28,7 +28,10 @@
       "public": false
     },
     "availability": {
-      "status": "Available for Opportunities",
+      "status": {
+        "id": "Tersedia untuk Peluang Baru",
+        "en": "Available for Opportunities"
+      },
       "open_to_work": true,
       "public": true
     }
@@ -46,35 +49,59 @@
   "education": [
     {
       "institution": {
-        "value": "Universitas Diponegoro",
+        "value": {
+          "id": "Universitas Diponegoro",
+          "en": "Diponegoro University"
+        },
         "public": true
       },
       "faculty": {
-        "value": "Fakultas Teknik",
+        "value": {
+          "id": "Fakultas Teknik",
+          "en": "Faculty of Engineering"
+        },
         "public": true
       },
       "department": {
-        "value": "Teknik Komputer",
+        "value": {
+          "id": "Departemen Teknik Komputer",
+          "en": "Department of Computer Engineering"
+        },
         "public": true
       },
       "degree": {
-        "value": "Undergraduate Degree (S1)",
+        "value": {
+          "id": "Sarjana Teknik (S.T.) — Teknik Komputer",
+          "en": "Bachelor of Engineering (S.T.) in Computer Engineering"
+        },
         "public": true
       },
       "period": {
-        "value": "Agustus 2024 — Sekarang",
+        "value": {
+          "id": "Agustus 2024 — Sekarang",
+          "en": "August 2024 — Present"
+        },
         "public": true
       },
       "status": {
-        "value": "Active",
+        "value": {
+          "id": "Mahasiswa Aktif",
+          "en": "Active Undergraduate Student"
+        },
         "public": true
       },
       "location": {
-        "value": "Semarang, Jawa Tengah, Indonesia",
+        "value": {
+          "id": "Semarang, Jawa Tengah, Indonesia",
+          "en": "Semarang, Central Java, Indonesia"
+        },
         "public": true
       },
       "description": {
-        "value": "Menempuh pendidikan sarjana Teknik Komputer dengan pendalaman pada arsitektur sistem cerdas, kecerdasan buatan terapan (computer vision), struktur data, algoritma, serta pengembangan perangkat lunak terintegrasi.",
+        "value": {
+          "id": "Menempuh pendidikan sarjana Teknik Komputer dengan pendalaman pada arsitektur sistem cerdas, kecerdasan buatan terapan (computer vision), struktur data, algoritma, serta pengembangan perangkat lunak terintegrasi.",
+          "en": "Pursuing an undergraduate degree in Computer Engineering with a focus on intelligent system architectures, applied artificial intelligence (computer vision), data structures, algorithms, and integrated software development."
+        },
         "public": true
       }
     }
@@ -83,7 +110,10 @@
     {
       "id": "yolo-object-detection",
       "title": {
-        "value": "Object Detection dengan YOLO",
+        "value": {
+          "id": "Object Detection dengan YOLO",
+          "en": "Object Detection with YOLO"
+        },
         "public": true
       },
       "badge": {
@@ -99,7 +129,10 @@
         "public": true
       },
       "description": {
-        "value": "Mengembangkan model deteksi objek untuk mengidentifikasi penyakit pada tumbuhan dan manusia menggunakan framework YOLO dengan hasil evaluasi di atas 90%. Dilengkapi arsitektur CNN deep learning dan pipeline image processing komprehensif.",
+        "value": {
+          "id": "Mengembangkan model deteksi objek untuk mengidentifikasi penyakit pada tumbuhan dan manusia menggunakan framework YOLO dengan hasil evaluasi di atas 90%. Dilengkapi arsitektur CNN deep learning dan pipeline image processing komprehensif.",
+          "en": "Developed an object detection model to identify diseases in plants and humans using the YOLO framework with evaluation results exceeding 90%. Features deep learning CNN architecture and a comprehensive image processing pipeline."
+        },
         "public": true
       },
       "tech_stack": {
@@ -147,7 +180,10 @@
         "public": true
       },
       "description": {
-        "value": "Komponen backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Mengimplementasikan autentikasi JWT dan Role-Based Access Control (RBAC), Public API dengan pagination, serta integrasi UploadService dengan Cloudinary.",
+        "value": {
+          "id": "Komponen backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon). Mengimplementasikan autentikasi JWT dan Role-Based Access Control (RBAC), Public API dengan pagination, serta integrasi UploadService dengan Cloudinary.",
+          "en": "Backend architecture for the SIBARISTA tourism village information system using NestJS, TypeScript, Prisma ORM, and PostgreSQL (Neon). Implements JWT authentication, Role-Based Access Control (RBAC), paginated Public API, and Cloudinary upload integration."
+        },
         "public": true
       },
       "tech_stack": {
@@ -179,7 +215,10 @@
     {
       "id": "kriptografi-klasik-security",
       "title": {
-        "value": "Kriptografi Klasik & Security Tools",
+        "value": {
+          "id": "Kriptografi Klasik & Security Tools",
+          "en": "Classical Cryptography & Security Tools"
+        },
         "public": true
       },
       "badge": {
@@ -195,7 +234,10 @@
         "public": true
       },
       "description": {
-        "value": "Aplikasi web untuk enkripsi dan dekripsi teks dengan lima cipher klasik: Hill 2×2, Vigenère, Playfair, Affine, dan Caesar. Dilengkapi validasi matriks kunci Hill (determinan dan invers modular), riwayat sesi yang bisa dicari, serta ekspor/impor JSON.",
+        "value": {
+          "id": "Aplikasi web untuk enkripsi dan dekripsi teks dengan lima cipher klasik: Hill 2×2, Vigenère, Playfair, Affine, dan Caesar. Dilengkapi validasi matriks kunci Hill (determinan dan invers modular), riwayat sesi yang bisa dicari, serta ekspor/impor JSON.",
+          "en": "Web application for encrypting and decrypting text with five classical ciphers: Hill 2×2, Vigenère, Playfair, Affine, and Caesar. Features Hill key matrix validation (determinant and modular inverse), searchable session history, and JSON export/import."
+        },
         "public": true
       },
       "tech_stack": {
@@ -243,7 +285,10 @@
         "public": true
       },
       "description": {
-        "value": "Digital portfolio dan aplikasi To-Do List otomatis yang dikembangkan dengan Python lalu dikonversi menjadi aplikasi web responsif modern menggunakan framework JavaScript, React/Next.js, dan Tailwind CSS.",
+        "value": {
+          "id": "Digital portfolio dan aplikasi To-Do List otomatis yang dikembangkan dengan Python lalu dikonversi menjadi aplikasi web responsif modern menggunakan framework JavaScript, React/Next.js, dan Tailwind CSS.",
+          "en": "Personal digital portfolio and automated To-Do list app, developed in Python and converted into modern responsive web applications using JavaScript, React/Next.js, and Tailwind CSS."
+        },
         "public": true
       },
       "tech_stack": {
@@ -294,7 +339,10 @@
         "public": true
       },
       "description": {
-        "value": "Aplikasi pelacak pengeluaran otomatis dan perkakas produktivitas berbasis Python untuk pembukuan terstruktur dan penganggaran keuangan pribadi.",
+        "value": {
+          "id": "Aplikasi pelacak pengeluaran otomatis dan perkakas produktivitas berbasis Python untuk pembukuan terstruktur dan penganggaran keuangan pribadi.",
+          "en": "Automated expense tracker and Python-based productivity tools for structured bookkeeping and personal financial budgeting."
+        },
         "public": true
       },
       "tech_stack": {
@@ -335,15 +383,24 @@
         "public": true
       },
       "period": {
-        "value": "22 Juni 2026 — 14 Agustus 2026",
+        "value": {
+          "id": "22 Juni 2026 — 14 Agustus 2026",
+          "en": "22 June 2026 — 14 August 2026"
+        },
         "public": true
       },
       "type": {
-        "value": "Pengalaman Teknis / Magang",
+        "value": {
+          "id": "Pengalaman Teknis / Magang",
+          "en": "Technical Experience / Internship"
+        },
         "public": true
       },
       "description": {
-        "value": "Mengembangkan komponen backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon), termasuk pengembangan RESTful API, restrukturisasi skema basis data, implementasi autentikasi JWT dan RBAC, Public API dengan pagination, serta integrasi UploadService dengan Cloudinary.",
+        "value": {
+          "id": "Mengembangkan komponen backend sistem informasi desa wisata SIBARISTA menggunakan NestJS, TypeScript, Prisma ORM, dan PostgreSQL (Neon), termasuk pengembangan RESTful API, restrukturisasi skema basis data, implementasi autentikasi JWT dan RBAC, Public API dengan pagination, serta integrasi UploadService dengan Cloudinary.",
+          "en": "Developed the backend system for the SIBARISTA tourism village platform using NestJS, TypeScript, Prisma ORM, and PostgreSQL (Neon), including RESTful API design, database schema restructuring, JWT & RBAC authentication, paginated Public API endpoints, and media management via Cloudinary UploadService."
+        },
         "public": true
       },
       "tags": {
@@ -354,23 +411,35 @@
     {
       "id": "dpa-tekkom-undip",
       "title": {
-        "value": "Anggota Dewan Perwakilan Angkatan",
+        "value": {
+          "id": "Anggota Dewan Perwakilan Angkatan",
+          "en": "Class Representative Council (DPA) Member"
+        },
         "public": true
       },
       "institution": {
-        "value": "Teknik Komputer Universitas Diponegoro",
+        "value": "Dewan Perwakilan Angkatan (DPA) Teknik Komputer UNDIP",
         "public": true
       },
       "period": {
-        "value": "2026 — Sekarang",
+        "value": {
+          "id": "2026 — Sekarang",
+          "en": "2026 — Present"
+        },
         "public": true
       },
       "type": {
-        "value": "Organisasi Mahasiswa",
+        "value": {
+          "id": "Organisasi Mahasiswa",
+          "en": "Student Organization"
+        },
         "public": true
       },
       "description": {
-        "value": "Merumuskan Standar Operasional Prosedur (SOP) anggaran serta terlibat dalam penyusunan alokasi dana untuk mendukung pengelolaan yang transparan dan akuntabel.",
+        "value": {
+          "id": "Merumuskan Standar Operasional Prosedur (SOP) anggaran serta terlibat dalam penyusunan alokasi dana untuk mendukung pengelolaan yang transparan dan akuntabel.",
+          "en": "Formulated budget Standard Operating Procedures (SOP) and participated in fund allocation planning to support transparent and accountable student governance."
+        },
         "public": true
       },
       "tags": {
@@ -381,23 +450,35 @@
     {
       "id": "pmk-ft-2026",
       "title": {
-        "value": "Pengurus PMK FT 2026",
+        "value": {
+          "id": "Pengurus PMK FT 2026",
+          "en": "PMK FT 2026 Committee Member"
+        },
         "public": true
       },
       "institution": {
-        "value": "Fakultas Teknik Universitas Diponegoro",
+        "value": "PMK FT 2026",
         "public": true
       },
       "period": {
-        "value": "2026 — Sekarang",
+        "value": {
+          "id": "2026 — Sekarang",
+          "en": "2026 — Present"
+        },
         "public": true
       },
       "type": {
-        "value": "Organisasi Mahasiswa / Kepengurusan",
+        "value": {
+          "id": "Organisasi Mahasiswa / Kepengurusan",
+          "en": "Student Organization / Management"
+        },
         "public": true
       },
       "description": {
-        "value": "Merancang dan mengeksekusi strategi visual media sosial untuk meningkatkan interaksi pengikut dan memperkuat identitas digital organisasi.",
+        "value": {
+          "id": "Merancang dan mengeksekusi strategi visual media sosial untuk meningkatkan interaksi pengikut dan memperkuat identitas digital organisasi.",
+          "en": "Designed and executed social media visual strategies to enhance audience engagement and strengthen the organization's digital brand identity."
+        },
         "public": true
       },
       "tags": {
@@ -408,23 +489,35 @@
     {
       "id": "panitia-prakarsa-ft-2025",
       "title": {
-        "value": "Panitia Prakarsa FT 2025",
+        "value": {
+          "id": "Panitia Prakarsa FT 2025",
+          "en": "Committee Member — Prakarsa FT 2025"
+        },
         "public": true
       },
       "institution": {
-        "value": "Fakultas Teknik Universitas Diponegoro",
+        "value": "Prakarsa FT 2025",
         "public": true
       },
       "period": {
-        "value": "21 Agustus 2025",
+        "value": {
+          "id": "21 Agustus 2025",
+          "en": "21 August 2025"
+        },
         "public": true
       },
       "type": {
-        "value": "Kepanitiaan Fakultas",
+        "value": {
+          "id": "Kepanitiaan Fakultas",
+          "en": "Faculty Committee"
+        },
         "public": true
       },
       "description": {
-        "value": "Mengoordinasikan kebutuhan infrastruktur panggung dan tata letak teknis untuk kegiatan tingkat fakultas yang dihadiri ratusan peserta.",
+        "value": {
+          "id": "Mengoordinasikan kebutuhan infrastruktur panggung dan tata letak teknis untuk kegiatan tingkat fakultas yang dihadiri ratusan peserta.",
+          "en": "Coordinated stage infrastructure and technical layout requirements for faculty-level activities attended by hundreds of participants."
+        },
         "public": true
       },
       "tags": {
@@ -440,7 +533,10 @@
         "public": true
       },
       "description": {
-        "value": "Core programming languages for algorithms and backend development.",
+        "value": {
+          "id": "Bahasa pemrograman utama untuk algoritma dan pengembangan backend.",
+          "en": "Core programming languages for algorithms and backend development."
+        },
         "public": true
       },
       "items": {
@@ -454,7 +550,10 @@
         "public": true
       },
       "description": {
-        "value": "Object detection frameworks, neural nets, and visual data processing.",
+        "value": {
+          "id": "Framework deteksi objek, neural network, dan pemrosesan data visual.",
+          "en": "Object detection frameworks, neural nets, and visual data processing."
+        },
         "public": true
       },
       "items": {
@@ -468,7 +567,10 @@
         "public": true
       },
       "description": {
-        "value": "Data analysis, computation, prototyping, and UI design.",
+        "value": {
+          "id": "Analisis data, komputasi, pembuatan prototipe, dan desain UI.",
+          "en": "Data analysis, computation, prototyping, and UI design."
+        },
         "public": true
       },
       "items": {
@@ -482,7 +584,10 @@
         "public": true
       },
       "description": {
-        "value": "Embedded logic, digital circuits, and simulation tools.",
+        "value": {
+          "id": "Logika embedded, rangkaian digital, dan perangkat simulasi.",
+          "en": "Embedded logic, digital circuits, and simulation tools."
+        },
         "public": true
       },
       "items": {
@@ -496,7 +601,10 @@
         "public": true
       },
       "description": {
-        "value": "Production backend frameworks, ORMs, and databases from intern experience.",
+        "value": {
+          "id": "Framework backend produksi, ORM, dan basis data dari pengalaman magang.",
+          "en": "Production backend frameworks, ORMs, and databases from intern experience."
+        },
         "public": true
       },
       "items": {
@@ -506,11 +614,17 @@
     },
     "languages": {
       "category": {
-        "value": "Languages",
+        "value": {
+          "id": "Bahasa",
+          "en": "Languages"
+        },
         "public": true
       },
       "description": {
-        "value": "Spoken and written communication proficiencies.",
+        "value": {
+          "id": "Kemahiran komunikasi lisan dan tulisan.",
+          "en": "Spoken and written communication proficiencies."
+        },
         "public": true
       },
       "items": {
@@ -525,7 +639,10 @@
   "certifications": [
     {
       "name": {
-        "value": "Cisco Jaringan Komputer (Packet Tracer)",
+        "value": {
+          "id": "Cisco Jaringan Komputer (Packet Tracer)",
+          "en": "Cisco Computer Networking (Packet Tracer)"
+        },
         "public": true
       },
       "category": {
@@ -535,7 +652,10 @@
     },
     {
       "name": {
-        "value": "KP Dinas Kebudayaan dan Pariwisata Kota Semarang",
+        "value": {
+          "id": "KP Dinas Kebudayaan dan Pariwisata Kota Semarang",
+          "en": "Internship — Dinas Kebudayaan dan Pariwisata Kota Semarang"
+        },
         "public": true
       },
       "category": {
@@ -545,7 +665,10 @@
     },
     {
       "name": {
-        "value": "Panitia Prakarsa FT",
+        "value": {
+          "id": "Panitia Prakarsa FT (Fakultas Teknik)",
+          "en": "Prakarsa FT Committee (Faculty of Engineering)"
+        },
         "public": true
       },
       "category": {
@@ -555,7 +678,10 @@
     },
     {
       "name": {
-        "value": "LKKMPD (Latihan Keterampilan Manajemen Mahasiswa Pra-Dasar)",
+        "value": {
+          "id": "LKKMPD (Latihan Keterampilan Manajemen Mahasiswa)",
+          "en": "LKKMPD (Pre-Basic Student Management Skills Training)"
+        },
         "public": true
       },
       "category": {
@@ -565,7 +691,10 @@
     },
     {
       "name": {
-        "value": "Volunteer Himaskom Menanam",
+        "value": {
+          "id": "Volunteer Himaskom Menanam",
+          "en": "Himaskom Tree Planting Volunteer"
+        },
         "public": true
       },
       "category": {
