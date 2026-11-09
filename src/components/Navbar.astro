@@ -17,7 +17,7 @@ const contactLabel = lang === 'id' ? 'Kontak' : 'Contact';
 const connectCta = lang === 'id' ? 'Hubungi' : 'Connect';
 
 const targetLang = lang === 'id' ? 'en' : 'id';
-const targetHref = lang === 'id' ? '/en/' : '/';
+const targetHref = lang === 'id' ? '/en' : '/';
 const switchAria = lang === 'id' ? 'Switch language to English' : 'Ganti bahasa ke Bahasa Indonesia';
 ---
 <header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30">
@@ -54,7 +54,7 @@ const switchAria = lang === 'id' ? 'Switch language to English' : 'Ganti bahasa 
               lang="en" 
               hreflang="en" 
               aria-label={switchAria}
-              onclick="if(window.location.hash) this.href = '/en/' + window.location.hash"
+              onclick="if(window.location.hash) this.href = '/en' + window.location.hash"
             >
               EN
             </a>
