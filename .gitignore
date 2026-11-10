@@ -1,55 +1,41 @@
-# 1. DEPENDENCIES & PACKAGE MANAGERS
-node_modules/
-/.pnp
-.pnp.*
-/.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# 1. Dependencies
+/node_modules/
 
-# 2. BUILD OUTPUTS & FRAMEWORK CACHES
-/.next/
-/.astro/
+# 2. Build Outputs & Framework Caches
 /dist/
-/out/
-/build/
-/.turbo/
+/.astro/
+/.next/
+/.vercel/
 /coverage/
-.vercel/
+/next-env.d.ts
 *.tsbuildinfo
-next-env.d.ts
 
-# 3. AUDIT, LIGHTHOUSE & TEST ARTIFACTS
-lighthouse*.json
-lighthouse*.html
-*baseline*.json
-screenshots/
-reference/
-project-tree.txt
-final-report.md
+# 3. Test & Audit Artifacts (Generated)
+/screenshots/
+/reference/
+/lighthouse-*.json
+/phase0-baseline.json
+/project-tree.txt
+/final-report.md
 
-# 4. ENVIRONMENT VARIABLES & SECRETS
+# 4. Environment & Secrets
 .env*
 !.env.example
 *.pem
 
-# 5. LOGS & TEMPORARY FILES
+# 5. Logs & Temporary Files
 *.log
 npm-debug.log*
-yarn-debug.log*
-pnpm-debug.log*
 .tmp/
 *.tmp
 *.bak
 *.swp
-*.swo
 
-# 6. OS & EDITOR METADATA
+# 6. OS & IDE Metadata
 .DS_Store
 Thumbs.db
 Desktop.ini
-.idea/
-.vscode/*
+/.idea/
+/.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
