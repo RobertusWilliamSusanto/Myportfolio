@@ -218,6 +218,46 @@ const PROJECT_DETAILS: Record<string, ProjectDetail> = {
     },
     demoUrl: 'https://expense-tracker-six-sigma-30.vercel.app',
     repoUrl: null
+  },
+  'partsbin': {
+    id: 'partsbin',
+    title: {
+      id: 'PartsBin — Katalog Komponen & Kalkulator BOM',
+      en: 'PartsBin — Component Catalog & BOM Calculator'
+    },
+    badge: {
+      id: 'REACT + EXPRESS',
+      en: 'REACT + EXPRESS'
+    },
+    category: {
+      id: 'PWA & INVENTORY',
+      en: 'PWA & INVENTORY'
+    },
+    description: {
+      id: 'Progressive Web App manajemen inventaris komponen elektronika pribadi yang terintegrasi dengan kalkulator Bill of Materials (BOM) untuk menghitung kesiapan rakit, estimasi biaya, dan daftar belanja kekurangan komponen secara live.',
+      en: 'Progressive Web App for personal electronics component inventory management integrated with a live Bill of Materials (BOM) calculator to compute build readiness, cost estimates, and component shortage shopping lists.'
+    },
+    techStack: ['React', 'Vite', 'Express 5', 'Supabase', 'PostgreSQL', 'Workbox PWA'],
+    metrics: {
+      id: 'Kalkulasi kesiapan rakit BOM live, deteksi stok menipis, & dukungan Workbox PWA',
+      en: 'Live BOM build readiness calculation, low-stock alerts, & Workbox PWA support'
+    },
+    highlights: {
+      id: [
+        'Katalog komponen elektronika dengan pencarian nama/laci (Bin), filter 7 kategori, dan kontrol stok cepat',
+        'Kalkulator Bill of Materials (BOM) live untuk menghitung persentase kesiapan rakit, total biaya, dan defisit stok',
+        'Dukungan Progressive Web App (Workbox PWA) dengan penyimpanan draf formulir lokal serta tema gelap/terang',
+        'Ekspor dokumen PDF langsung, pelacakan status pengerjaan proyek, dan daftar belanja kekurangan komponen'
+      ],
+      en: [
+        'Electronics component catalog with name/bin drawer search, 7-category filtering, and quick stock controls',
+        'Live Bill of Materials (BOM) calculator computing build readiness percentage, total cost, and stock deficits',
+        'Progressive Web App (Workbox PWA) support with local form draft persistence and dark/light theme',
+        'Direct PDF document export, physical project progress tracking, and automated shopping deficit lists'
+      ]
+    },
+    demoUrl: 'https://partsbin-web.vercel.app',
+    repoUrl: null
   }
 };
 
