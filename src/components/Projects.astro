@@ -17,6 +17,7 @@ const card2 = projects[1];
 const card3 = projects[2];
 const card4 = projects[3];
 const card5 = projects[4];
+const card6 = projects[5];
 
 const openLiveDemoText = lang === 'id' ? 'Buka Live Demo' : 'Open Live Demo';
 const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
@@ -260,6 +261,48 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
           </a>
           <button type="button" data-project-trigger="expense-tracker" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label={lang === 'id' ? 'Lihat rincian teknis Expense Tracker' : 'View Expense Tracker technical details'}>
             AUTOMATION
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 6: PartsBin — Component Catalog & BOM Calculator (Spans 2 cols on lg) -->
+      <article data-domain="web backend" class="scroll-reveal card-interactive group lg:col-span-2 rounded-xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-md hover-lift flex flex-col justify-between">
+        <div class="p-6 md:p-8 flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded bg-surface-container-high text-secondary font-mono text-[11px] font-semibold">REACT + EXPRESS</span>
+              <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">PWA &amp; INVENTORY</span>
+            </div>
+            <button type="button" data-project-trigger="partsbin" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer flex items-center gap-1" aria-label={lang === 'id' ? 'Lihat rincian spesifikasi PartsBin' : 'View PartsBin project specifications'}>
+              <span>BOM CALCULATOR</span>
+              <span class="text-secondary">↗</span>
+            </button>
+          </div>
+          <div>
+            <h3 class="text-lg md:text-xl font-semibold text-primary group-hover:text-secondary transition-colors">
+              <button type="button" data-project-trigger="partsbin" class="text-left font-inherit text-inherit hover:text-secondary transition-colors cursor-pointer bg-transparent border-0 p-0">
+                {getLocalized(card6.title, lang)}
+              </button>
+            </h3>
+            <p class="text-sm md:text-base text-on-surface-variant mt-2 max-w-2xl leading-relaxed">
+              {getLocalized(card6.description, lang)}
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            {card6.tech_stack.value.map((tech: string) => (
+              <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
+            ))}
+          </div>
+        </div>
+        <div class="p-6 md:p-8 pt-0 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
+          <a class="inline-flex items-center gap-1.5 text-xs text-primary hover:text-secondary transition-colors font-medium min-h-[44px]" href="https://partsbin-web.vercel.app" target="_blank" rel="noopener noreferrer">
+            <svg class="w-4 h-4 fill-current text-secondary" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+            </svg>
+            <span>{openLiveDemoText}</span>
+          </a>
+          <button type="button" data-project-trigger="partsbin" class="font-mono text-[11px] text-outline hover:text-secondary transition-colors cursor-pointer" aria-label={lang === 'id' ? 'Lihat rincian teknis PartsBin' : 'View PartsBin technical details'}>
+            OFFLINE PWA
           </button>
         </div>
       </article>

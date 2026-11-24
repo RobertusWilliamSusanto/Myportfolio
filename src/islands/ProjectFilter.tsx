@@ -7,11 +7,11 @@ interface FilterOption {
 }
 
 const FILTERS: FilterOption[] = [
-  { id: 'all', label: { id: 'Semua Artefak', en: 'All Artifacts' }, count: 5 },
+  { id: 'all', label: { id: 'Semua Artefak', en: 'All Artifacts' }, count: 6 },
   { id: 'ai', label: { id: 'AI & Vision', en: 'AI & Vision' }, count: 1 },
-  { id: 'backend', label: { id: 'Backend & Cloud', en: 'Backend & Cloud' }, count: 1 },
+  { id: 'backend', label: { id: 'Backend & Cloud', en: 'Backend & Cloud' }, count: 2 },
   { id: 'security', label: { id: 'Security & Math', en: 'Security & Math' }, count: 1 },
-  { id: 'web', label: { id: 'Aplikasi Web', en: 'Web Applications' }, count: 2 }
+  { id: 'web', label: { id: 'Aplikasi Web', en: 'Web Applications' }, count: 3 }
 ];
 
 interface Props {

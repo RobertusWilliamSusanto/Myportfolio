@@ -369,6 +369,60 @@
           "public": true
         }
       }
+    },
+    {
+      "id": "partsbin-inventory-bom",
+      "title": {
+        "value": {
+          "id": "PartsBin — Katalog Komponen & Kalkulator BOM",
+          "en": "PartsBin — Component Catalog & BOM Calculator"
+        },
+        "public": true
+      },
+      "badge": {
+        "value": "REACT + EXPRESS",
+        "public": true
+      },
+      "category": {
+        "value": "PWA & INVENTORY",
+        "public": true
+      },
+      "flagship": {
+        "value": false,
+        "public": true
+      },
+      "description": {
+        "value": {
+          "id": "Progressive Web App manajemen inventaris komponen elektronika pribadi yang terintegrasi dengan kalkulator Bill of Materials (BOM) untuk menghitung kesiapan rakit, estimasi biaya, dan daftar belanja kekurangan komponen secara live.",
+          "en": "Progressive Web App for personal electronics component inventory management integrated with a live Bill of Materials (BOM) calculator to compute build readiness, cost estimates, and component shortage shopping lists."
+        },
+        "public": true
+      },
+      "tech_stack": {
+        "value": ["React", "Vite", "Express 5", "Supabase", "PostgreSQL", "Workbox PWA"],
+        "public": true
+      },
+      "assets": {
+        "image": {
+          "source": null,
+          "alt": null,
+          "public": true
+        }
+      },
+      "links": {
+        "live_demo": {
+          "url": "https://partsbin-web.vercel.app",
+          "status": "VERIFIED_200",
+          "note": "Verified live PWA deployment on Vercel",
+          "public": true
+        },
+        "github": {
+          "url": null,
+          "status": "N/A",
+          "note": "Repository link not listed on live app",
+          "public": false
+        }
+      }
     }
   ],
   "experience": [
