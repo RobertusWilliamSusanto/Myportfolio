@@ -327,3 +327,48 @@ html.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:active {
     animation: none !important;
   }
 }
+
+/* Unified Interactive Button & Link States */
+.btn-interactive {
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    opacity var(--duration-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-interactive:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+}
+
+.btn-interactive:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+  transition-duration: var(--duration-instant);
+}
+
+.btn-interactive:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 2px;
+}
+
+.btn-interactive:disabled,
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-interactive {
+    transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease, border-color var(--duration-fast) ease, opacity var(--duration-fast) ease !important;
+  }
+  .btn-interactive:hover:not(:disabled),
+  .btn-interactive:active:not(:disabled) {
+    transform: none !important;
+  }
+}
