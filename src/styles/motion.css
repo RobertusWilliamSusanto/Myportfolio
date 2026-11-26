@@ -271,6 +271,15 @@ html.light.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:focus-with
   .group:hover .img-zoom {
     transform: scale(1.035);
   }
+
+  /* Desktop sibling spotlight via :has() [UNVERIFIED on Safari/Firefox] */
+  html:not(.reduced-motion) #projects-grid .card-interactive > * {
+    transition: opacity var(--duration-base) ease;
+  }
+
+  html:not(.reduced-motion) #projects-grid:has(.card-interactive:hover) .card-interactive:not(:hover) > * {
+    opacity: 0.68;
+  }
 }
 
 .card-interactive:active,
@@ -353,6 +362,31 @@ button:disabled {
 .nav-indicator-top {
   bottom: auto;
   top: 0;
+}
+
+.filter-indicator-pill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 2.5px;
+  border-radius: 9999px;
+  background-color: var(--secondary);
+  transform-origin: left center;
+  transform: translate3d(0, 0, 0) scaleX(0);
+  opacity: 0;
+  z-index: 5;
+  transition: transform var(--duration-base) var(--ease-standard), opacity var(--duration-fast) ease;
+}
+
+.project-peek-details summary::-webkit-details-marker {
+  display: none;
+}
+.peek-chevron {
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+.project-peek-details[open] .peek-chevron {
+  transform: rotate(45deg);
 }
 
 /* --- Skill Matrix Chips --- */
@@ -450,6 +484,8 @@ dialog.project-dialog[open]::backdrop {
   }
   .scroll-reveal,
   .nav-indicator,
+  .filter-indicator-pill,
+  .peek-chevron,
   dialog.project-dialog,
   dialog.project-dialog::backdrop {
     transition: none !important;
@@ -459,6 +495,10 @@ dialog.project-dialog[open]::backdrop {
   .hover-lift {
     transform: none !important;
     will-change: auto !important;
+  }
+  #projects-grid:has(.card-interactive:hover) .card-interactive:not(:hover) > * {
+    transition: none !important;
+    opacity: 1 !important;
   }
   .btn-interactive,
   .skill-chip {

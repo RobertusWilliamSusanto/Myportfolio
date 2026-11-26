@@ -2,13 +2,13 @@
 
 ## 1. Purpose & Scope
 
-This document describes the **current** architecture of the `robertus-portfolio` repository (`RobertusWilliamSusanto/Myportfolio`) as verified in source files, configurations, lockfile, and build output. It covers the active **Astro + Preact + Tailwind CSS v4** static portfolio site, its bilingual (`id`/`en`) data pipeline, client-side islands, static deployment on Vercel, and remaining legacy artifacts.
+This repository hosts the active **Astro + Preact + Tailwind CSS v4** static portfolio site, its bilingual (`id`/`en`) data pipeline (`src/data/projectCatalog.ts`), selectively hydrated Preact islands (plus lazy `motion/mini`), static deployment on Vercel, and remaining legacy artifacts.
 
 ---
 
 ## 2. System Overview
 
-`robertus-portfolio` is a static, bilingual (Indonesian default `/`, English `/en`) personal portfolio website for Robertus William Susanto. At build time (`astro build`), Astro compiles `.astro` components and validates `src/data/profile.json` against a Zod schema (`src/data/schema.ts`) to emit two self-contained static HTML pages (`dist/index.html` and `dist/en/index.html`) with inlined CSS (`inlineStylesheets: 'always'`). Client-side interactivity is split between deferred vanilla JS scripts (`public/js/main.js`, `public/js/motion.js`) and three selectively hydrated Preact islands (`ProjectFilter`, `ProjectModal`, `YoloDemo`).
+`robertus-portfolio` is a static, bilingual (Indonesian default `/`, English `/en`) personal portfolio website for Robertus William Susanto. At build time (`astro build`), Astro compiles `.astro` components and validates `src/data/profile.json` against a Zod schema (`src/data/schema.ts`), unifying public project specs via `src/data/projectCatalog.ts` to emit two self-contained static HTML pages (`dist/index.html` and `dist/en/index.html`) with inlined CSS (`inlineStylesheets: 'always'`). Client-side interactivity is split between deferred vanilla JS scripts (`public/js/main.js`, `public/js/motion.js`), on-demand helpers (`src/lib/{lazyMotion,commandPalette}.ts`), and six selectively hydrated Preact islands (`HeroFocusConsole`, `ProjectFilter`, `CipherPreview`, `YoloDemo`, `ProjectModal`, `CommandPalette`).
 
 ### Active Tech Stack (Verified Against `package-lock.json`)
 
@@ -16,6 +16,7 @@ This document describes the **current** architecture of the `robertus-portfolio`
 | --- | --- | --- | --- | --- |
 | Static Framework | Astro | `^7.4.1` | `7.4.1` | Static HTML compilation & i18n routing (`src/pages/`) |
 | Interactive Islands | Preact + `@astrojs/preact` | `^11.0.1` / `^6.1.0` | `11.0.1` / `6.1.0` | Selective hydration (`client:visible`, `client:idle`) |
+| Lazy Motion Engine | `motion` (`motion/mini`) | `14.12.0` | `14.12.0` | Lazy-imported WAAPI micro-choreography (MIT) |
 | Styling | Tailwind CSS + `@tailwindcss/vite` | `^4` / `^4.3.3` | `4.2.1` / `4.3.3` | Design tokens (`@theme`) & utility CSS |
 | Schema Validation | Zod | `^4.6.7` | `4.6.7` | Build-time validation of `src/data/profile.json` |
 | Type Checking | TypeScript | `^5` | `5.9.3` | Strict TS config (`astro/tsconfigs/strict`) |
@@ -65,9 +66,10 @@ flowchart LR
 | --- | --- | --- |
 | `src/pages/` | File-based routes: `index.astro` (`lang="id"`), `en/index.astro` (`lang="en"`) | Entrypoints for `astro build` |
 | `src/layouts/BaseLayout.astro` | HTML shell, SEO/OG/Twitter/JSON-LD, font preload, inline anti-FOUC theme script, skip link, deferred scripts | Imported by `MainPage.astro` |
-| `src/components/` | 14 zero-JS `.astro` UI sections + `MainPage.astro` orchestrator + `ChatbotMount.astro` placeholder | Imported by `MainPage.astro` and `Navbar.astro` |
-| `src/islands/` | 3 Preact `.tsx` interactive islands (`ProjectFilter`, `ProjectModal`, `YoloDemo`) | Hydrated in `Projects.astro` and `MainPage.astro` |
-| `src/data/` | `profile.json` (787 lines bilingual data), `schema.ts` (Zod schemas), `profile.ts` (`ProfileSchema.parse`, `getLocalized`) | Imported by `BaseLayout`, `Hero`, `Projects`, `Experience`, `Skills`, `Education` |
+| `src/components/` | 16 zero-JS `.astro` sections/partials (incl. `ProjectPeek.astro`, `ArchitectureStrip.astro`) + `MainPage.astro` + `ChatbotMount.astro` | Imported by `MainPage.astro`, `Navbar.astro`, `Projects.astro` |
+| `src/islands/` | 6 Preact `.tsx` interactive islands (`HeroFocusConsole`, `ProjectFilter`, `CipherPreview`, `YoloDemo`, `ProjectModal`, `CommandPalette`) | Hydrated in `Hero.astro`, `Projects.astro`, and `MainPage.astro` |
+| `src/lib/` | Lazy-loaded utilities (`lazyMotion.ts`, `commandPalette.ts`) | Dynamically imported on interaction; 0 B before LCP |
+| `src/data/` | `profile.json`, `schema.ts` (Zod), `profile.ts` (`ProfileSchema.parse`, `getLocalized`), `projectCatalog.ts` (`getPublicProjectCatalog`) | Imported by `BaseLayout`, `Hero`, `Projects`, `Experience`, `Skills`, `Education`, `MainPage` |
 | `src/styles/` | `global.css` (Tailwind v4 + `@font-face` + `@theme` tokens), `motion.css` (animations + filter rules); `input.css` (legacy CLI CSS) | `global.css` imported by `BaseLayout.astro`; `input.css` only used by `legacy:*` scripts |
 | `src/js/` | Leftover copies of `motion.js` and `theme.js` | **Unused** (duplicated in `public/js/`) |
 | `public/` | Static assets copied directly to `dist/`: `fonts/`, `images/`, `js/{main,motion,theme}.js`, `CV.pdf`, `robots.txt`, `sitemap.xml`, legacy `css/style.css`, unused Next.js SVGs, uncompressed JPG/PNGs | Served from `/` by Astro & Vercel (`theme.js` unused) |
@@ -95,11 +97,14 @@ flowchart LR
 ## 6. Component Architecture
 
 - **Layout Shell**: `MainPage.astro` wraps all sections in `BaseLayout.astro`, passing `lang`, `pageTitle`, and `pageDesc`.
-- **Static `.astro` Sections (Zero Client JS)**: `Navbar` (embeds `ThemeToggle`), `MobileDrawer`, `Hero`, `About`, `Projects`, `Experience`, `Skills`, `Education`, `Contact`, `Footer`, `BottomNav`, `ChatbotMount` (empty `hidden` mount point).
+- **Static `.astro` Sections (Zero Client JS)**: `Navbar` (with `#cmd-palette-open` fallback link), `ThemeToggle`, `MobileDrawer`, `Hero`, `About`, `Projects` (embeds `ProjectPeek.astro` native `<details>` specs on all 6 cards + `ArchitectureStrip.astro` data-flow strips on Cards `2, 4, 5, 6`), `Experience`, `Skills`, `Education`, `Contact`, `Footer`, `BottomNav`, `ChatbotMount` (empty `hidden` mount point).
 - **Hydrated Preact Islands (`src/islands/`)**:
-  - `ProjectFilter.tsx` (`client:idle` in `Projects.astro:38`): Computes domain counts dynamically from `[data-domain]` cards, hides non-matching cards (`hidden` + `display: none` + `inert` + `aria-hidden="true"`), marks matching cards `.revealed` with staggered compositor entrance, and announces filtered counts via a localized `aria-live="polite"` status line.
-  - `YoloDemo.tsx` (`client:visible` in `Projects.astro:78`): Interactive drag/keyboard (`ArrowLeft`/`ArrowRight`) comparison slider using `clipPath: inset(0 0 0 ${sliderPos}%)` over two `<picture>` layers of `/project-ai.jpg`.
-  - `ProjectModal.tsx` (`client:idle` in `MainPage.astro:77`): Attaches a global `document` click listener for `[data-project-trigger]` attributes (`yolo`, `sibarista`, `kriptografi`, `portfolio`, `expense-tracker`, `partsbin`), opens `<dialog>` via `showModal()`, traps `Tab`/`Shift+Tab` inside the dialog, restores trigger focus on close, and animates via `@starting-style` + `transition-behavior: allow-discrete` (`[UNVERIFIED on Safari/Firefox]`).
+  - `HeroFocusConsole.tsx` (`client:idle` in `Hero.astro`): Interactive AI / Full-Stack focus switcher (`role="tablist"` + WAI-ARIA `ArrowLeft`/`ArrowRight`/`Home`/`End`), rendered statically via SSR so JS-off keeps the panel visible.
+  - `ProjectFilter.tsx` (`client:visible` in `Projects.astro`): Computes domain counts dynamically from `[data-domain]` cards, slides a compositor `translate3d`/`scaleX` `.filter-indicator-pill`, runs `motion/mini` FLIP card transitions on interaction, listens for `ProjectPeek` `<details>` toggles, hides non-matching cards (`hidden` + `inert` + `aria-hidden="true"`), and announces filtered counts via `aria-live="polite"`.
+  - `CipherPreview.tsx` (`client:visible` inside Card 3): Interactive classical-cipher sandbox (`role="radiogroup"` for Caesar/Vigenere/Affine with `[Edit Text]` lazy `<input>` trigger to keep initial TBT near zero).
+  - `YoloDemo.tsx` (`client:visible` in `Projects.astro`): Interactive drag/keyboard (`ArrowLeft`/`ArrowRight`) comparison slider using `clipPath: inset(0 0 0 ${sliderPos}%)` over two `<picture>` layers of `/project-ai.jpg`.
+  - `ProjectModal.tsx` (`client:idle` in `MainPage.astro`, receives `catalog={projectCatalog}`): Attaches a global `document` click listener for `[data-project-trigger]` attributes (`yolo`, `sibarista`, `kriptografi`, `portfolio`, `expense-tracker`, `partsbin`), opens `<dialog>` (`backdrop:bg-black/85`, no fullscreen backdrop blur) via `showModal()`, renders WAI-ARIA APG `Overview`/`Architecture`/`Stack` tabs with `lazyAnimate`, traps `Tab`/`Shift+Tab`, restores trigger focus on close, and animates via `@starting-style` + `transition-behavior: allow-discrete` (`[UNVERIFIED on Safari/Firefox]`).
+  - `CommandPalette.tsx` (`client:idle` in `MainPage.astro`, returns `null`): Prefetches `src/lib/commandPalette.ts` on pointer/focus of `#cmd-palette-open` and mounts an on-demand `<dialog>` command palette on click or `Ctrl/Cmd+K`, deriving project entries from `#projects-grid` DOM cards to avoid duplicating JSON in HTML.
 - **Cross-Cutting DOM Controllers (`public/js/`)**:
   - `main.js`: Exposes `window.openDirectEmail` and `window.copyEmailAddress` (updates `#clipboard-live` `aria-live`, toggles checkmark icon, syncs `aria-label` in copied state); binds `.theme-toggle-btn` (progressive `document.startViewTransition` crossfade, `[UNVERIFIED on Safari/Firefox]`), mobile drawer, and `IntersectionObserver` active-nav highlighting with `translate3d`/`scaleX` indicators (`#desktop-nav-indicator`, `#bottom-nav-indicator`) measured lazily on `load`/`fonts.ready`/`resize`.
   - `motion.js`: Checks `prefers-reduced-motion` (`html.reduced-motion`), runs `.scroll-reveal` `IntersectionObserver` fallback ONLY when `!CSS.supports('animation-timeline', 'view()')`, runs scroll progress `scaleX` fallback ONLY when `!CSS.supports('animation-timeline', 'scroll()')`, pauses `.status-dot-pulse` off-viewport, drives card cursor spotlight (`--mouse-x`/`--mouse-y`), and animates `#yolo-precision-counter` (`0%` -> `90%`).
@@ -109,10 +114,10 @@ flowchart LR
 ## 7. Data & Content Flow
 
 1. **Canonical Structured Data (`src/data/profile.json`)**: Stores bilingual `{ id, en }` strings, `public: boolean` flags, identity, summary, 1 education entry, 6 projects, 4 experiences, 6 skill categories, 6 certifications (including Google Cloud Computing Foundations Certificate), and 5 links.
-2. **Validation & Helpers (`src/data/schema.ts`, `src/data/profile.ts`)**: `ProfileSchema.parse(profileJson)` validates the JSON at Astro build time; `getLocalized(field, lang)` unwraps `{ value }` and `{ id, en }` objects.
-3. **Actual Component Consumption (Split Source — Known Tech Debt `F-007`)**:
-   - **Reads from `profile.ts`**: `BaseLayout` (name, links), `Hero` (availability status, unused `summaryText`), `Education` (degree, certs), `Experience` (title, institution, description, period, type), `Skills` (category titles & descriptions), `Projects` (card titles, descriptions, and tags for Cards 4–6).
-   - **Hardcoded in Components/Islands**: `About.astro` (all text), `Experience.astro` (all tag pills), `Skills.astro` (all skill items), `Projects.astro` (Cards 1–3 tags/badges/links, Cards 4–6 URLs), `ProjectFilter.tsx` (filter labels & counts), `ProjectModal.tsx` (`PROJECT_DETAILS` map with all 6 projects' metrics/highlights/links), `Navbar`/`Contact`/`Footer`/`main.js` (email & social URLs).
+2. **Validation & Unified Project Catalog (`src/data/schema.ts`, `src/data/profile.ts`, `src/data/projectCatalog.ts`)**: `ProfileSchema.parse(profileJson)` validates JSON at Astro build time; `getPublicProjectCatalog(lang)` merges `profile.json` project entries with technical specs so `Projects.astro` cards, `ProjectPeek`, and `ProjectModal` share a single source (`F-007` partially resolved).
+3. **Remaining Component Consumption (`F-007` follow-up)**:
+   - **Reads from `profile.ts` / `projectCatalog.ts`**: `BaseLayout`, `Hero`, `Education`, `Experience`, `Skills`, `Projects` (Cards 1–6 via `projectCatalog`), `ProjectPeek`, `ProjectModal` (`catalog` prop).
+   - **Still hardcoded in components**: `About.astro` (all text), `Experience.astro` (tag pills), `Skills.astro` (skill items), `CommandPalette` section list (`commandPalette.ts`), and email/social URLs.
    - Note: `public: boolean` in `schema.ts` is **not** filtered at runtime/build time by `profile.ts` selectors.
 
 ---
@@ -167,10 +172,10 @@ No global state library (Redux/Zustand/Nano Stores) is used. State is localized 
 
 ## 12. Performance Strategy
 
-- **Zero-JS by Default**: Static sections ship pure HTML; only 3 islands hydrate (`YoloDemo` on `client:visible`, `ProjectFilter` and `ProjectModal` on `client:idle`). Total Preact + island JS in `dist/_astro/` is ~48.2 KB raw (~19.8 KB gzip).
+- **Zero-JS by Default & Lazy Motion**: Static sections ship pure HTML; 6 islands hydrate selectively (`client:idle` or `client:visible`), while `motion/mini` (`14.12.0`, `4,373 B` gz measured in Vite) and `commandPalette.ts` load ONLY dynamically after LCP / user interaction.
 - **Asset Strategy**: Hero avatar uses `<picture>` with AVIF/WebP (`/images/profile-352.avif` ~11.6 KB, `.webp` ~12.5 KB) and `fetchpriority="high"`; `YoloDemo` uses responsive `480w`/`800w`/`1200w` AVIF/WebP with `loading="lazy"` (`~24-86 KB`). Unoptimized `/project-ai.jpg` (`1.45 MB`) and `/Kriptografi.jpg` (`440 KB`) remain as fallbacks.
 - **Font Loading**: Self-hosted Latin subset `.woff2` (`geist-latin.woff2` 29.4 KB preloaded, `jetbrains-mono-latin.woff2` 31.4 KB).
-- **Observed Budgets (`scripts/run-quality-gate.mjs` & `npm run test:motion`)**: Perf `>= 95`, A11y `100`, BP `100`, SEO `100`, CLS `< 0.05`, TBT `< 150ms`, Console Errors `0`, new JS `<= +6 KB` gz, new CSS `<= +4 KB` gz. Post-upgrade Lighthouse achieved Mobile Perf `98` (`LCP 2182ms`, `CLS 0.0018`, `TBT 4ms`) and Desktop Perf `100` (`LCP 486ms`, `CLS 0.0005`, `TBT 0ms`).
+- **Observed Tiered Budgets (`npm run test:motion`, Phase D vs `aa90c9b`)**: Critical JS `4,464 B` (`+0 / +3,072 B`), New Deferred JS `+12,426 / +30,720 B` (`page-total: 32,211 B` including pre-existing `19,785 B`), Inline CSS `11,235 B` (`+469 B` vs `aa90c9b`, `+1,590 B` vs `acf6c6b`), `afterLcp` enforced, `4x-CPU TBT < 250ms` (measured `46–181 ms`). Lighthouse Perf `>= 95`, A11y/BP/SEO `100`, CLS `<= 0.05`.
 
 ---
 
@@ -233,6 +238,11 @@ No global state library (Redux/Zustand/Nano Stores) is used. State is localized 
    - *Why*: Fails the Astro build immediately on malformed content rather than silently rendering `undefined`.
    - *Alternatives*: Plain TypeScript interfaces without runtime checks; headless CMS.
    - *Consequences*: Strong data integrity where `profile.ts` is used, though several components currently bypass `profile.ts` (`F-007`).
+
+5. **ADR-005: Stay on Astro 7 + Preact 11 & Lazy-Load `motion/mini` (`DECISION_REPORT.md`)**
+   - *Context*: After shipping CSS/vanilla motion (`feat/motion-ux-upgrade`), interactive depth lagged behind Next.js/React benchmarks while Mobile Perf stood at 98.
+   - *Decision*: Keep Astro 7 + Preact 11 and add `motion@14.12.0` (`motion/mini`, `4,373 B` gz, MIT, lazy-imported only on interaction via `src/lib/lazyMotion.ts`); reject `gsap@3.15.1` (`49,016 B` gz, non-MIT license) and `lenis@1.3.28` (`6,099 B` gz, `< 14d` release age, `+10 ms` LH TBT overhead to `105 ms`).
+   - *Consequences*: `0 B` added to critical LCP path (`Critical JS +0 B`), full interactive islands (`HeroFocusConsole`, `CipherPreview`, `ProjectFilter` FLIP, `ProjectModal` tabs, `CommandPalette`), and reversible per-commit rollout.
 
 ---
 

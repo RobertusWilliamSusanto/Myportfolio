@@ -13,13 +13,16 @@ import Footer from './Footer.astro';
 import BottomNav from './BottomNav.astro';
 import ChatbotMount from './ChatbotMount.astro';
 import ProjectModal from '../islands/ProjectModal';
+import CommandPalette from '../islands/CommandPalette';
 import type { Lang } from '../data/profile';
+import { getPublicProjectCatalog } from '../data/projectCatalog';
 
 interface Props {
   lang?: Lang;
 }
 
 const { lang = 'id' } = Astro.props;
+const projectCatalog = getPublicProjectCatalog(lang);
 
 const pageTitle = lang === 'id'
   ? 'Robertus William Susanto — Portofolio'
@@ -74,7 +77,10 @@ const pageDesc = lang === 'id'
   <BottomNav lang={lang} />
 
   <!-- Project Detail Modal Island (Preact Client-Side Portal) -->
-  <ProjectModal client:idle lang={lang} />
+  <ProjectModal client:idle lang={lang} catalog={projectCatalog} />
+
+  <!-- Lazy Command Palette Controller (0 B on-demand dialog until Ctrl+K or click) -->
+  <CommandPalette client:idle lang={lang} />
 
   <!-- AI Chatbot Island -->
   <ChatbotMount />
