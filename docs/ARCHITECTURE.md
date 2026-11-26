@@ -74,6 +74,7 @@ flowchart LR
 | `src/js/` | Leftover copies of `motion.js` and `theme.js` | **Unused** (duplicated in `public/js/`) |
 | `public/` | Static assets copied directly to `dist/`: `fonts/`, `images/`, `js/{main,motion,theme}.js`, `CV.pdf`, `robots.txt`, `sitemap.xml`, legacy `css/style.css`, unused Next.js SVGs, uncompressed JPG/PNGs | Served from `/` by Astro & Vercel (`theme.js` unused) |
 | `api/` | `api/README.md` reserving future Vercel serverless functions (e.g., AI chatbot) | Reserved; no active `.ts`/`.js` endpoints |
+| `docs/` | Technical documentation (`AGENT.md`, `ARCHITECTURE.md`, `AUDIT_REPORT.md`, `DECISION_REPORT.md`) | Human & AI onboarding/audit docs; zero runtime coupling |
 | `tests/` | `test-functional.mjs`, `test-content-parity.mjs`, `test-motion-budgets.mjs` (`npm run test:motion`), fixtures & allowlist | Executed via `node tests/...` and `npm run test:motion` |
 | `scripts/` | 16 `.js`/`.mjs` QA, Lighthouse, visual-diff, fixture-generation, and legacy-build scripts | Executed manually; not wired into `npm test` |
 | `app/`, `components/` | Leftover Next.js 16 App Router pages (`layout.tsx`, `page.tsx`, `robots.ts`, `sitemap.ts`) and React components | **Dead code** (unused by Astro build) |

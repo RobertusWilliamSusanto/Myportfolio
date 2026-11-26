@@ -47,6 +47,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) §4 for the full annotated tree. Key acti
 - `src/data/{profile.json,schema.ts,profile.ts,projectCatalog.ts}` — Zod-validated bilingual profile & unified public project catalog
 - `src/styles/{global,motion}.css` — Tailwind v4 `@theme` tokens & motion CSS (`[UNVERIFIED on Safari/Firefox]` for `animation-timeline`, `@starting-style`, `:has()`, View Transitions)
 - `public/` — Fonts, images, `CV.pdf`, `js/{main,motion}.js`, `robots.txt`, `sitemap.xml`
+- `docs/` — Architecture, audit, decision, and operating manuals (`AGENT.md`, `ARCHITECTURE.md`, `AUDIT_REPORT.md`, `DECISION_REPORT.md`)
 - `tests/` — Puppeteer functional & content-parity checks
 
 ---
@@ -160,7 +161,7 @@ const sectionTag = lang === 'id' ? 'LANDASAN AKADEMIK' : 'ACADEMIC FOUNDATION';
 - [ ] Responsive verified at `360px`, `390px`, `768px`, `1440px` in both dark and light modes.
 - [ ] Reduced-motion (`prefers-reduced-motion: reduce`) and keyboard navigation (Tab, Enter, Escape on modal) verified.
 - [ ] Lighthouse targets met (`Perf >= 95`, `A11y = 100` with `0` failed audits, `BP = 100`, `SEO = 100`).
-- [ ] `ARCHITECTURE.md` / `AGENT.md` updated if structure, commands, or playbooks changed.
+- [ ] `docs/ARCHITECTURE.md` / `docs/AGENT.md` updated if structure, commands, or playbooks changed.
 
 ---
 
@@ -196,9 +197,9 @@ const sectionTag = lang === 'id' ? 'LANDASAN AKADEMIK' : 'ACADEMIC FOUNDATION';
 ## 12. Sources of Truth (Conflict Resolution Order)
 1. **Runtime & Build Configs**: `package.json`, `package-lock.json`, `astro.config.mjs`, `tsconfig.json`, `vercel.json` (authoritative for versions, routes, build, headers).
 2. **Profile & Schema**: `src/data/schema.ts` + `src/data/profile.json` (authoritative for verified biographical/project facts; cross-check `tests/allowlist-approved-diffs.json`).
-3. **Architecture & Agent Docs**: `ARCHITECTURE.md` and `AGENT.md` (must match #1 and #2).
+3. **Architecture & Agent Docs**: `docs/ARCHITECTURE.md` and `docs/AGENT.md` (must match #1 and #2).
 
 ---
 
 ## 13. Maintenance Rule
-Whenever you add/remove a dependency, change build/test scripts, add a route/island/data field, or resolve an audit finding (`F-001`–`F-017`), **update `ARCHITECTURE.md` and `AGENT.md` in the same PR** so neither document drifts from the codebase.
+Whenever you add/remove a dependency, change build/test scripts, add a route/island/data field, or resolve an audit finding (`F-001`–`F-017`), **update `docs/ARCHITECTURE.md` and `docs/AGENT.md` in the same PR** so neither document drifts from the codebase.
