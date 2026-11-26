@@ -424,3 +424,29 @@ button:disabled {
     transform: none !important;
   }
 }
+
+/* Transform-Only Sliding Active Navigation Indicator */
+.nav-indicator {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: 2px;
+  border-radius: 9999px;
+  background-color: var(--secondary);
+  transform-origin: left center;
+  transform: translate3d(0, 0, 0) scaleX(0);
+  opacity: 0;
+  transition: transform var(--duration-base) var(--ease-standard), opacity var(--duration-fast) ease;
+}
+
+.nav-indicator-top {
+  bottom: auto;
+  top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-indicator {
+    transition: none !important;
+  }
+}

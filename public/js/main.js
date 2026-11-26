@@ -99,11 +99,56 @@ document.addEventListener('DOMContentLoaded', function() {
     link.addEventListener('click', closeDrawer);
   });
 
-  // 3. Zero-Reflow IntersectionObserver for Active Section Highlighting
+  // 3. Zero-Reflow IntersectionObserver for Active Section Highlighting + Transform Indicator
+  var desktopNav = document.getElementById('desktop-nav');
   var desktopNavLinks = document.querySelectorAll('#desktop-nav a');
+  var desktopIndicator = document.getElementById('desktop-nav-indicator');
+  var bottomTrack = document.getElementById('bottom-nav-track');
   var bottomNavLinks = document.querySelectorAll('#bottom-nav a');
+  var bottomIndicator = document.getElementById('bottom-nav-indicator');
+
+  var navCache = { desktop: {}, bottom: {} };
+  var currentActiveId = null;
+  var hasMeasured = false;
+
+  function measureNavGroup(container, links) {
+    var map = {};
+    if (!container) return map;
+    var cRect = container.getBoundingClientRect();
+    if (cRect.width === 0) return map;
+    links.forEach(function(a) {
+      var href = a.getAttribute('href');
+      var r = a.getBoundingClientRect();
+      if (href && r.width > 0) {
+        map[href] = { x: Math.round((r.left - cRect.left) * 10) / 10, w: Math.round(r.width * 10) / 10 };
+      }
+    });
+    return map;
+  }
+
+  function applyIndicator(indicator, metrics) {
+    if (!indicator) return;
+    if (metrics && metrics.w > 0) {
+      indicator.style.transform = 'translate3d(' + metrics.x + 'px, 0, 0) scaleX(' + metrics.w + ')';
+      indicator.style.opacity = '1';
+    } else {
+      indicator.style.opacity = '0';
+    }
+  }
+
+  function measureAllNavs() {
+    hasMeasured = true;
+    navCache.desktop = measureNavGroup(desktopNav, desktopNavLinks);
+    navCache.bottom = measureNavGroup(bottomTrack, bottomNavLinks);
+    if (currentActiveId) {
+      applyIndicator(desktopIndicator, navCache.desktop['#' + currentActiveId]);
+      applyIndicator(bottomIndicator, navCache.bottom['#' + currentActiveId]);
+    }
+  }
 
   function setActive(id) {
+    currentActiveId = id;
+    if (!hasMeasured) measureAllNavs();
     desktopNavLinks.forEach(function(a) {
       if (a.getAttribute('href') === '#' + id) {
         a.classList.add('text-primary', 'bg-surface-container');
@@ -127,7 +172,32 @@ document.addEventListener('DOMContentLoaded', function() {
         a.removeAttribute('aria-current');
       }
     });
+
+    applyIndicator(desktopIndicator, navCache.desktop['#' + id]);
+    applyIndicator(bottomIndicator, navCache.bottom['#' + id]);
   }
+
+  function scheduleMeasure() {
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(measureAllNavs, { timeout: 500 });
+    } else {
+      setTimeout(measureAllNavs, 50);
+    }
+  }
+
+  if (document.readyState === 'complete') {
+    scheduleMeasure();
+  } else {
+    window.addEventListener('load', scheduleMeasure, { once: true });
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(scheduleMeasure);
+  }
+  var resizeRaf = 0;
+  window.addEventListener('resize', function() {
+    if (resizeRaf) cancelAnimationFrame(resizeRaf);
+    resizeRaf = requestAnimationFrame(measureAllNavs);
+  }, { passive: true });
 
   var sectionIds = ['about', 'projects', 'experience', 'skills', 'education', 'contact'];
   if ('IntersectionObserver' in window) {

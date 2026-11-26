@@ -31,13 +31,14 @@ const switchAria = lang === 'id' ? 'EN — Switch language to English' : 'ID —
     </div>
 
     <!-- Desktop Nav Links -->
-    <nav id="desktop-nav" class="hidden lg:flex items-center gap-1" aria-label="Main Navigation">
+    <nav id="desktop-nav" class="hidden lg:flex items-center gap-1 relative" aria-label="Main Navigation">
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#about">{aboutLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#projects">{projectsLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#experience">{expLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#skills">{skillsLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#education">{eduLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#contact">{contactLabel}</a>
+      <span id="desktop-nav-indicator" class="nav-indicator pointer-events-none" aria-hidden="true"></span>
     </nav>
 
     <!-- Action Buttons -->
