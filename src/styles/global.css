@@ -39,6 +39,7 @@
   --secondary-container: #064e3b;
   --secondary-fixed: #a7f3d0;
   --secondary-fixed-dim: #6ee7b7;
+  --dot-color: rgba(255, 255, 255, 0.045);
 
   /* Motion Design Tokens */
   --duration-instant: 100ms;
@@ -74,6 +75,7 @@ html.light {
   --secondary-container: #d1fae5;
   --secondary-fixed: #065f46;
   --secondary-fixed-dim: #047857;
+  --dot-color: rgba(18, 18, 18, 0.06);
 }
 
 @theme {
