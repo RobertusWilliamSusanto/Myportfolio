@@ -1,11 +1,10 @@
 /* ==========================================================================
-   Antigravity Motion System: E1 Hero Name H1
-   - Strictly transform & opacity only
-   - Safe BEM classes (zero Tailwind utility conflicts)
-   - Zero layout shift (CLS = 0)
-   - Padding/margin block to prevent ascender/descender clipping
+   Antigravity Motion System - Tokenized, Compositor-Only
+   - Strictly transform, opacity & clip-path only
+   - Zero layout shift (CLS ~ 0)
    ========================================================================== */
 
+/* --- E1: Hero Name H1 --- */
 .hero-word {
   display: inline-block;
   overflow: hidden;
@@ -24,26 +23,11 @@
 .hero-word:nth-child(3) .hero-word-inner { animation-delay: 160ms; }
 
 @keyframes hero-word-slide {
-  0% {
-    transform: translateY(105%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  0% { transform: translateY(105%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-word-inner {
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-}
-
-
-/* --- E2: Pulsing Availability Dot (Ladder A, paused offscreen & on hover/focus) --- */
+/* --- E2: Pulsing Availability Dot (paused offscreen & on hover/focus) --- */
 .status-dot-pulse {
   position: relative;
   display: inline-flex;
@@ -70,25 +54,11 @@
 }
 
 @keyframes dot-pulse-ring {
-  0% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(2.4);
-    opacity: 0;
-  }
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .status-dot-pulse::after {
-    animation: none !important;
-    display: none !important;
-  }
-}
-
-
-/* --- E3: Mono Label Typing Reveal (Compositor clip-path, zero layout width animation) --- */
+/* --- E3: Mono Label Typing Reveal (Compositor clip-path, zero width animation) --- */
 .hero-mono-container {
   min-height: 1.5rem;
   display: flex;
@@ -127,14 +97,8 @@
 }
 
 @keyframes hero-settle-in {
-  from {
-    opacity: 0;
-    transform: translateY(var(--motion-distance-sm));
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(var(--motion-distance-sm)); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 639px) {
@@ -150,24 +114,7 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-mono-typing {
-    clip-path: none !important;
-    border-right: none !important;
-    white-space: normal !important;
-    animation: none !important;
-    opacity: 1 !important;
-  }
-  .hero-settle {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-
 /* --- E4: Below-The-Fold Scroll Reveal (Mutually exclusive view() vs IO fallback) --- */
-/* No-JS safety: opacity stays 1 unless html.js is active or view() completes */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     html.js:not(.reduced-motion) .scroll-reveal:not(.revealed):not(.filter-enter) {
@@ -176,14 +123,8 @@
       animation-range: entry 0px entry 140px;
     }
     @keyframes scroll-reveal-view {
-      from {
-        opacity: 0;
-        transform: translateY(var(--motion-distance-md));
-      }
-      to {
-        opacity: 1;
-        transform: none;
-      }
+      from { opacity: 0; transform: translateY(var(--motion-distance-md)); }
+      to { opacity: 1; transform: none; }
     }
   }
 }
@@ -202,18 +143,7 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .scroll-reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-    animation: none !important;
-  }
-}
-
-
-/* --- E5: Light Extras --- */
-/* 1. Hero Radial Gradient Glow (Static Depth) */
+/* --- E5: Scroll Progress, Timeline, Spotlight & Lift --- */
 .hero-glow {
   position: absolute;
   top: 15%;
@@ -230,7 +160,6 @@ html.light .hero-glow {
   background: radial-gradient(circle 380px at 50% 30%, rgba(5, 150, 105, 0.06) 0%, rgba(5, 150, 105, 0.02) 45%, transparent 70%);
 }
 
-/* 2. Scroll Progress Bar (CSS scroll timeline + compositor fallback) */
 #scroll-progress {
   display: none;
   position: fixed;
@@ -262,7 +191,6 @@ html.light .hero-glow {
   }
 }
 
-/* 3. Timeline Vertical Line Draw (CSS view timeline) */
 .timeline-draw-line {
   transform-origin: top;
 }
@@ -279,7 +207,6 @@ html.light .hero-glow {
   }
 }
 
-/* 4. Card Hover & Focus-Within Spotlight + Tactile Lift (scoped will-change, no box-shadow animation) */
 .card-interactive,
 .hover-lift {
   position: relative;
@@ -354,25 +281,7 @@ html.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:active {
   transition-duration: var(--duration-instant);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  #scroll-progress {
-    display: none !important;
-  }
-  .timeline-draw-line {
-    transform: scaleY(1) !important;
-    animation: none !important;
-  }
-  .card-interactive,
-  .hover-lift {
-    transform: none !important;
-    will-change: auto !important;
-  }
-  .card-interactive::after {
-    display: none !important;
-  }
-}
-
-/* I2 Project Filter Transitions (Clean grid reflow + compositor-only enter) */
+/* --- I2: Project Filter Transitions --- */
 #projects-grid [data-domain][hidden],
 #projects-grid[data-active-filter="ai"] [data-domain]:not([data-domain~="ai"]),
 #projects-grid[data-active-filter="backend"] [data-domain]:not([data-domain~="backend"]),
@@ -382,28 +291,16 @@ html.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:active {
 }
 
 @keyframes filter-card-in {
-  0% {
-    opacity: 0;
-    transform: translateY(10px) scale(0.985);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  0% { opacity: 0; transform: translateY(10px) scale(0.985); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 #projects-grid [data-domain].filter-enter {
-  animation: filter-card-in 250ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: filter-card-in var(--duration-base) var(--ease-standard) both;
   animation-delay: var(--filter-stagger, 0ms);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  #projects-grid [data-domain].filter-enter {
-    animation: none !important;
-  }
-}
-
-/* Unified Interactive Button & Link States */
+/* --- Unified Interactive Button & Link States --- */
 .btn-interactive {
   transition:
     transform var(--duration-fast) var(--ease-standard),
@@ -438,17 +335,7 @@ button:disabled {
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .btn-interactive {
-    transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease, border-color var(--duration-fast) ease, opacity var(--duration-fast) ease !important;
-  }
-  .btn-interactive:hover:not(:disabled),
-  .btn-interactive:active:not(:disabled) {
-    transform: none !important;
-  }
-}
-
-/* Transform-Only Sliding Active Navigation Indicator */
+/* --- Transform-Only Sliding Active Navigation Indicator --- */
 .nav-indicator {
   position: absolute;
   left: 0;
@@ -468,13 +355,7 @@ button:disabled {
   top: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .nav-indicator {
-    transition: none !important;
-  }
-}
-
-/* Skill Matrix Chips Hover & Focus Parity */
+/* --- Skill Matrix Chips --- */
 .skill-chip {
   border: 1px solid transparent;
   transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) ease, color var(--duration-fast) ease;
@@ -495,16 +376,7 @@ button:disabled {
   border-color: rgba(52, 211, 153, 0.25);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .skill-chip {
-    transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease !important;
-  }
-  .skill-chip:hover {
-    transform: none !important;
-  }
-}
-
-/* Native <dialog> Open/Close Transition (Progressive @starting-style + allow-discrete) */
+/* --- Native <dialog> Open/Close Transition --- */
 dialog.project-dialog {
   opacity: 0;
   transform: translateY(var(--motion-distance-sm)) scale(0.98);
@@ -545,18 +417,56 @@ dialog.project-dialog[open]::backdrop {
   }
 }
 
+/* --- Simplified Crossfade Theme View Transition --- */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--duration-fast);
+  }
+}
+
+/* --- Consolidated Reduced-Motion Safeguards --- */
 @media (prefers-reduced-motion: reduce) {
+  .hero-word-inner,
+  .hero-mono-typing,
+  .hero-settle,
+  .scroll-reveal,
+  .timeline-draw-line,
+  #projects-grid [data-domain].filter-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-mono-typing {
+    clip-path: none !important;
+    border-right: none !important;
+    white-space: normal !important;
+  }
+  .status-dot-pulse::after,
+  #scroll-progress,
+  .card-interactive::after {
+    animation: none !important;
+    display: none !important;
+  }
+  .scroll-reveal,
+  .nav-indicator,
   dialog.project-dialog,
   dialog.project-dialog::backdrop {
     transition: none !important;
     transform: none !important;
   }
-}
-
-/* Simplified Crossfade Theme View Transition (skipped under reduced motion) */
-@media (prefers-reduced-motion: no-preference) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: var(--duration-fast);
+  .card-interactive,
+  .hover-lift {
+    transform: none !important;
+    will-change: auto !important;
+  }
+  .btn-interactive,
+  .skill-chip {
+    transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease, border-color var(--duration-fast) ease, opacity var(--duration-fast) ease !important;
+  }
+  .btn-interactive:hover:not(:disabled),
+  .btn-interactive:active:not(:disabled),
+  .skill-chip:hover {
+    transform: none !important;
   }
 }
