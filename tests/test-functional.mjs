@@ -232,7 +232,35 @@ async function run() {
         const brandHeight = await p.$eval('header a[href="#about"] span', (el) => el.getBoundingClientRect().height);
         if (brandHeight > 26) throw new Error(`Navbar brand wrapped onto multiple lines at width ${w}px (${brandHeight}px)`);
       }
-      console.log('  ✓ No-JS SSR fallback and 360/390/768/1440 responsive checks passed');
+      // Verify desktop sibling spotlight (:has()) dims sibling on hover and resets under reduced motion
+      await p.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'no-preference' }]);
+      await p.setViewport({ width: 1440, height: 844 });
+      await p.goto(idUrl, { waitUntil: 'load' });
+      const cards = await p.$$('#projects-grid .card-interactive');
+      if (cards.length < 2) throw new Error('Expected at least 2 project cards for sibling spotlight check');
+      await p.evaluate(() => document.querySelectorAll('#projects-grid .card-interactive')[0].scrollIntoView({ block: 'center' }));
+      await cards[0].hover();
+      await p.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+      await new Promise((r) => setTimeout(r, 320));
+      const siblingOpacity = await p.evaluate(() => {
+        const list = document.querySelectorAll('#projects-grid .card-interactive');
+        const target = list[1]?.firstElementChild || list[1];
+        return Number.parseFloat(getComputedStyle(target).opacity);
+      });
+      if (siblingOpacity > 0.85) {
+        throw new Error(`Expected sibling card dimmed on desktop hover via :has(), got opacity=${siblingOpacity}`);
+      }
+      await p.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+      await new Promise((r) => setTimeout(r, 120));
+      const reducedSiblingOpacity = await p.evaluate(() => {
+        const list = document.querySelectorAll('#projects-grid .card-interactive');
+        const target = list[1]?.firstElementChild || list[1];
+        return Number.parseFloat(getComputedStyle(target).opacity);
+      });
+      if (reducedSiblingOpacity < 0.99) {
+        throw new Error(`Expected reduced-motion sibling opacity 1, got ${reducedSiblingOpacity}`);
+      }
+      console.log('  ✓ No-JS SSR fallback, 360/390/768/1440 responsive checks & sibling spotlight passed');
     } finally {
       await browser.close();
     }

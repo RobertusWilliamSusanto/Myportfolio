@@ -271,6 +271,15 @@ html.light.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:focus-with
   .group:hover .img-zoom {
     transform: scale(1.035);
   }
+
+  /* Desktop sibling spotlight via :has() [UNVERIFIED on Safari/Firefox] */
+  html:not(.reduced-motion) #projects-grid .card-interactive > * {
+    transition: opacity var(--duration-base) ease;
+  }
+
+  html:not(.reduced-motion) #projects-grid:has(.card-interactive:hover) .card-interactive:not(:hover) > * {
+    opacity: 0.68;
+  }
 }
 
 .card-interactive:active,
@@ -486,6 +495,10 @@ dialog.project-dialog[open]::backdrop {
   .hover-lift {
     transform: none !important;
     will-change: auto !important;
+  }
+  #projects-grid:has(.card-interactive:hover) .card-interactive:not(:hover) > * {
+    transition: none !important;
+    opacity: 1 !important;
   }
   .btn-interactive,
   .skill-chip {
