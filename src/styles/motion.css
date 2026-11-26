@@ -279,12 +279,43 @@ html.light .hero-glow {
   }
 }
 
-/* 4. Desktop-only Card Hover Spotlight & Tactile Pop-Up Lift */
+/* 4. Card Hover & Focus-Within Spotlight + Tactile Lift (scoped will-change, no box-shadow animation) */
 .card-interactive,
 .hover-lift {
   position: relative;
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--duration-base) var(--ease-standard), border-color var(--duration-fast) ease;
+}
+
+.card-interactive::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 25%), rgba(52, 211, 153, 0.12), transparent 80%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+  z-index: 2;
+}
+
+.card-interactive:focus-within,
+.hover-lift:focus-within,
+html.js:not(.reduced-motion) .scroll-reveal.revealed.card-interactive:focus-within,
+html.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:focus-within {
+  transform: translateY(-4px);
+  border-color: rgba(52, 211, 153, 0.45);
   will-change: transform;
+}
+
+html.light .card-interactive:focus-within,
+html.light .hover-lift:focus-within,
+html.light.js:not(.reduced-motion) .scroll-reveal.revealed.card-interactive:focus-within,
+html.light.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:focus-within {
+  border-color: rgba(5, 150, 105, 0.45);
+}
+
+.card-interactive:focus-within::after {
+  opacity: 1;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -295,6 +326,7 @@ html.light .hero-glow {
     transform: translateY(-5px) scale(1.008);
     border-color: rgba(52, 211, 153, 0.45);
     box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(52, 211, 153, 0.15);
+    will-change: transform;
   }
 
   html.light .card-interactive:hover,
@@ -305,17 +337,6 @@ html.light .hero-glow {
     border-color: rgba(5, 150, 105, 0.45);
   }
 
-  .card-interactive::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(350px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(52, 211, 153, 0.12), transparent 80%);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 250ms ease;
-    z-index: 2;
-  }
   .card-interactive:hover::after {
     opacity: 1;
   }
@@ -330,7 +351,7 @@ html.light .hero-glow {
 html.js:not(.reduced-motion) .scroll-reveal.revealed.card-interactive:active,
 html.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:active {
   transform: translateY(-1px) scale(0.996);
-  transition-duration: 90ms;
+  transition-duration: var(--duration-instant);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -341,8 +362,10 @@ html.js:not(.reduced-motion) .scroll-reveal.revealed.hover-lift:active {
     transform: scaleY(1) !important;
     animation: none !important;
   }
-  .card-interactive {
+  .card-interactive,
+  .hover-lift {
     transform: none !important;
+    will-change: auto !important;
   }
   .card-interactive::after {
     display: none !important;
