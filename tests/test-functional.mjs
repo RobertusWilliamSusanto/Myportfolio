@@ -142,7 +142,11 @@ async function testPage(pageUrl, lang) {
   if (customOut !== 'DEF') {
     throw new Error(`[${lang}] CipherPreview Caesar(ABC) expected DEF, got "${customOut}"`);
   }
-  console.log(`  ✓ [${lang}] CipherPreview interactive encryption verified (${cipherOut})`);
+  const archStrips = await page.$$('#projects .arch-strip');
+  if (archStrips.length !== 4) {
+    throw new Error(`[${lang}] Expected 4 architecture preview strips, got ${archStrips.length}`);
+  }
+  console.log(`  ✓ [${lang}] CipherPreview & ArchitectureStrips verified (${customOut}, ${archStrips.length} strips)`);
 
   // 3. Project modal trigger can open dialog
   const firstTrigger = await page.$('#projects [data-project-trigger]');

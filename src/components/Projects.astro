@@ -3,6 +3,7 @@ import YoloDemo from '../islands/YoloDemo';
 import CipherPreview from '../islands/CipherPreview';
 import ProjectFilter from '../islands/ProjectFilter';
 import ProjectPeek from './ProjectPeek.astro';
+import ArchitectureStrip from './ArchitectureStrip.astro';
 import { projects, getLocalized, type Lang } from '../data/profile';
 import { getPublicProjectCatalog, type ProjectCatalogItem } from '../data/projectCatalog';
 
@@ -26,6 +27,14 @@ const card6 = projects[5];
 
 const openLiveDemoText = lang === 'id' ? 'Buka Live Demo' : 'Open Live Demo';
 const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
+const archLabel = lang === 'id' ? 'ALUR ARSITEKTUR SISTEM' : 'SYSTEM ARCHITECTURE FLOW';
+
+const archFlows = {
+  sibarista: ['Public API', 'NestJS + JWT & RBAC', 'Prisma ORM', 'PostgreSQL (Neon) + Cloudinary'],
+  portfolio: ['profile.json + Zod', 'Astro 7 SSG', 'Preact Islands', 'Tailwind CSS'],
+  'expense-tracker': ['Python', 'Data Management', lang === 'id' ? 'Kalkulasi Anggaran' : 'Budget Calculations'],
+  partsbin: [lang === 'id' ? 'Katalog & Laci (Bin)' : 'Catalog & Bins', 'BOM Calculator', 'Supabase PG', 'Workbox PWA']
+};
 ---
 <!-- SELECTED PROJECTS (BENTO GRID SECTION) -->
 <section id="projects" class="scroll-reveal relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-16 border-t border-outline-variant/20" aria-label={sectionTitle}>
@@ -112,6 +121,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
             <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">JWT</span>
             <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Cloudinary</span>
           </div>
+          <ArchitectureStrip title={archLabel} nodes={archFlows.sibarista} />
           {specByTrigger.sibarista && <ProjectPeek item={specByTrigger.sibarista} lang={lang} />}
         </div>
         <div class="p-6 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
@@ -207,6 +217,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
               <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
             ))}
           </div>
+          <ArchitectureStrip title={archLabel} nodes={archFlows.portfolio} />
           {specByTrigger.portfolio && <ProjectPeek item={specByTrigger.portfolio} lang={lang} />}
         </div>
         <div class="p-6 md:p-8 flex flex-wrap items-center justify-between gap-4 border-t border-outline-variant/20 pt-4">
@@ -261,6 +272,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
               <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
             ))}
           </div>
+          <ArchitectureStrip title={archLabel} nodes={archFlows['expense-tracker']} />
           {specByTrigger['expense-tracker'] && <ProjectPeek item={specByTrigger['expense-tracker']} lang={lang} />}
         </div>
         <div class="p-6 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
@@ -304,6 +316,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
               <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
             ))}
           </div>
+          <ArchitectureStrip title={archLabel} nodes={archFlows.partsbin} />
           {specByTrigger.partsbin && <ProjectPeek item={specByTrigger.partsbin} lang={lang} />}
         </div>
         <div class="p-6 md:p-8 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
