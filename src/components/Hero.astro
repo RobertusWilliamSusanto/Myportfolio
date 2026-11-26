@@ -1,5 +1,7 @@
 ---
+import HeroFocusConsole, { type ConsoleTab } from '../islands/HeroFocusConsole';
 import { profile, getLocalized, type Lang } from '../data/profile';
+import { getPublicProjectCatalog } from '../data/projectCatalog';
 
 interface Props {
   lang?: Lang;
@@ -12,9 +14,83 @@ const roleTag = lang === 'id'
   ? 'Mahasiswa Teknik Komputer // Universitas Diponegoro'
   : 'Computer Engineering Student // Diponegoro University';
 
-const summaryText = lang === 'id'
-  ? profile.summary.id.value
-  : profile.summary.en.value;
+const catalog = getPublicProjectCatalog(lang);
+const yolo = catalog.find((p) => p.triggerId === 'yolo');
+const sibarista = catalog.find((p) => p.triggerId === 'sibarista');
+const kripto = catalog.find((p) => p.triggerId === 'kriptografi');
+const partsbin = catalog.find((p) => p.triggerId === 'partsbin');
+
+const consoleTabs: ConsoleTab[] = lang === 'id'
+  ? [
+      {
+        id: 'overview',
+        label: 'Ringkasan',
+        heading: 'FOKUS SISTEM // VERIFIED PROFILE',
+        items: [
+          `${catalog.length} proyek teknis tervalidasi lintas AI Vision, Backend API, Security, & PWA.`,
+          `${yolo?.title}: ${yolo?.badge} (${yolo?.techStack.join(', ')}).`
+        ],
+        actionLabel: 'Lihat Proyek ↗',
+        triggerId: 'yolo'
+      },
+      {
+        id: 'vision',
+        label: 'AI & Vision',
+        heading: `${yolo?.title} — ${yolo?.badge}`,
+        items: [
+          yolo?.description || '',
+          `Stack: ${yolo?.techStack.join(' • ')}`
+        ],
+        actionLabel: 'Detail YOLO ↗',
+        triggerId: 'yolo'
+      },
+      {
+        id: 'backend',
+        label: 'Backend & Web',
+        heading: `${sibarista?.title} & ${partsbin?.title}`,
+        items: [
+          `${sibarista?.badge}: ${sibarista?.techStack.join(', ')}`,
+          `${kripto?.title}: ${kripto?.techStack.slice(0, 4).join(', ')} • ${partsbin?.badge}`
+        ],
+        actionLabel: 'Detail SIBARISTA ↗',
+        triggerId: 'sibarista'
+      }
+    ]
+  : [
+      {
+        id: 'overview',
+        label: 'Overview',
+        heading: 'SYSTEM FOCUS // VERIFIED PROFILE',
+        items: [
+          `${catalog.length} verified engineering artifacts spanning AI Vision, Backend APIs, Security, & PWA.`,
+          `${yolo?.title}: ${yolo?.badge} (${yolo?.techStack.join(', ')}).`
+        ],
+        actionLabel: 'Inspect YOLO ↗',
+        triggerId: 'yolo'
+      },
+      {
+        id: 'vision',
+        label: 'AI & Vision',
+        heading: `${yolo?.title} — ${yolo?.badge}`,
+        items: [
+          yolo?.description || '',
+          `Stack: ${yolo?.techStack.join(' • ')}`
+        ],
+        actionLabel: 'YOLO Specs ↗',
+        triggerId: 'yolo'
+      },
+      {
+        id: 'backend',
+        label: 'Backend & Web',
+        heading: `${sibarista?.title} & ${partsbin?.title}`,
+        items: [
+          `${sibarista?.badge}: ${sibarista?.techStack.join(', ')}`,
+          `${kripto?.title}: ${kripto?.techStack.slice(0, 4).join(', ')} • ${partsbin?.badge}`
+        ],
+        actionLabel: 'SIBARISTA Specs ↗',
+        triggerId: 'sibarista'
+      }
+    ];
 
 const viewProjectsText = lang === 'id' ? 'Lihat Proyek' : 'View Projects';
 const downloadCvText = lang === 'id' ? 'Unduh CV' : 'Download CV';
@@ -22,7 +98,7 @@ const copiedFeedback = lang === 'id' ? 'TERSALIN KE CLIPBOARD!' : 'COPIED TO CLI
 const copyEmailAria = lang === 'id' ? 'robertuswilliamsusanto@gmail.com — Salin alamat email' : 'robertuswilliamsusanto@gmail.com — Copy email address';
 ---
 <!-- HERO SECTION -->
-<section class="relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 pt-16 pb-16 md:py-24 flex flex-col items-center text-center justify-center" aria-label="Hero Introduction">
+<section class="relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 pt-10 pb-14 md:pt-14 md:pb-20 flex flex-col items-center text-center justify-center" aria-label="Hero Introduction">
   <!-- Status Pill with Compositor-Only Radar Pulse (E2 Ladder A) -->
   <div class="hero-status-pill hero-settle inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface-container-high border border-outline-variant/40 mb-8 shadow-sm" style="--hero-delay: 40ms;">
     <span class="relative flex h-2.5 w-2.5 items-center justify-center" aria-hidden="true">
@@ -100,5 +176,8 @@ const copyEmailAria = lang === 'id' ? 'robertuswilliamsusanto@gmail.com — Sali
       <span class="copy-label font-mono text-xs">robertuswilliamsusanto@gmail.com</span>
     </button>
   </div>
+
+  <!-- Interactive Engineering Focus Console (Moment #1: client:idle, SSR fallback) -->
+  <HeroFocusConsole client:idle lang={lang} tabs={consoleTabs} />
 
 </section>
