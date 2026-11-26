@@ -1,7 +1,7 @@
 {
   "_source": "backup-pre-i18n",
   "_generator": "scripts/generate-snapshot-fixture.mjs",
-  "generated_at": "2026-11-09",
+  "generated_at": "2026-11-26",
   "identity": {
     "name": "Robertus William Susanto",
     "email": "robertuswilliamsusanto@gmail.com",
@@ -96,6 +96,22 @@
       ],
       "description_id": "Aplikasi pelacak pengeluaran otomatis dan perkakas produktivitas berbasis Python untuk pembukuan terstruktur dan penganggaran keuangan pribadi.",
       "description_en": "Automated expense tracker and Python-based productivity tools for structured bookkeeping and personal financial budgeting."
+    },
+    {
+      "id": "partsbin-inventory-bom",
+      "title_id": "PartsBin — Katalog Komponen & Kalkulator BOM",
+      "title_en": "PartsBin — Component Catalog & BOM Calculator",
+      "badge": "REACT + EXPRESS",
+      "tags": [
+        "React",
+        "Vite",
+        "Express 5",
+        "Supabase",
+        "PostgreSQL",
+        "Workbox PWA"
+      ],
+      "description_id": "Progressive Web App manajemen inventaris komponen elektronika pribadi yang terintegrasi dengan kalkulator Bill of Materials (BOM) untuk menghitung kesiapan rakit, estimasi biaya, dan daftar belanja kekurangan komponen secara live.",
+      "description_en": "Progressive Web App for personal electronics component inventory management integrated with a live Bill of Materials (BOM) calculator to compute build readiness, cost estimates, and component shortage shopping lists."
     }
   ],
   "experience": [

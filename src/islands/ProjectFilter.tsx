@@ -21,19 +21,30 @@ interface Props {
 export default function ProjectFilter({ lang = 'id' }: Props) {
   const [active, setActive] = useState<string>('all');
 
+  const syncFilterState = (filterId: string) => {
+    const grid = document.getElementById('projects-grid');
+    if (!grid) return;
+    grid.setAttribute('data-active-filter', filterId);
+    const cards = grid.querySelectorAll<HTMLElement>('[data-domain]');
+    cards.forEach((card) => {
+      const domains = (card.getAttribute('data-domain') || '').split(/\s+/);
+      const matches = filterId === 'all' || domains.includes(filterId);
+      card.inert = !matches;
+      if (matches) {
+        card.removeAttribute('aria-hidden');
+      } else {
+        card.setAttribute('aria-hidden', 'true');
+      }
+    });
+  };
+
   const handleSelect = (filterId: string) => {
     setActive(filterId);
-    const grid = document.getElementById('projects-grid');
-    if (grid) {
-      grid.setAttribute('data-active-filter', filterId);
-    }
+    syncFilterState(filterId);
   };
 
   useEffect(() => {
-    const grid = document.getElementById('projects-grid');
-    if (grid) {
-      grid.setAttribute('data-active-filter', 'all');
-    }
+    syncFilterState('all');
   }, []);
 
   const ariaLabel = lang === 'id' ? 'Filter proyek teknis berdasarkan domain' : 'Filter technical projects by domain';

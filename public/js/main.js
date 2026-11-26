@@ -146,28 +146,4 @@ document.addEventListener('DOMContentLoaded', function() {
       if (el) navObserver.observe(el);
     });
   }
-
-  // 4. Scroll reveal with IntersectionObserver (respects prefers-reduced-motion)
-  var isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!isReducedMotion && 'IntersectionObserver' in window) {
-    var observer = new IntersectionObserver(function(entries, obs) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, {
-      rootMargin: '0px 0px -40px 0px',
-      threshold: 0.08
-    });
-
-    document.querySelectorAll('.scroll-reveal').forEach(function(el) {
-      observer.observe(el);
-    });
-  } else {
-    document.querySelectorAll('.scroll-reveal').forEach(function(el) {
-      el.classList.add('revealed');
-    });
-  }
 });
