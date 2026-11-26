@@ -209,7 +209,7 @@ html.light .hero-glow {
   background: radial-gradient(circle 380px at 50% 30%, rgba(5, 150, 105, 0.06) 0%, rgba(5, 150, 105, 0.02) 45%, transparent 70%);
 }
 
-/* 2. Scroll Progress Bar (CSS scroll timeline) */
+/* 2. Scroll Progress Bar (CSS scroll timeline + compositor fallback) */
 #scroll-progress {
   display: none;
   position: fixed;
@@ -217,21 +217,27 @@ html.light .hero-glow {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #34d399, #10b981);
+  background: linear-gradient(90deg, var(--secondary), var(--secondary-fixed-dim));
   transform-origin: 0 50%;
+  transform: scaleX(0);
   z-index: 999;
 }
 
 @supports (animation-timeline: scroll()) {
   #scroll-progress {
     display: block;
-    transform: scaleX(0);
     animation: grow-progress auto linear;
     animation-timeline: scroll();
   }
   @keyframes grow-progress {
     from { transform: scaleX(0); }
     to { transform: scaleX(1); }
+  }
+}
+
+@supports not (animation-timeline: scroll()) {
+  html.js:not(.reduced-motion) #scroll-progress {
+    display: block;
   }
 }
 

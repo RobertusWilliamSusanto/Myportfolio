@@ -117,5 +117,27 @@
       }, { threshold: 0.05 });
       pulseObserver.observe(statusDot);
     }
+
+    // 5. Scroll Progress Bar Fallback when CSS scroll-timeline is unsupported
+    if (!window.CSS || !CSS.supports('animation-timeline', 'scroll()')) {
+      var progressEl = document.getElementById('scroll-progress');
+      if (progressEl) {
+        var progressTicking = false;
+        var syncProgress = function() {
+          var doc = document.documentElement;
+          var max = doc.scrollHeight - window.innerHeight;
+          var ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+          progressEl.style.transform = 'scaleX(' + ratio.toFixed(4) + ')';
+          progressTicking = false;
+        };
+        window.addEventListener('scroll', function() {
+          if (!progressTicking) {
+            requestAnimationFrame(syncProgress);
+            progressTicking = true;
+          }
+        }, { passive: true });
+        syncProgress();
+      }
+    }
   });
 })();
