@@ -16,11 +16,12 @@ Goal: showcase AI/software engineering artifacts with 99+ Lighthouse performance
 | Production build | `npm run build` | Runs `astro build` -> emits `dist/index.html`, `dist/en/index.html`, `dist/_astro/*` (~2.2s, exit `0`). |
 | Preview build | `npm run preview` | Runs `astro preview` serving `dist/`. |
 | Typecheck (`.ts`/`.tsx`) | `npx tsc --noEmit` | Exit `0` for `src/**/*.ts(x)`. Does **not** check `.astro` files (`@astrojs/check` not installed). |
-| Lint | `npx eslint .` | **Currently fails** (`exit 1`, 179 issues) due to legacy `eslint-config-next` scanning `dist/`/`.astro/` (`F-006`). |
+| Lint | `npx eslint .` | **Fails** (`exit 1`, 179 issues) due to legacy `eslint-config-next` scanning `dist/`/`.astro/` (`F-006`). |
 | Functional tests | `node tests/test-functional.mjs` | **Passes** (`exit 0`); requires prior `npm run build` + local Chrome at `C:\Program Files\Google\Chrome\Application\chrome.exe`. |
-| Content parity test | `node tests/test-content-parity.mjs` | **Currently fails** (`exit 1`: expects 5 projects, finds 6 after PartsBin addition, `F-001`). |
+| Content parity test | `node tests/test-content-parity.mjs` | **Passes** (`exit 0`); dynamically checks 6 projects, 6 certifications, and 15 forbidden terms. |
+| Motion & budget gate | `npm run test:motion` | **Passes** (`exit 0`); asserts JS/CSS gzip deltas, compositor-only CSS, and `prefers-reduced-motion`. |
 | Quality gate (Lighthouse) | `node scripts/run-quality-gate.mjs` | Runs 5× mobile Lighthouse + console check on `dist/` (writes `lighthouse-motion-final.json`). |
-| Security audit | `npm audit` | **Currently fails** (`exit 1`: 19 vulns, mostly unused `next@16.1.6`, `F-002`). |
+| Security audit | `npm audit` | **Fails** (`exit 1`: 19 vulns, mostly unused `next@16.1.6`, `F-002`). |
 
 > Do **not** use `npm run legacy:dev` or `npm run legacy:build` — they target archived pre-Astro HTML.
 
@@ -53,7 +54,13 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) §4 for the full annotated tree. Key acti
 - **Preact JSX attributes**: Use `class="..."` (not `className`) in both `.astro` and `.tsx` islands (`jsxImportSource: "preact"`).
 - **Localized strings**: Wrap bilingual values in `{ id: string, en: string }` and resolve via `getLocalized(field, lang)`.
 - **Design tokens**: Always use semantic Tailwind tokens (`bg-surface-container-low`, `text-primary`, `text-secondary`, `border-outline-variant/30`), never raw hex in components.
-- **Compositor-only motion**: Animations use `transform` and `opacity` with `prefers-reduced-motion` fallbacks (`src/styles/motion.css`).
+- **Compositor-only motion**: Animate exclusively `transform`, `opacity`, and `clip-path` using tokens in `src/styles/global.css`. Wrap reduced-motion overrides in `src/styles/motion.css`.
+
+| Token | Value | Purpose |
+| --- | --- | --- |
+| `--duration-instant` / `fast` / `base` / `slow` / `hero` | `100ms` / `150ms` / `250ms` / `500ms` / `650ms` | Press, UI states, cards/modal, reveals, hero H1 |
+| `--ease-standard` / `decelerate` / `accelerate` | `cubic-bezier(0.22,1,0.36,1)` / `(0,0,0.2,1)` / `(0.4,0,1,1)` | Motion curves |
+| `--stagger-step` / `--motion-distance-sm` / `md` | `60ms` / `8px` / `16px` | Stagger & translate offsets |
 
 **Pattern 1 — Bilingual Astro Section (`src/components/Education.astro:1-20`):**
 ```astro
@@ -69,19 +76,12 @@ const sectionTag = lang === 'id' ? 'LANDASAN AKADEMIK' : 'ACADEMIC FOUNDATION';
 ---
 ```
 
-**Pattern 2 — Preact Island (`src/islands/ProjectFilter.tsx:17-30`):**
+**Pattern 2 — Preact Island (`src/islands/ProjectFilter.tsx`):**
 ```tsx
-interface Props {
-  lang?: 'id' | 'en';
-}
-
-export default function ProjectFilter({ lang = 'id' }: Props) {
-  const [active, setActive] = useState<string>('all');
-  const handleSelect = (filterId: string) => {
-    setActive(filterId);
+  const applyFilterToGrid = useCallback((filterId: string, animate: boolean) => {
     const grid = document.getElementById('projects-grid');
-    if (grid) grid.setAttribute('data-active-filter', filterId);
-  };
+    if (!grid) return;
+    grid.setAttribute('data-active-filter', filterId);
 ```
 
 ---
@@ -94,7 +94,7 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
 - Ensure any `aria-label` on buttons/links **includes the visible label text** (WCAG 2.5.3, `F-004`).
 - Support both `lang="id"` (`/`) and `lang="en"` (`/en`), plus dark (`:root`) and light (`html.light`) themes.
 - Add `rel="noopener noreferrer"` to every `target="_blank"` link.
-- Run `npm run build`, `npx tsc --noEmit`, and `node tests/test-functional.mjs` before finishing.
+- **Always check**: Run `npm run build`, `npx tsc --noEmit`, `node tests/test-functional.mjs`, `node tests/test-content-parity.mjs`, and `npm run test:motion` before finishing.
 
 ### ASK FIRST
 - Deleting `app/`, `components/`, `_legacy/`, root duplicate assets, or uninstalling unused npm packages (`F-003`).
@@ -138,6 +138,13 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
   1. Edit `title`/`description`/JSON-LD in `src/layouts/BaseLayout.astro` (and `MainPage.astro:24-30`, which currently overrides them).
   2. Update `public/robots.txt` and `public/sitemap.xml` (not root `robots.txt`/`sitemap.xml`, which are stale duplicates).
 
+- **Add an animation**:
+  1. Use existing `--duration-*`, `--ease-*`, and `--motion-distance-*` tokens in `src/styles/global.css` (never magic numbers).
+  2. Animate ONLY `transform`, `opacity`, or paint-only `clip-path` (never `width`, `height`, `top`, `left`, `margin`, `box-shadow`, or `transition: all`).
+  3. Keep Hero LCP element (Hero subtitle `<p>` and portrait) at `opacity: 1` at `t=0`; wrap pointer hover effects in `@media (hover: hover) and (pointer: fine)` with `:focus-visible`/`:focus-within` parity.
+  4. Gate newer CSS (`animation-timeline`, `@starting-style`, `document.startViewTransition`) with `@supports` / feature detection and preserve a working fallback.
+  5. Add reduced-motion deactivation to the consolidated `@media (prefers-reduced-motion: reduce)` block in `src/styles/motion.css`, then verify via `npm run build && npm run test:motion`.
+
 - **Add a Dependency**:
   1. Ask first. Prefer zero-dependency CSS/vanilla JS or Preact-compatible lightweight packages.
   2. After approval, install with `npm install <pkg>`, check `npm audit`, and verify JS bundle impact in `dist/_astro/`.
@@ -147,8 +154,7 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
 ## 8. Definition of Done Checklist
 - [ ] `npm run build` succeeds (`exit 0`) with 2 pages built (`/` and `/en`).
 - [ ] `npx tsc --noEmit` exits `0` (and `npx astro check` once `@astrojs/check` is installed).
-- [ ] `node tests/test-functional.mjs` passes on both `/` and `/en`.
-- [ ] `tests/test-content-parity.mjs` updated and passing (after `F-001` fix).
+- [ ] `node tests/test-functional.mjs`, `node tests/test-content-parity.mjs`, and `npm run test:motion` pass on `/` and `/en`.
 - [ ] Responsive verified at `360px`, `390px`, `768px`, `1440px` in both dark and light modes.
 - [ ] Reduced-motion (`prefers-reduced-motion: reduce`) and keyboard navigation (Tab, Enter, Escape on modal) verified.
 - [ ] Lighthouse targets met (`Perf >= 95`, `A11y = 100` with `0` failed audits, `BP = 100`, `SEO = 100`).
@@ -157,25 +163,27 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
 ---
 
 ## 9. Quality Budgets
-- **Lighthouse**: Performance >= `95` (target >= 90; currently 99 mobile / 100 desktop), Accessibility = `100` (with 0 failing audits), Best Practices = `100`, SEO = `100`.
+- **Lighthouse**: Performance >= `95` (current 98 mobile / 100 desktop), Accessibility = `100` (`0` failing audits), Best Practices = `100`, SEO = `100`.
 - **Core Web Vitals**: `LCP <= 2.5s` (mobile), `INP <= 200ms` (`TBT < 150ms` lab proxy), `CLS <= 0.05` (target <= 0.1).
-- **Assets & JS**: `public/js/motion.js` < 3 KB gzipped; optimized images `< 150 KB` AVIF/WebP (replace `1.45 MB` fallback JPGs); avoid adding React runtime to `dist/_astro/`.
+- **Motion & Bundle Caps (vs Phase 0 baseline: `21,957 B` JS gz, `9,645 B` CSS gz)**:
+  - Total added JS `<= +6 KB` (`6,144 B`) gzip; total added CSS `<= +4 KB` (`4,096 B`) gzip (enforced by `npm run test:motion`).
+  - Optimized images `< 150 KB` AVIF/WebP; avoid adding React runtime to `dist/_astro/`.
 
 ---
 
 ## 10. Git Workflow
-- **Detected History**: Feature/chore branches (`feat/*`, `chore/*`, `refactor/*`, `migration/*`) merged via GitHub PRs into `main`; Conventional Commits (`feat(seo): ...`, `fix(routing): ...`, `test(parity): ...`, `refactor(deploy): ...`). Note: current branch `feat/add-partsbin-project` has commit `c76b52c update project` (non-conventional).
-- **Standard**: Branch from `main` using `feat/<topic>`, `fix/<topic>`, or `chore/<topic>`; use Conventional Commits `type(scope): summary`; ensure build + functional/parity tests pass before merging PR.
+- **Detected History**: Feature/chore branches (`feat/*`, `chore/*`, `refactor/*`, `migration/*`) merged via GitHub PRs into `main` (`acf6c6b` merged PR #7 `feat/add-partsbin-project`) using Conventional Commits (`feat(scope): ...`, `fix(scope): ...`, `test(scope): ...`, `perf(scope): ...`, `refactor(scope): ...`).
+- **Standard**: Branch from `main` using `feat/<topic>`, `fix/<topic>`, or `chore/<topic>`; use atomic Conventional Commits; pass `build`, `tsc`, `test-functional`, `test-content-parity`, and `test:motion` before PR merge.
 
 ---
 
 ## 11. Known Gotchas & Footguns
-1. **Dual codebase trap**: `app/`, `components/`, `next.config.ts`, `_legacy/`, and root `images/`/`sitemap.xml` are **not built** by `npm run build`. Always edit `src/` and `public/`.
+1. **Dual codebase trap (`F-003`)**: `app/`, `components/`, `next.config.ts`, `_legacy/`, and root `images/`/`sitemap.xml` are **not built** by `npm run build`. Always edit `src/` and `public/`.
 2. **Split project data (`F-007`)**: `profile.json` alone will **not** update `ProjectModal.tsx`, `ProjectFilter.tsx`, or Cards 1–3 tags/links in `Projects.astro`.
-3. **Stale parity test (`F-001`)**: `tests/test-content-parity.mjs` hardcodes `5` projects and fails until updated for PartsBin (`6`).
-4. **Duplicate scroll observer (`F-009`)**: `.scroll-reveal` is observed in both `public/js/main.js` and `public/js/motion.js`.
-5. **Broken ESLint (`F-006`)**: `npx eslint .` runs Next.js rules over `dist/` and `.astro/`.
-6. **WCAG 2.5.3 mismatch (`F-004`)**: Never add an `aria-label` that omits the button/link's visible text.
+3. **Hero LCP element**: Lighthouse identifies Hero subtitle `<p>` (and portrait) as LCP—never start them at `opacity: 0`.
+4. **Mutually exclusive scroll reveals**: `animation-timeline: view()` and `IntersectionObserver` in `public/js/motion.js` are gated via `@supports` / `!CSS.supports` so elements never double-animate.
+5. **Broken ESLint (`F-006`)**: `npx eslint .` still runs legacy Next.js rules over `dist/` and `.astro/` (out-of-scope follow-up).
+6. **Cross-browser note**: `@starting-style`, `animation-timeline`, and `document.startViewTransition` are `[UNVERIFIED on Safari/Firefox]` (tested in Chromium only).
 
 ---
 
