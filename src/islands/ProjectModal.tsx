@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'preact/hooks';
+import type { ProjectCatalogItem } from '../data/projectCatalog';
 
 interface LocalizedText {
   id: string;
@@ -263,9 +264,10 @@ const PROJECT_DETAILS: Record<string, ProjectDetail> = {
 
 interface Props {
   lang?: 'id' | 'en';
+  catalog?: ProjectCatalogItem[];
 }
 
-export default function ProjectModal({ lang = 'id' }: Props) {
+export default function ProjectModal({ lang = 'id', catalog }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const lastTriggerRef = useRef<HTMLElement | null>(null);
@@ -348,7 +350,20 @@ export default function ProjectModal({ lang = 'id' }: Props) {
     };
   }, []);
 
-  const project = selectedId ? PROJECT_DETAILS[selectedId] : null;
+  const baseProject = selectedId ? PROJECT_DETAILS[selectedId] : null;
+  const catalogItem = selectedId && catalog ? catalog.find((c) => c.triggerId === selectedId) : undefined;
+  const project = baseProject
+    ? {
+        ...baseProject,
+        resolvedTitle: catalogItem?.title || baseProject.title[lang] || baseProject.title.id,
+        resolvedBadge: catalogItem?.badge || baseProject.badge[lang] || baseProject.badge.id,
+        resolvedCategory: catalogItem?.category || baseProject.category[lang] || baseProject.category.id,
+        resolvedDesc: catalogItem?.description || baseProject.description[lang] || baseProject.description.id,
+        resolvedStack: catalogItem?.techStack?.length ? catalogItem.techStack : baseProject.techStack,
+        resolvedDemoUrl: catalogItem ? catalogItem.demoUrl : baseProject.demoUrl,
+        resolvedRepoUrl: catalogItem ? catalogItem.repoUrl : baseProject.repoUrl
+      }
+    : null;
 
   const closeAria = lang === 'id' ? 'Tutup dialog modal' : 'Close dialog';
   const highlightsLabel = lang === 'id' ? 'Sorotan Arsitektur Teknis' : 'Technical Architecture Highlights';
@@ -377,14 +392,14 @@ export default function ProjectModal({ lang = 'id' }: Props) {
             <div class="flex flex-col gap-1.5">
               <div class="flex items-center gap-2">
                 <span class="px-2.5 py-0.5 rounded bg-secondary-container text-secondary-fixed font-mono text-[11px] font-semibold">
-                  {project.badge[lang] || project.badge.id}
+                  {project.resolvedBadge}
                 </span>
                 <span class="font-mono text-[11px] text-outline uppercase tracking-wider">
-                  {project.category[lang] || project.category.id}
+                  {project.resolvedCategory}
                 </span>
               </div>
               <h2 id="project-dialog-title" class="text-xl md:text-2xl font-bold text-primary">
-                {project.title[lang] || project.title.id}
+                {project.resolvedTitle}
               </h2>
             </div>
             <button
@@ -401,7 +416,7 @@ export default function ProjectModal({ lang = 'id' }: Props) {
 
           {/* Description */}
           <p class="text-sm md:text-base text-on-surface-variant leading-relaxed">
-            {project.description[lang] || project.description.id}
+            {project.resolvedDesc}
           </p>
 
           {/* Metrics Pill */}
@@ -431,7 +446,7 @@ export default function ProjectModal({ lang = 'id' }: Props) {
               {techLabel}
             </h3>
             <div class="flex flex-wrap gap-1.5">
-              {project.techStack.map((tech, i) => (
+              {project.resolvedStack.map((tech, i) => (
                 <span key={i} class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[11px]">
                   {tech}
                 </span>
@@ -442,9 +457,9 @@ export default function ProjectModal({ lang = 'id' }: Props) {
           {/* Links & Actions */}
           <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-outline-variant/20">
             <div class="flex items-center gap-3">
-              {project.demoUrl && (
+              {project.resolvedDemoUrl && (
                 <a
-                  href={project.demoUrl}
+                  href={project.resolvedDemoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-primary text-on-primary text-xs font-semibold hover:bg-primary-container transition-colors min-h-[40px]"
@@ -455,9 +470,9 @@ export default function ProjectModal({ lang = 'id' }: Props) {
                   <span>{liveLabel}</span>
                 </a>
               )}
-              {project.repoUrl && (
+              {project.resolvedRepoUrl && (
                 <a
-                  href={project.repoUrl}
+                  href={project.resolvedRepoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-surface-container-high text-on-surface text-xs font-medium hover:bg-surface-bright transition-colors min-h-[40px] border border-outline-variant/30"
