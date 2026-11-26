@@ -15,15 +15,13 @@ Goal: showcase AI/software engineering artifacts with 99+ Lighthouse performance
 | Dev server | `npm run dev` | Runs `astro dev` (local preview with HMR). |
 | Production build | `npm run build` | Runs `astro build` -> emits `dist/index.html`, `dist/en/index.html`, `dist/_astro/*` (~2.2s, exit `0`). |
 | Preview build | `npm run preview` | Runs `astro preview` serving `dist/`. |
-| Typecheck (`.ts`/`.tsx`) | `npx tsc --noEmit` | Exit `0` for `src/**/*.ts(x)`. Does **not** check `.astro` files (`@astrojs/check` not installed). |
-| Lint | `npx eslint .` | **Fails** (`exit 1`, 179 issues) due to legacy `eslint-config-next` scanning `dist/`/`.astro/` (`F-006`). |
+| Typecheck (`.ts`/`.tsx`) | `npm run typecheck` (`npx tsc --noEmit`) | Exit `0` for `src/**/*.ts(x)`. Does **not** check `.astro` files (`@astrojs/check` not installed). |
+| Lint | *Not configured* | Legacy `eslint-config-next` removed in cleanup (`F-003`); Astro ESLint + `@astrojs/check` remain follow-up (`F-006`). |
 | Functional tests | `node tests/test-functional.mjs` | **Passes** (`exit 0`); serves `dist/` on `127.0.0.1:4177` and verifies `HeroFocusConsole`, filter FLIP/Peek, `CipherPreview`, `ProjectModal` tabs, `CommandPalette`, No-JS SSR, `:has()` hover, and `360..1440px`. |
 | Content parity test | `node tests/test-content-parity.mjs` | **Passes** (`exit 0`); dynamically checks 6 projects, 6 certifications, and 15 forbidden terms. |
 | Motion & budget gate | `npm run test:motion` | **Passes** (`exit 0`); asserts tiered critical/deferred JS & CSS gzip deltas vs `aa90c9b`, `afterLcp` chunk load order, compositor-only CSS, `4x-CPU TBT < 250ms`, and `prefers-reduced-motion`. |
 | Quality gate (Lighthouse) | `node scripts/run-quality-gate.mjs` | Runs 5× mobile Lighthouse + console check on `dist/` (writes `lighthouse-motion-final.json`). |
-| Security audit | `npm audit` | **Fails** (`exit 1`: 19 vulns, mostly unused `next@16.1.6`, `F-002`). |
-
-> Do **not** use `npm run legacy:dev` or `npm run legacy:build` — they target archived pre-Astro HTML.
+| Security audit | `npm audit` | 5 remaining advisories (`0` Critical, 2 High, 2 Moderate, 1 Low — `next` Critical/High removed; `F-002` partially resolved). |
 
 ---
 
@@ -33,7 +31,6 @@ Goal: showcase AI/software engineering artifacts with 99+ Lighthouse performance
 - `motion@14.12.0` (MIT; pinned exact; import **only** via `import('motion/mini')` inside `src/lib/lazyMotion.ts`, never eagerly before LCP)
 - `tailwindcss@4.2.1` + `@tailwindcss/vite@4.3.3`
 - `zod@4.6.7` + `typescript@5.9.3` (`extends: "astro/tsconfigs/strict"`)
-- Ignore `next`, `react`, `react-dom`, `framer-motion`, `lucide-react`, `react-simple-typewriter` — leftover unused dependencies (`F-003`).
 
 ---
 

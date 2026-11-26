@@ -22,9 +22,9 @@ This repository hosts the active **Astro + Preact + Tailwind CSS v4** static por
 | Type Checking | TypeScript | `^5` | `5.9.3` | Strict TS config (`astro/tsconfigs/strict`) |
 | Runtime / Pkg Mgr | Node.js / npm | `—` | `v24.14.0` / `11.9.0` | Local build & script execution |
 | Hosting / CDN | Vercel | `—` | `—` | Static hosting (`dist/`) & HTTP headers (`vercel.json`) |
-| Audit & QA Tools | Puppeteer Core, Lighthouse, Pixelmatch, PNGJS | `^25.14.0`, `^13.5.0`, `^8.0.0`, `^7.0.0` | `25.14.0`, `13.5.0`, `8.0.0`, `7.0.0` | Headless Chrome functional, parity & perf gates |
+| Audit & QA Tools | Puppeteer Core, Lighthouse | `^25.14.0`, `^13.5.0` | `25.14.0`, `13.5.0` | Headless Chrome functional, parity & perf gates |
 
-> **Legacy / Unused Packages in `package.json`**: `next` (`16.1.6`), `react` (`19.2.3`), `react-dom` (`19.2.3`), `framer-motion` (`12.35.2`), `lucide-react` (`0.577.0`), `react-simple-typewriter` (`5.0.1`), `eslint` (`9.39.4`), `eslint-config-next` (`16.1.6`), `@tailwindcss/cli` (`4.3.3`), `@tailwindcss/postcss` (`4.2.1`), `@types/node` (`20.19.37`), `@types/react` (`19.2.14`), `@types/react-dom` (`19.2.3`). None are imported by `src/`.
+> All unused legacy Next.js/React dependencies (`next`, `react`, `react-dom`, `framer-motion`, `lucide-react`, `react-simple-typewriter`, `eslint-config-next`, etc.) have been uninstalled (`F-003` resolved).
 
 ---
 
@@ -70,17 +70,13 @@ flowchart LR
 | `src/islands/` | 6 Preact `.tsx` interactive islands (`HeroFocusConsole`, `ProjectFilter`, `CipherPreview`, `YoloDemo`, `ProjectModal`, `CommandPalette`) | Hydrated in `Hero.astro`, `Projects.astro`, and `MainPage.astro` |
 | `src/lib/` | Lazy-loaded utilities (`lazyMotion.ts`, `commandPalette.ts`) | Dynamically imported on interaction; 0 B before LCP |
 | `src/data/` | `profile.json`, `schema.ts` (Zod), `profile.ts` (`ProfileSchema.parse`, `getLocalized`), `projectCatalog.ts` (`getPublicProjectCatalog`) | Imported by `BaseLayout`, `Hero`, `Projects`, `Experience`, `Skills`, `Education`, `MainPage` |
-| `src/styles/` | `global.css` (Tailwind v4 + `@font-face` + `@theme` tokens), `motion.css` (animations + filter rules); `input.css` (legacy CLI CSS) | `global.css` imported by `BaseLayout.astro`; `input.css` only used by `legacy:*` scripts |
-| `src/js/` | Leftover copies of `motion.js` and `theme.js` | **Unused** (duplicated in `public/js/`) |
-| `public/` | Static assets copied directly to `dist/`: `fonts/`, `images/`, `js/{main,motion,theme}.js`, `CV.pdf`, `robots.txt`, `sitemap.xml`, legacy `css/style.css`, unused Next.js SVGs, uncompressed JPG/PNGs | Served from `/` by Astro & Vercel (`theme.js` unused) |
+| `src/styles/` | `global.css` (Tailwind v4 + `@font-face` + `@theme` tokens), `motion.css` (animations + filter rules) | `global.css` imported by `BaseLayout.astro` |
+| `public/` | Static assets copied directly to `dist/`: `fonts/`, `images/`, `js/{main,motion}.js`, `CV.pdf`, `robots.txt`, `sitemap.xml`, `favicon.ico`, plus fallback photos (`profile.png`, `project-ai.jpg`, `Kriptografi.jpg`, `project-todo.jpg`) | Served from `/` by Astro & Vercel |
 | `api/` | `api/README.md` reserving future Vercel serverless functions (e.g., AI chatbot) | Reserved; no active `.ts`/`.js` endpoints |
 | `docs/` | Technical documentation (`AGENT.md`, `ARCHITECTURE.md`, `AUDIT_REPORT.md`, `DECISION_REPORT.md`) | Human & AI onboarding/audit docs; zero runtime coupling |
 | `tests/` | `test-functional.mjs`, `test-content-parity.mjs`, `test-motion-budgets.mjs` (`npm run test:motion`), fixtures & allowlist | Executed via `node tests/...` and `npm run test:motion` |
-| `scripts/` | 16 `.js`/`.mjs` QA, Lighthouse, visual-diff, fixture-generation, and legacy-build scripts | Executed manually; not wired into `npm test` |
-| `app/`, `components/` | Leftover Next.js 16 App Router pages (`layout.tsx`, `page.tsx`, `robots.ts`, `sitemap.ts`) and React components | **Dead code** (unused by Astro build) |
-| `_legacy/` | Archived pre-Astro static HTML/CSS/JS site (`_legacy/index.html`) | **Archived reference** used by `scripts/generate-snapshot-fixture.mjs` |
-| `images/`, `fonts/`, root `CV.pdf`, `favicon.ico`, `robots.txt`, `sitemap.xml` | Pre-migration root static assets | **Dead duplicates** of `public/` (`sitemap.xml` stale at `2026-10-20`) |
-| `dist/`, `.astro/`, `.next/`, `screenshots/`, `reference/` | Generated build outputs, caches, and visual-regression artifacts (gitignored) | Generated locally |
+| `scripts/` | 4 QA/Lighthouse scripts (`run-quality-gate.mjs`, `run-gate.mjs`, `verify-final.mjs`, `capture-viewports.js`) | Executed manually; not wired into `npm test` |
+| `dist/`, `.astro/`, `screenshots/` | Generated build outputs, Astro cache, and local screenshots (gitignored) | Generated locally |
 
 ---
 
