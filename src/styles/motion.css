@@ -166,20 +166,40 @@
 }
 
 
-/* --- E4: Below-The-Fold Scroll Reveal (Ladder A) --- */
-/* Applied ONLY when HTML has .js class added by inline script in head */
-html.js:not(.reduced-motion) .scroll-reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1), transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--stagger-delay, 0ms);
-  will-change: opacity, transform;
+/* --- E4: Below-The-Fold Scroll Reveal (Mutually exclusive view() vs IO fallback) --- */
+/* No-JS safety: opacity stays 1 unless html.js is active or view() completes */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html.js:not(.reduced-motion) .scroll-reveal:not(.revealed):not(.filter-enter) {
+      animation: scroll-reveal-view linear both;
+      animation-timeline: view(block nearest);
+      animation-range: entry 0px entry 140px;
+    }
+    @keyframes scroll-reveal-view {
+      from {
+        opacity: 0;
+        transform: translateY(var(--motion-distance-md));
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
 }
 
-html.js:not(.reduced-motion) .scroll-reveal.revealed {
-  opacity: 1;
-  transform: none;
-  will-change: auto;
+@supports not (animation-timeline: view()) {
+  html.js:not(.reduced-motion) .scroll-reveal {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-md));
+    transition: opacity var(--duration-slow) var(--ease-standard), transform var(--duration-slow) var(--ease-standard);
+    transition-delay: var(--stagger-delay, 0ms);
+  }
+
+  html.js:not(.reduced-motion) .scroll-reveal.revealed {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -187,6 +207,7 @@ html.js:not(.reduced-motion) .scroll-reveal.revealed {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
   }
 }
 

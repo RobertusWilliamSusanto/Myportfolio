@@ -10,36 +10,39 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    // 1. Single Shared IntersectionObserver for Below-the-Fold Scroll Reveals
+    // 1. Scroll Reveals: IO fallback ONLY when CSS animation-timeline: view() is unsupported
     var revealElements = document.querySelectorAll('.scroll-reveal');
-    if ('IntersectionObserver' in window && revealElements.length > 0) {
-      var revealObserver = new IntersectionObserver(function(entries, observer) {
-        for (var i = 0; i < entries.length; i++) {
-          var entry = entries[i];
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
+    var supportsViewTimeline = window.CSS && CSS.supports('animation-timeline', 'view()');
+    if (!supportsViewTimeline) {
+      if ('IntersectionObserver' in window && revealElements.length > 0) {
+        var revealObserver = new IntersectionObserver(function(entries, observer) {
+          for (var i = 0; i < entries.length; i++) {
+            var entry = entries[i];
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          }
+        }, {
+          threshold: 0.05,
+          rootMargin: '40px 0px -20px 0px'
+        });
+
+        var staggerGroups = document.querySelectorAll('.stagger-group');
+        for (var g = 0; g < staggerGroups.length; g++) {
+          var items = staggerGroups[g].querySelectorAll('.scroll-reveal');
+          for (var k = 0; k < items.length; k++) {
+            items[k].style.setProperty('--stagger-delay', (k * 60) + 'ms');
           }
         }
-      }, {
-        threshold: 0.05,
-        rootMargin: '40px 0px -20px 0px'
-      });
 
-      var staggerGroups = document.querySelectorAll('.stagger-group');
-      for (var g = 0; g < staggerGroups.length; g++) {
-        var items = staggerGroups[g].querySelectorAll('.scroll-reveal');
-        for (var k = 0; k < items.length; k++) {
-          items[k].style.setProperty('--stagger-delay', (k * 60) + 'ms');
+        for (var j = 0; j < revealElements.length; j++) {
+          revealObserver.observe(revealElements[j]);
         }
-      }
-
-      for (var j = 0; j < revealElements.length; j++) {
-        revealObserver.observe(revealElements[j]);
-      }
-    } else {
-      for (var m = 0; m < revealElements.length; m++) {
-        revealElements[m].classList.add('revealed');
+      } else {
+        for (var m = 0; m < revealElements.length; m++) {
+          revealElements[m].classList.add('revealed');
+        }
       }
     }
 
