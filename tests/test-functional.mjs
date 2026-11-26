@@ -161,9 +161,22 @@ async function testPage(pageUrl, lang) {
   if (!dialog) {
     throw new Error(`[${lang}] ProjectModal dialog did not open`);
   }
+  await page.click('#modal-tab-overview');
+  await page.keyboard.press('ArrowRight');
+  const archSelected = await page.$eval('#modal-tab-architecture', (el) => el.getAttribute('aria-selected'));
+  const hasHighlightList = await page.$('#project-modal-tabpanel ul li');
+  if (archSelected !== 'true' || !hasHighlightList) {
+    throw new Error(`[${lang}] ProjectModal Architecture tab switch failed`);
+  }
+  await page.keyboard.press('ArrowRight');
+  const stackSelected = await page.$eval('#modal-tab-stack', (el) => el.getAttribute('aria-selected'));
+  if (stackSelected !== 'true') {
+    throw new Error(`[${lang}] ProjectModal Stack tab switch failed`);
+  }
+  await page.keyboard.press('Home');
   await page.keyboard.press('Escape');
   await new Promise(r => setTimeout(r, 250));
-  console.log(`  ✓ [${lang}] ProjectModal trigger, open dialog & Escape close functional`);
+  console.log(`  ✓ [${lang}] ProjectModal tabs, open dialog & Escape close functional`);
 
   // 4. Copy email button functional
   const emailBtn = await page.$('button[onclick*="copyEmailAddress"]');

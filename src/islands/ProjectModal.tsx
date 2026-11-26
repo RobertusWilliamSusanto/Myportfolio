@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'preact/hooks';
 import type { ProjectCatalogItem } from '../data/projectCatalog';
+import { lazyAnimate } from '../lib/lazyMotion';
+
+type ModalTab = 'overview' | 'architecture' | 'stack';
 
 interface LocalizedText {
   id: string;
@@ -269,9 +272,28 @@ interface Props {
 
 export default function ProjectModal({ lang = 'id', catalog }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<ModalTab>('overview');
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const lastTriggerRef = useRef<HTMLElement | null>(null);
   const clearTimerRef = useRef<number | null>(null);
+
+  const selectTab = (next: ModalTab, focusIdx?: number) => {
+    setActiveTab(next);
+    if (typeof focusIdx === 'number') {
+      tabRefs.current[focusIdx]?.focus();
+    }
+    requestAnimationFrame(() => {
+      if (panelRef.current) {
+        void lazyAnimate(
+          panelRef.current,
+          { opacity: [0.35, 1], transform: ['translateY(5px)', 'translateY(0)'] },
+          { duration: 0.18 }
+        );
+      }
+    });
+  };
 
   const scheduleClearSelected = () => {
     if (clearTimerRef.current) window.clearTimeout(clearTimerRef.current);
@@ -325,6 +347,7 @@ export default function ProjectModal({ lang = 'id', catalog }: Props) {
   useEffect(() => {
     if (selectedId && dialogRef.current && !dialogRef.current.open) {
       if (clearTimerRef.current) window.clearTimeout(clearTimerRef.current);
+      setActiveTab('overview');
       dialogRef.current.showModal();
       document.body.style.overflow = 'hidden';
     }
@@ -371,6 +394,30 @@ export default function ProjectModal({ lang = 'id', catalog }: Props) {
   const escLabel = lang === 'id' ? '[Tekan ESC untuk menutup]' : '[ESC to close]';
   const liveLabel = lang === 'id' ? 'Buka Live Demo' : 'Live App / Portal';
   const repoLabel = lang === 'id' ? 'Lihat Source Code' : 'Repository';
+  const tabs: Array<{ key: ModalTab; label: string }> =
+    lang === 'id'
+      ? [
+          { key: 'overview', label: 'Ringkasan' },
+          { key: 'architecture', label: 'Arsitektur' },
+          { key: 'stack', label: 'Stack' }
+        ]
+      : [
+          { key: 'overview', label: 'Overview' },
+          { key: 'architecture', label: 'Architecture' },
+          { key: 'stack', label: 'Stack' }
+        ];
+
+  const handleTabKeyDown = (e: KeyboardEvent, idx: number) => {
+    let nextIdx: number | null = null;
+    if (e.key === 'ArrowRight') nextIdx = (idx + 1) % tabs.length;
+    else if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + tabs.length) % tabs.length;
+    else if (e.key === 'Home') nextIdx = 0;
+    else if (e.key === 'End') nextIdx = tabs.length - 1;
+    if (nextIdx !== null) {
+      e.preventDefault();
+      selectTab(tabs[nextIdx].key, nextIdx);
+    }
+  };
 
   return (
     <dialog
@@ -414,44 +461,91 @@ export default function ProjectModal({ lang = 'id', catalog }: Props) {
             </button>
           </div>
 
-          {/* Description */}
-          <p class="text-sm md:text-base text-on-surface-variant leading-relaxed">
-            {project.resolvedDesc}
-          </p>
-
-          {/* Metrics Pill */}
-          <div class="p-3.5 rounded-lg bg-surface-container-lowest border border-outline-variant/30 flex items-center gap-2.5 font-mono text-xs">
-            <span class="text-secondary shrink-0 font-bold">&gt;</span>
-            <span class="text-on-surface font-medium">{project.metrics[lang] || project.metrics.id}</span>
+          {/* Modal Section Tabs (WAI-ARIA APG) */}
+          <div
+            role="tablist"
+            aria-label={lang === 'id' ? 'Detail proyek' : 'Project details'}
+            class="inline-flex flex-wrap gap-1.5 p-1 rounded-lg bg-surface-container-low border border-outline-variant/30 self-start"
+          >
+            {tabs.map((tab, idx) => {
+              const isSelected = activeTab === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  ref={(el) => {
+                    tabRefs.current[idx] = el;
+                  }}
+                  type="button"
+                  role="tab"
+                  id={`modal-tab-${tab.key}`}
+                  data-modal-tab={tab.key}
+                  aria-selected={isSelected}
+                  aria-controls="project-modal-tabpanel"
+                  tabIndex={isSelected ? 0 : -1}
+                  onClick={() => selectTab(tab.key)}
+                  onKeyDown={(e) => handleTabKeyDown(e, idx)}
+                  class={`px-3.5 py-1.5 rounded-md font-mono text-xs transition-colors min-h-[38px] cursor-pointer ${
+                    isSelected
+                      ? 'bg-secondary-container text-secondary-fixed font-semibold border border-secondary/35'
+                      : 'text-on-surface-variant hover:text-primary hover:bg-surface-container-high border border-transparent'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Key Architectural Highlights */}
-          <div class="flex flex-col gap-2.5">
-            <h3 class="font-mono text-xs uppercase tracking-wider text-outline font-semibold">
-              {highlightsLabel}
-            </h3>
-            <ul class="flex flex-col gap-2 text-xs md:text-sm text-on-surface-variant list-none p-0 m-0">
-              {(project.highlights[lang] || project.highlights.id).map((h, i) => (
-                <li key={i} class="flex items-start gap-2">
-                  <span class="text-secondary shrink-0 mt-0.5">•</span>
-                  <span>{h}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Active Tab Panel */}
+          <div
+            ref={panelRef}
+            id="project-modal-tabpanel"
+            role="tabpanel"
+            aria-labelledby={`modal-tab-${activeTab}`}
+            class="min-h-[140px] flex flex-col gap-5"
+          >
+            {activeTab === 'overview' && (
+              <>
+                <p class="text-sm md:text-base text-on-surface-variant leading-relaxed">
+                  {project.resolvedDesc}
+                </p>
+                <div class="p-3.5 rounded-lg bg-surface-container-lowest border border-outline-variant/30 flex items-center gap-2.5 font-mono text-xs">
+                  <span class="text-secondary shrink-0 font-bold">&gt;</span>
+                  <span class="text-on-surface font-medium">{project.metrics[lang] || project.metrics.id}</span>
+                </div>
+              </>
+            )}
 
-          {/* Tech Stack */}
-          <div class="flex flex-col gap-2">
-            <h3 class="font-mono text-xs uppercase tracking-wider text-outline font-semibold">
-              {techLabel}
-            </h3>
-            <div class="flex flex-wrap gap-1.5">
-              {project.resolvedStack.map((tech, i) => (
-                <span key={i} class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[11px]">
-                  {tech}
-                </span>
-              ))}
-            </div>
+            {activeTab === 'architecture' && (
+              <div class="flex flex-col gap-2.5">
+                <h3 class="font-mono text-xs uppercase tracking-wider text-outline font-semibold">
+                  {highlightsLabel}
+                </h3>
+                <ul class="flex flex-col gap-2 text-xs md:text-sm text-on-surface-variant list-none p-0 m-0">
+                  {(project.highlights[lang] || project.highlights.id).map((h, i) => (
+                    <li key={i} class="flex items-start gap-2">
+                      <span class="text-secondary shrink-0 mt-0.5">•</span>
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {activeTab === 'stack' && (
+              <div class="flex flex-col gap-3">
+                <h3 class="font-mono text-xs uppercase tracking-wider text-outline font-semibold">
+                  {techLabel}
+                </h3>
+                <div class="flex flex-wrap gap-1.5">
+                  {project.resolvedStack.map((tech, i) => (
+                    <span key={i} class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[11px]">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Links & Actions */}
