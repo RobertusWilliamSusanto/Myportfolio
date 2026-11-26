@@ -6,15 +6,13 @@ const req = createRequire(path.join(process.cwd(), 'package.json'));
 const puppeteer = req('puppeteer-core');
 const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
-function clean(str) {
-  return (str || '').replace(/\s+/g, ' ').trim();
-}
-
 async function generateFixture() {
   console.log('Generating snapshot fixture from _legacy/index.html with approved allowlist...');
 
   const allowlistPath = path.join(process.cwd(), 'tests', 'allowlist-approved-diffs.json');
   const allowlist = JSON.parse(fs.readFileSync(allowlistPath, 'utf8'));
+  const profilePath = path.join(process.cwd(), 'src', 'data', 'profile.json');
+  const profile = JSON.parse(fs.readFileSync(profilePath, 'utf8'));
 
   const browser = await puppeteer.launch({
     executablePath: CHROME_PATH,
@@ -150,7 +148,23 @@ async function generateFixture() {
         tags: allowlist.approved_changes.card5_tags_restoration.tags,
         description_id: "Aplikasi pelacak pengeluaran otomatis dan perkakas produktivitas berbasis Python untuk pembukuan terstruktur dan penganggaran keuangan pribadi.",
         description_en: "Automated expense tracker and Python-based productivity tools for structured bookkeeping and personal financial budgeting."
-      }
+      },
+      ...profile.projects.slice(5).map((p) => {
+        const getVal = (field, lang) => {
+          const v = field && typeof field === 'object' && 'value' in field ? field.value : field;
+          if (v && typeof v === 'object' && !Array.isArray(v)) return v[lang] || v.id || '';
+          return v || '';
+        };
+        return {
+          id: p.id,
+          title_id: getVal(p.title, 'id'),
+          title_en: getVal(p.title, 'en'),
+          badge: getVal(p.badge, 'id'),
+          tags: Array.isArray(p.tech_stack?.value) ? p.tech_stack.value : [],
+          description_id: getVal(p.description, 'id'),
+          description_en: getVal(p.description, 'en')
+        };
+      })
     ],
     experience: [
       {

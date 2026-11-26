@@ -8,6 +8,8 @@ const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
 
 const fixturePath = path.join(process.cwd(), 'tests', 'fixtures', 'snapshot-backup-pre-i18n.json');
 const fixture = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
+const profilePath = path.join(process.cwd(), 'src', 'data', 'profile.json');
+const profile = JSON.parse(fs.readFileSync(profilePath, 'utf8'));
 
 async function extractPageData(filePath) {
   const browser = await puppeteer.launch({
@@ -87,13 +89,17 @@ async function runParityAudit() {
     }
   }
 
-  // Check 2: Projects count and exact parity
+  // Check 2: Projects count and exact parity (dynamic from profile.json)
   console.log('2. Checking projects parity (titles, badges, descriptions, tags)...');
-  if (idRes.data.projects.length !== 5) {
-    errors.push(`Expected 5 projects on ID page, got ${idRes.data.projects.length}`);
+  const expectedProjectCount = profile.projects.length;
+  if (fixture.projects.length !== expectedProjectCount) {
+    errors.push(`Fixture project count (${fixture.projects.length}) out of sync with profile.json (${expectedProjectCount}); re-run scripts/generate-snapshot-fixture.mjs`);
   }
-  if (enRes.data.projects.length !== 5) {
-    errors.push(`Expected 5 projects on EN page, got ${enRes.data.projects.length}`);
+  if (idRes.data.projects.length !== expectedProjectCount) {
+    errors.push(`Expected ${expectedProjectCount} projects on ID page, got ${idRes.data.projects.length}`);
+  }
+  if (enRes.data.projects.length !== expectedProjectCount) {
+    errors.push(`Expected ${expectedProjectCount} projects on EN page, got ${enRes.data.projects.length}`);
   }
 
   fixture.projects.forEach((fp, idx) => {
