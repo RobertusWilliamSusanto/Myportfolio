@@ -473,3 +473,33 @@ button:disabled {
     transition: none !important;
   }
 }
+
+/* Skill Matrix Chips Hover & Focus Parity */
+.skill-chip {
+  border: 1px solid transparent;
+  transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .skill-chip:hover {
+    transform: translateY(-2px);
+    border-color: rgba(52, 211, 153, 0.4);
+    color: var(--primary);
+  }
+  html.light .skill-chip:hover {
+    border-color: rgba(5, 150, 105, 0.4);
+  }
+}
+
+.hover-lift:focus-within .skill-chip {
+  border-color: rgba(52, 211, 153, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-chip {
+    transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease !important;
+  }
+  .skill-chip:hover {
+    transform: none !important;
+  }
+}
