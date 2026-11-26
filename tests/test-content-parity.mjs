@@ -206,6 +206,16 @@ async function runParityAudit() {
 
   // Check 5: Certifications
   console.log('5. Checking certifications parity...');
+  const expectedCertCount = (profile.certifications || []).length;
+  if (fixture.certifications.length !== expectedCertCount) {
+    errors.push(`Fixture certification count (${fixture.certifications.length}) out of sync with profile.json (${expectedCertCount}); re-run scripts/generate-snapshot-fixture.mjs`);
+  }
+  if (idRes.data.certifications.length !== expectedCertCount) {
+    errors.push(`Expected ${expectedCertCount} certifications on ID page, got ${idRes.data.certifications.length}`);
+  }
+  if (enRes.data.certifications.length !== expectedCertCount) {
+    errors.push(`Expected ${expectedCertCount} certifications on EN page, got ${enRes.data.certifications.length}`);
+  }
   fixture.certifications.forEach((fc, idx) => {
     const idCert = idRes.data.certifications[idx];
     const enCert = enRes.data.certifications[idx];

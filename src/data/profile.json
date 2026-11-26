@@ -755,6 +755,19 @@
         "value": "Community Service",
         "public": true
       }
+    },
+    {
+      "name": {
+        "value": {
+          "id": "Google Cloud Computing Foundations Certificate",
+          "en": "Google Cloud Computing Foundations Certificate"
+        },
+        "public": true
+      },
+      "category": {
+        "value": "Cloud Computing",
+        "public": true
+      }
     }
   ],
   "links": {
