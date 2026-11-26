@@ -146,8 +146,8 @@ const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       en: 'Digital Portfolio & Web Applications'
     },
     badge: {
-      id: 'Next.js & Tailwind',
-      en: 'Next.js & Tailwind'
+      id: 'Astro 7 & Tailwind',
+      en: 'Astro 7 & Tailwind'
     },
     category: {
       id: 'FRONTEND & WEB SUITE',
