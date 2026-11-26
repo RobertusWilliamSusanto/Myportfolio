@@ -15,15 +15,13 @@ Goal: showcase AI/software engineering artifacts with 99+ Lighthouse performance
 | Dev server | `npm run dev` | Runs `astro dev` (local preview with HMR). |
 | Production build | `npm run build` | Runs `astro build` -> emits `dist/index.html`, `dist/en/index.html`, `dist/_astro/*` (~2.2s, exit `0`). |
 | Preview build | `npm run preview` | Runs `astro preview` serving `dist/`. |
-| Typecheck (`.ts`/`.tsx`) | `npx tsc --noEmit` | Exit `0` for `src/**/*.ts(x)`. Does **not** check `.astro` files (`@astrojs/check` not installed). |
-| Lint | `npx eslint .` | **Fails** (`exit 1`, 179 issues) due to legacy `eslint-config-next` scanning `dist/`/`.astro/` (`F-006`). |
+| Typecheck (`.ts`/`.tsx`) | `npm run typecheck` (`npx tsc --noEmit`) | Exit `0` for `src/**/*.ts(x)`. Does **not** check `.astro` files (`@astrojs/check` not installed). |
+| Lint | *Not configured* | Legacy `eslint-config-next` removed in cleanup (`F-003`); Astro ESLint + `@astrojs/check` remain follow-up (`F-006`). |
 | Functional tests | `node tests/test-functional.mjs` | **Passes** (`exit 0`); serves `dist/` on `127.0.0.1:4177` and verifies `HeroFocusConsole`, filter FLIP/Peek, `CipherPreview`, `ProjectModal` tabs, `CommandPalette`, No-JS SSR, `:has()` hover, and `360..1440px`. |
 | Content parity test | `node tests/test-content-parity.mjs` | **Passes** (`exit 0`); dynamically checks 6 projects, 6 certifications, and 15 forbidden terms. |
 | Motion & budget gate | `npm run test:motion` | **Passes** (`exit 0`); asserts tiered critical/deferred JS & CSS gzip deltas vs `aa90c9b`, `afterLcp` chunk load order, compositor-only CSS, `4x-CPU TBT < 250ms`, and `prefers-reduced-motion`. |
 | Quality gate (Lighthouse) | `node scripts/run-quality-gate.mjs` | Runs 5× mobile Lighthouse + console check on `dist/` (writes `lighthouse-motion-final.json`). |
-| Security audit | `npm audit` | **Fails** (`exit 1`: 19 vulns, mostly unused `next@16.1.6`, `F-002`). |
-
-> Do **not** use `npm run legacy:dev` or `npm run legacy:build` — they target archived pre-Astro HTML.
+| Security audit | `npm audit` | 5 remaining advisories (`0` Critical, 2 High, 2 Moderate, 1 Low — `next` Critical/High removed; `F-002` partially resolved). |
 
 ---
 
@@ -33,7 +31,6 @@ Goal: showcase AI/software engineering artifacts with 99+ Lighthouse performance
 - `motion@14.12.0` (MIT; pinned exact; import **only** via `import('motion/mini')` inside `src/lib/lazyMotion.ts`, never eagerly before LCP)
 - `tailwindcss@4.2.1` + `@tailwindcss/vite@4.3.3`
 - `zod@4.6.7` + `typescript@5.9.3` (`extends: "astro/tsconfigs/strict"`)
-- Ignore `next`, `react`, `react-dom`, `framer-motion`, `lucide-react`, `react-simple-typewriter` — leftover unused dependencies (`F-003`).
 
 ---
 
@@ -47,6 +44,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) §4 for the full annotated tree. Key acti
 - `src/data/{profile.json,schema.ts,profile.ts,projectCatalog.ts}` — Zod-validated bilingual profile & unified public project catalog
 - `src/styles/{global,motion}.css` — Tailwind v4 `@theme` tokens & motion CSS (`[UNVERIFIED on Safari/Firefox]` for `animation-timeline`, `@starting-style`, `:has()`, View Transitions)
 - `public/` — Fonts, images, `CV.pdf`, `js/{main,motion}.js`, `robots.txt`, `sitemap.xml`
+- `docs/` — Architecture, audit, decision, and operating manuals (`AGENT.md`, `ARCHITECTURE.md`, `AUDIT_REPORT.md`, `DECISION_REPORT.md`)
 - `tests/` — Puppeteer functional & content-parity checks
 
 ---
@@ -160,7 +158,7 @@ const sectionTag = lang === 'id' ? 'LANDASAN AKADEMIK' : 'ACADEMIC FOUNDATION';
 - [ ] Responsive verified at `360px`, `390px`, `768px`, `1440px` in both dark and light modes.
 - [ ] Reduced-motion (`prefers-reduced-motion: reduce`) and keyboard navigation (Tab, Enter, Escape on modal) verified.
 - [ ] Lighthouse targets met (`Perf >= 95`, `A11y = 100` with `0` failed audits, `BP = 100`, `SEO = 100`).
-- [ ] `ARCHITECTURE.md` / `AGENT.md` updated if structure, commands, or playbooks changed.
+- [ ] `docs/ARCHITECTURE.md` / `docs/AGENT.md` updated if structure, commands, or playbooks changed.
 
 ---
 
@@ -196,9 +194,9 @@ const sectionTag = lang === 'id' ? 'LANDASAN AKADEMIK' : 'ACADEMIC FOUNDATION';
 ## 12. Sources of Truth (Conflict Resolution Order)
 1. **Runtime & Build Configs**: `package.json`, `package-lock.json`, `astro.config.mjs`, `tsconfig.json`, `vercel.json` (authoritative for versions, routes, build, headers).
 2. **Profile & Schema**: `src/data/schema.ts` + `src/data/profile.json` (authoritative for verified biographical/project facts; cross-check `tests/allowlist-approved-diffs.json`).
-3. **Architecture & Agent Docs**: `ARCHITECTURE.md` and `AGENT.md` (must match #1 and #2).
+3. **Architecture & Agent Docs**: `docs/ARCHITECTURE.md` and `docs/AGENT.md` (must match #1 and #2).
 
 ---
 
 ## 13. Maintenance Rule
-Whenever you add/remove a dependency, change build/test scripts, add a route/island/data field, or resolve an audit finding (`F-001`–`F-017`), **update `ARCHITECTURE.md` and `AGENT.md` in the same PR** so neither document drifts from the codebase.
+Whenever you add/remove a dependency, change build/test scripts, add a route/island/data field, or resolve an audit finding (`F-001`–`F-017`), **update `docs/ARCHITECTURE.md` and `docs/AGENT.md` in the same PR** so neither document drifts from the codebase.

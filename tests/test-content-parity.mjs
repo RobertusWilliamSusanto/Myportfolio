@@ -93,7 +93,7 @@ async function runParityAudit() {
   console.log('2. Checking projects parity (titles, badges, descriptions, tags)...');
   const expectedProjectCount = profile.projects.length;
   if (fixture.projects.length !== expectedProjectCount) {
-    errors.push(`Fixture project count (${fixture.projects.length}) out of sync with profile.json (${expectedProjectCount}); re-run scripts/generate-snapshot-fixture.mjs`);
+    errors.push(`Fixture project count (${fixture.projects.length}) out of sync with profile.json (${expectedProjectCount}); update tests/fixtures/snapshot-backup-pre-i18n.json`);
   }
   if (idRes.data.projects.length !== expectedProjectCount) {
     errors.push(`Expected ${expectedProjectCount} projects on ID page, got ${idRes.data.projects.length}`);
@@ -208,7 +208,7 @@ async function runParityAudit() {
   console.log('5. Checking certifications parity...');
   const expectedCertCount = (profile.certifications || []).length;
   if (fixture.certifications.length !== expectedCertCount) {
-    errors.push(`Fixture certification count (${fixture.certifications.length}) out of sync with profile.json (${expectedCertCount}); re-run scripts/generate-snapshot-fixture.mjs`);
+    errors.push(`Fixture certification count (${fixture.certifications.length}) out of sync with profile.json (${expectedCertCount}); update tests/fixtures/snapshot-backup-pre-i18n.json`);
   }
   if (idRes.data.certifications.length !== expectedCertCount) {
     errors.push(`Expected ${expectedCertCount} certifications on ID page, got ${idRes.data.certifications.length}`);
