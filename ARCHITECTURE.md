@@ -72,7 +72,7 @@ flowchart LR
 | `src/js/` | Leftover copies of `motion.js` and `theme.js` | **Unused** (duplicated in `public/js/`) |
 | `public/` | Static assets copied directly to `dist/`: `fonts/`, `images/`, `js/{main,motion,theme}.js`, `CV.pdf`, `robots.txt`, `sitemap.xml`, legacy `css/style.css`, unused Next.js SVGs, uncompressed JPG/PNGs | Served from `/` by Astro & Vercel (`theme.js` unused) |
 | `api/` | `api/README.md` reserving future Vercel serverless functions (e.g., AI chatbot) | Reserved; no active `.ts`/`.js` endpoints |
-| `tests/` | `test-functional.mjs` (Puppeteer), `test-content-parity.mjs` (Puppeteer vs fixture), `allowlist-approved-diffs.json`, `fixtures/snapshot-backup-pre-i18n.json` | Executed manually via `node tests/...` |
+| `tests/` | `test-functional.mjs`, `test-content-parity.mjs`, `test-motion-budgets.mjs` (`npm run test:motion`), fixtures & allowlist | Executed via `node tests/...` and `npm run test:motion` |
 | `scripts/` | 16 `.js`/`.mjs` QA, Lighthouse, visual-diff, fixture-generation, and legacy-build scripts | Executed manually; not wired into `npm test` |
 | `app/`, `components/` | Leftover Next.js 16 App Router pages (`layout.tsx`, `page.tsx`, `robots.ts`, `sitemap.ts`) and React components | **Dead code** (unused by Astro build) |
 | `_legacy/` | Archived pre-Astro static HTML/CSS/JS site (`_legacy/index.html`) | **Archived reference** used by `scripts/generate-snapshot-fixture.mjs` |
@@ -97,18 +97,18 @@ flowchart LR
 - **Layout Shell**: `MainPage.astro` wraps all sections in `BaseLayout.astro`, passing `lang`, `pageTitle`, and `pageDesc`.
 - **Static `.astro` Sections (Zero Client JS)**: `Navbar` (embeds `ThemeToggle`), `MobileDrawer`, `Hero`, `About`, `Projects`, `Experience`, `Skills`, `Education`, `Contact`, `Footer`, `BottomNav`, `ChatbotMount` (empty `hidden` mount point).
 - **Hydrated Preact Islands (`src/islands/`)**:
-  - `ProjectFilter.tsx` (`client:visible` in `Projects.astro:38`): Renders 5 domain filter chips and sets `data-active-filter="<id>"` on `#projects-grid`. CSS rules in `src/styles/motion.css:301-308` dim non-matching `<article data-domain="...">` cards (`opacity: 0.18; transform: scale(0.97); pointer-events: none`).
+  - `ProjectFilter.tsx` (`client:idle` in `Projects.astro:38`): Computes domain counts dynamically from `[data-domain]` cards, hides non-matching cards (`hidden` + `display: none` + `inert` + `aria-hidden="true"`), marks matching cards `.revealed` with staggered compositor entrance, and announces filtered counts via a localized `aria-live="polite"` status line.
   - `YoloDemo.tsx` (`client:visible` in `Projects.astro:78`): Interactive drag/keyboard (`ArrowLeft`/`ArrowRight`) comparison slider using `clipPath: inset(0 0 0 ${sliderPos}%)` over two `<picture>` layers of `/project-ai.jpg`.
-  - `ProjectModal.tsx` (`client:idle` in `MainPage.astro:77`): Attaches a global `document` click listener for `[data-project-trigger]` attributes (`yolo`, `sibarista`, `kriptografi`, `portfolio`, `expense-tracker`, `partsbin`) and opens a native `<dialog>` via `showModal()`.
+  - `ProjectModal.tsx` (`client:idle` in `MainPage.astro:77`): Attaches a global `document` click listener for `[data-project-trigger]` attributes (`yolo`, `sibarista`, `kriptografi`, `portfolio`, `expense-tracker`, `partsbin`), opens `<dialog>` via `showModal()`, traps `Tab`/`Shift+Tab` inside the dialog, restores trigger focus on close, and animates via `@starting-style` + `transition-behavior: allow-discrete` (`[UNVERIFIED on Safari/Firefox]`).
 - **Cross-Cutting DOM Controllers (`public/js/`)**:
-  - `main.js`: Exposes `window.openDirectEmail` and `window.copyEmailAddress`; binds `.theme-toggle-btn`, mobile drawer open/close, `IntersectionObserver` active-nav highlighting (`#desktop-nav`, `#bottom-nav`), and `.scroll-reveal`.
-  - `motion.js`: Checks `prefers-reduced-motion` (`html.reduced-motion`), applies stagger delays (`--stagger-delay: k*60ms`), observes `.scroll-reveal`, runs cursor spotlight (`--mouse-x`/`--mouse-y`) on desktop fine pointers, and animates `#yolo-precision-counter` (`0%` -> `90%`).
+  - `main.js`: Exposes `window.openDirectEmail` and `window.copyEmailAddress` (updates `#clipboard-live` `aria-live`, toggles checkmark icon, syncs `aria-label` in copied state); binds `.theme-toggle-btn` (progressive `document.startViewTransition` crossfade, `[UNVERIFIED on Safari/Firefox]`), mobile drawer, and `IntersectionObserver` active-nav highlighting with `translate3d`/`scaleX` indicators (`#desktop-nav-indicator`, `#bottom-nav-indicator`) measured lazily on `load`/`fonts.ready`/`resize`.
+  - `motion.js`: Checks `prefers-reduced-motion` (`html.reduced-motion`), runs `.scroll-reveal` `IntersectionObserver` fallback ONLY when `!CSS.supports('animation-timeline', 'view()')`, runs scroll progress `scaleX` fallback ONLY when `!CSS.supports('animation-timeline', 'scroll()')`, pauses `.status-dot-pulse` off-viewport, drives card cursor spotlight (`--mouse-x`/`--mouse-y`), and animates `#yolo-precision-counter` (`0%` -> `90%`).
 
 ---
 
 ## 7. Data & Content Flow
 
-1. **Canonical Structured Data (`src/data/profile.json`)**: Stores bilingual `{ id, en }` strings, `public: boolean` flags, identity, summary, 1 education entry, 6 projects, 4 experiences, 6 skill categories, 5 certifications, and 5 links.
+1. **Canonical Structured Data (`src/data/profile.json`)**: Stores bilingual `{ id, en }` strings, `public: boolean` flags, identity, summary, 1 education entry, 6 projects, 4 experiences, 6 skill categories, 6 certifications (including Google Cloud Computing Foundations Certificate), and 5 links.
 2. **Validation & Helpers (`src/data/schema.ts`, `src/data/profile.ts`)**: `ProfileSchema.parse(profileJson)` validates the JSON at Astro build time; `getLocalized(field, lang)` unwraps `{ value }` and `{ id, en }` objects.
 3. **Actual Component Consumption (Split Source — Known Tech Debt `F-007`)**:
    - **Reads from `profile.ts`**: `BaseLayout` (name, links), `Hero` (availability status, unused `summaryText`), `Education` (degree, certs), `Experience` (title, institution, description, period, type), `Skills` (category titles & descriptions), `Projects` (card titles, descriptions, and tags for Cards 4–6).
@@ -129,12 +129,13 @@ No global state library (Redux/Zustand/Nano Stores) is used. State is localized 
 ## 9. Styling & Design System
 
 - **Tailwind CSS v4**: Loaded via `@tailwindcss/vite` (`astro.config.mjs:20`) and `@import "tailwindcss";` (`src/styles/global.css:1`). `build.inlineStylesheets: 'always'` embeds `48,804 B` of compiled CSS into `<style>` tags inside each HTML file.
-- **Design Tokens (`src/styles/global.css:22-88`)**:
-  - **Dark Theme (`:root`, default)**: `--surface: #131313`, `--surface-container-lowest: #0e0e0e`, `--surface-container-low: #1c1b1b`, `--surface-container: #201f1f`, `--surface-container-high: #2a2a2a`, `--primary: #ffffff`, `--on-surface: #e5e2e1`, `--on-surface-variant: #c4c7c9`, `--outline: #8e9193`, `--secondary: #34d399` (emerald accent).
-  - **Light Theme (`html.light`)**: `--surface: #f8f9fa`, `--surface-container-low: #f1f3f5`, `--primary: #121212`, `--on-surface: #1a1a1a`, `--secondary: #059669`.
+- **Design Tokens (`src/styles/global.css:22-102`)**:
+  - **Dark Theme (`:root`, default)**: `--surface: #131313`, `--surface-container-lowest: #0e0e0e`, `--surface-container-low: #1c1b1b`, `--surface-container: #201f1f`, `--surface-container-high: #2a2a2a`, `--primary: #ffffff`, `--on-surface: #e5e2e1`, `--on-surface-variant: #c4c7c9`, `--outline: #8e9193`, `--secondary: #34d399` (emerald accent), `--dot-color: rgba(255, 255, 255, 0.045)`.
+  - **Light Theme (`html.light`)**: `--surface: #f8f9fa`, `--surface-container-low: #f1f3f5`, `--primary: #121212`, `--on-surface: #1a1a1a`, `--secondary: #059669`, `--dot-color: rgba(18, 18, 18, 0.06)`.
+  - **Motion Tokens (`:root`)**: `--duration-instant: 100ms`, `--duration-fast: 150ms`, `--duration-base: 250ms`, `--duration-slow: 500ms`, `--duration-hero: 650ms`, `--ease-standard: cubic-bezier(0.22, 1, 0.36, 1)`, `--ease-decelerate: cubic-bezier(0, 0, 0.2, 1)`, `--ease-accelerate: cubic-bezier(0.4, 0, 1, 1)`, `--stagger-step: 60ms`, `--motion-distance-sm: 8px`, `--motion-distance-md: 16px`.
   - **Typography**: `'Geist'` (`--font-sans`, `/fonts/geist-latin.woff2`) and `'JetBrains Mono'` (`--font-mono`, `/fonts/jetbrains-mono-latin.woff2`).
 - **Responsive Breakpoints**: Standard Tailwind breakpoints (`sm` 640px, `md` 768px, `lg` 1024px) inside `max-w-[1280px]` containers; mobile uses `BottomNav` + `MobileDrawer` below `lg`, desktop uses top `#desktop-nav` at `lg+`.
-- **Motion System (`src/styles/motion.css`)**: Implements E1 hero word slide, E2 pulsing availability dot, E3 mono typing (`steps(53, end)` on `>=640px`, fade on `<640px`), E4 scroll reveal (`html.js:not(.reduced-motion)`), and E5 CSS scroll-progress bar, timeline draw, and hover spotlight.
+- **Motion System (`src/styles/motion.css`)**: Implements E1 hero word slide, E2 pulsing availability dot (paused offscreen/hover/focus), E3 mono typing via compositor `clip-path`, E4 mutually exclusive `animation-timeline: view()` / IO scroll reveals (`[UNVERIFIED on Safari/Firefox]`), E5 scroll progress bar (`scroll()` + rAF fallback), `.btn-interactive` & `.skill-chip` states, `.nav-indicator` `translate3d`/`scaleX`, `<dialog>` `@starting-style` (`[UNVERIFIED on Safari/Firefox]`), View Transition theme crossfade (`[UNVERIFIED on Safari/Firefox]`), and consolidated `prefers-reduced-motion: reduce` overrides.
 
 ---
 
@@ -166,17 +167,17 @@ No global state library (Redux/Zustand/Nano Stores) is used. State is localized 
 
 ## 12. Performance Strategy
 
-- **Zero-JS by Default**: Static sections ship pure HTML; only 3 islands hydrate (`ProjectFilter` and `YoloDemo` on `client:visible`, `ProjectModal` on `client:idle`). Total Preact + island JS in `dist/_astro/` is ~45.8 KB uncompressed across 8 chunks.
+- **Zero-JS by Default**: Static sections ship pure HTML; only 3 islands hydrate (`YoloDemo` on `client:visible`, `ProjectFilter` and `ProjectModal` on `client:idle`). Total Preact + island JS in `dist/_astro/` is ~48.2 KB raw (~19.8 KB gzip).
 - **Asset Strategy**: Hero avatar uses `<picture>` with AVIF/WebP (`/images/profile-352.avif` ~11.6 KB, `.webp` ~12.5 KB) and `fetchpriority="high"`; `YoloDemo` uses responsive `480w`/`800w`/`1200w` AVIF/WebP with `loading="lazy"` (`~24-86 KB`). Unoptimized `/project-ai.jpg` (`1.45 MB`) and `/Kriptografi.jpg` (`440 KB`) remain as fallbacks.
 - **Font Loading**: Self-hosted Latin subset `.woff2` (`geist-latin.woff2` 29.4 KB preloaded, `jetbrains-mono-latin.woff2` 31.4 KB).
-- **Observed Budgets (`scripts/run-quality-gate.mjs:135-148`)**: Perf `>= 95`, A11y `100`, BP `100`, SEO `100`, CLS `< 0.05`, TBT `< 150ms`, Console Errors `0`. Live Lighthouse achieved Mobile Perf `99` (`LCP 2033ms`, `CLS 0.0018`, `TBT 10ms`) and Desktop Perf `100` (`LCP 508ms`, `CLS 0.0005`).
+- **Observed Budgets (`scripts/run-quality-gate.mjs` & `npm run test:motion`)**: Perf `>= 95`, A11y `100`, BP `100`, SEO `100`, CLS `< 0.05`, TBT `< 150ms`, Console Errors `0`, new JS `<= +6 KB` gz, new CSS `<= +4 KB` gz. Post-upgrade Lighthouse achieved Mobile Perf `98` (`LCP 2182ms`, `CLS 0.0018`, `TBT 4ms`) and Desktop Perf `100` (`LCP 486ms`, `CLS 0.0005`, `TBT 0ms`).
 
 ---
 
 ## 13. SEO & Accessibility Implementation
 
 - **SEO (`BaseLayout.astro:58-82,110`)**: Localized `<title>` and `<meta name="description">`, `<link rel="canonical">`, `<link rel="alternate" hreflang="id|en|x-default">`, `og:type`, `og:locale`, `og:locale:alternate`, `og:url`, `og:title`, `og:description`, `og:image`, Twitter `summary_large_image`, and `<script type="application/ld+json">` `Person` schema. Static `public/robots.txt` and `public/sitemap.xml` (with `xhtml:link` alternates).
-- **Accessibility**: Semantic landmarks (`<header>`, `<nav>`, `<main id="main-content">`, `<footer role="contentinfo">`), `aria-current="page"` managed by `IntersectionObserver` (`public/js/main.js:111,123`), native `<dialog>` modal (`aria-modal="true"`), keyboard slider (`role="slider"`, `aria-valuenow`, Arrow keys), `prefers-reduced-motion` media query support. Known gaps tracked in `AUDIT_REPORT.md` (`F-004`, `F-005`, `F-013`).
+- **Accessibility**: Semantic landmarks (`<header>`, `<nav>`, `<main id="main-content">`, `<footer role="contentinfo">`), focus-visible skip link (`BaseLayout.astro:117`), `aria-current="page"` managed by `IntersectionObserver`, native `<dialog>` modal with `aria-modal="true"` + Tab cycle trap + trigger focus restore, `inert` + `aria-hidden` on filtered-out project cards, WCAG 2.5.3 aligned `aria-label`s (including dynamic copy-button states), polite `aria-live` regions (`ProjectFilter`, `#clipboard-live`), keyboard slider (`role="slider"`), and `prefers-reduced-motion` safeguards. Remaining gaps tracked in `AUDIT_REPORT.md` (`F-013`).
 
 ---
 
@@ -194,7 +195,8 @@ No global state library (Redux/Zustand/Nano Stores) is used. State is localized 
 | Suite / Script | Tooling | Scope | Current Status |
 | --- | --- | --- | --- |
 | `tests/test-functional.mjs` | Puppeteer + Chrome | Verifies switcher, filter buttons, `ProjectModal` open, and copy email on `dist/{index,en/index}.html` | **Passing** (exit `0`) |
-| `tests/test-content-parity.mjs` | Puppeteer + fixture | Verifies forbidden terms and exact ID/EN text parity against `tests/fixtures/snapshot-backup-pre-i18n.json` + allowlist | **Failing** (`F-001`: expects 5 projects, finds 6) |
+| `tests/test-content-parity.mjs` | Puppeteer + fixture | Verifies 15 forbidden terms and exact ID/EN text parity for 6 projects, 4 experiences, education, 6 certifications | **Passing** (exit `0`) |
+| `tests/test-motion-budgets.mjs` (`npm run test:motion`) | Node + Puppeteer | Asserts JS/CSS gzip deltas vs Phase 0 baseline, zero `transition: all` / non-compositor keyframes, and `prefers-reduced-motion` runtime behavior | **Passing** (exit `0`) |
 | `scripts/run-quality-gate.mjs` | Puppeteer + Lighthouse | 5-run mobile Lighthouse + console error gate on `localhost:4175` | Manual execution only |
 | `scripts/run-gate.mjs` | Puppeteer + Lighthouse | Visual screenshots, CLS, 4× CPU long-task check, 3-run Lighthouse | Manual execution only |
 | `npx tsc --noEmit` | TypeScript | Checks `src/**/*.ts(x)` only (excludes `.astro`) | **Passing** (exit `0`) |
@@ -238,11 +240,10 @@ No global state library (Redux/Zustand/Nano Stores) is used. State is localized 
 
 | Risk / Debt | Audit Finding IDs | Summary |
 | --- | --- | --- |
-| Failing parity suite & broken ESLint | `F-001`, `F-006` | `test-content-parity.mjs` expects 5 projects; `eslint` targets Next.js and scans `dist/`. |
+| Broken ESLint & missing `.astro` typecheck | `F-006` | `eslint` targets Next.js and scans `dist/` (out-of-scope follow-up; `F-001` resolved). |
 | Vulnerable & dead dependencies | `F-002`, `F-003` | Unused `next@16.1.6` introduces Critical/High `npm audit` alerts alongside dead `app/`/`_legacy/`. |
-| Accessibility compliance gaps | `F-004`, `F-005` | 14 `label-content-name-mismatch` failures, hidden skip link, focusable filtered cards, small touch targets. |
 | Content duplication & ignored `public` flag | `F-007` | `ProjectModal`, `ProjectFilter`, `About`, `Experience`, `Skills`, `Projects` hardcode data instead of reading `profile.ts`. |
-| Unoptimized fallback assets & duplicate `public/` | `F-008`, `F-009` | 1.45 MB `project-ai.jpg`, duplicate root asset folders, duplicate `.scroll-reveal` observers. |
+| Unoptimized fallback assets & duplicate `public/` | `F-008` | 1.45 MB `project-ai.jpg` and duplicate root asset folders remain (`F-009` resolved). |
 | Missing CSP/HSTS & CI automation | `F-010`, `F-012` | Inline `onclick` handlers block strict CSP; no GitHub Actions workflow runs gates on PRs. |
 
 ---

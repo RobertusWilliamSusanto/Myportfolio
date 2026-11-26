@@ -16,6 +16,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test:motion": "node tests/test-motion-budgets.mjs",
     "legacy:dev": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --watch",
     "legacy:build": "npx @tailwindcss/cli -i src/styles/input.css -o css/style.css --minify && npx @tailwindcss/cli -i src/styles/input.css -o public/css/style.css --minify && node scripts/build-html.js"
   },

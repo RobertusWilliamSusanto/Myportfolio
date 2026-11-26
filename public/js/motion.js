@@ -10,36 +10,39 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    // 1. Single Shared IntersectionObserver for Below-the-Fold Scroll Reveals
+    // 1. Scroll Reveals: IO fallback ONLY when CSS animation-timeline: view() is unsupported
     var revealElements = document.querySelectorAll('.scroll-reveal');
-    if ('IntersectionObserver' in window && revealElements.length > 0) {
-      var revealObserver = new IntersectionObserver(function(entries, observer) {
-        for (var i = 0; i < entries.length; i++) {
-          var entry = entries[i];
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
+    var supportsViewTimeline = window.CSS && CSS.supports('animation-timeline', 'view()');
+    if (!supportsViewTimeline) {
+      if ('IntersectionObserver' in window && revealElements.length > 0) {
+        var revealObserver = new IntersectionObserver(function(entries, observer) {
+          for (var i = 0; i < entries.length; i++) {
+            var entry = entries[i];
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          }
+        }, {
+          threshold: 0.05,
+          rootMargin: '40px 0px -20px 0px'
+        });
+
+        var staggerGroups = document.querySelectorAll('.stagger-group');
+        for (var g = 0; g < staggerGroups.length; g++) {
+          var items = staggerGroups[g].querySelectorAll('.scroll-reveal');
+          for (var k = 0; k < items.length; k++) {
+            items[k].style.setProperty('--stagger-delay', (k * 60) + 'ms');
           }
         }
-      }, {
-        threshold: 0.05,
-        rootMargin: '40px 0px -20px 0px'
-      });
 
-      var staggerGroups = document.querySelectorAll('.stagger-group');
-      for (var g = 0; g < staggerGroups.length; g++) {
-        var items = staggerGroups[g].querySelectorAll('.scroll-reveal');
-        for (var k = 0; k < items.length; k++) {
-          items[k].style.setProperty('--stagger-delay', (k * 60) + 'ms');
+        for (var j = 0; j < revealElements.length; j++) {
+          revealObserver.observe(revealElements[j]);
         }
-      }
-
-      for (var j = 0; j < revealElements.length; j++) {
-        revealObserver.observe(revealElements[j]);
-      }
-    } else {
-      for (var m = 0; m < revealElements.length; m++) {
-        revealElements[m].classList.add('revealed');
+      } else {
+        for (var m = 0; m < revealElements.length; m++) {
+          revealElements[m].classList.add('revealed');
+        }
       }
     }
 
@@ -105,6 +108,39 @@
         }
       }, { threshold: 0.2 });
       counterObserver.observe(metricCounter);
+    }
+
+    // 4. Pause looping status dot pulse when off-viewport
+    var statusDot = document.querySelector('.status-dot-pulse');
+    if (statusDot && 'IntersectionObserver' in window) {
+      var pulseObserver = new IntersectionObserver(function(entries) {
+        for (var i = 0; i < entries.length; i++) {
+          statusDot.classList.toggle('is-paused', !entries[i].isIntersecting);
+        }
+      }, { threshold: 0.05 });
+      pulseObserver.observe(statusDot);
+    }
+
+    // 5. Scroll Progress Bar Fallback when CSS scroll-timeline is unsupported
+    if (!window.CSS || !CSS.supports('animation-timeline', 'scroll()')) {
+      var progressEl = document.getElementById('scroll-progress');
+      if (progressEl) {
+        var progressTicking = false;
+        var syncProgress = function() {
+          var doc = document.documentElement;
+          var max = doc.scrollHeight - window.innerHeight;
+          var ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+          progressEl.style.transform = 'scaleX(' + ratio.toFixed(4) + ')';
+          progressTicking = false;
+        };
+        window.addEventListener('scroll', function() {
+          if (!progressTicking) {
+            requestAnimationFrame(syncProgress);
+            progressTicking = true;
+          }
+        }, { passive: true });
+        syncProgress();
+      }
     }
   });
 })();

@@ -240,7 +240,11 @@ async function generateFixture() {
       {
         id: allowlist.approved_changes.certifications_approved.cert5_id,
         en: allowlist.approved_changes.certifications_approved.cert5_en
-      }
+      },
+      ...(profile.certifications || []).slice(5).map((c) => {
+        const v = c.name?.value;
+        return typeof v === 'object' && v !== null ? { id: v.id || '', en: v.en || v.id || '' } : { id: v || '', en: v || '' };
+      })
     ],
     forbidden_unverified_terms: [
       "Udang",

@@ -31,13 +31,14 @@ const switchAria = lang === 'id' ? 'EN — Switch language to English' : 'ID —
     </div>
 
     <!-- Desktop Nav Links -->
-    <nav id="desktop-nav" class="hidden lg:flex items-center gap-1" aria-label="Main Navigation">
+    <nav id="desktop-nav" class="hidden lg:flex items-center gap-1 relative" aria-label="Main Navigation">
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#about">{aboutLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#projects">{projectsLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#experience">{expLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#skills">{skillsLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#education">{eduLabel}</a>
       <a class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded" href="#contact">{contactLabel}</a>
+      <span id="desktop-nav-indicator" class="nav-indicator pointer-events-none" aria-hidden="true"></span>
     </nav>
 
     <!-- Action Buttons -->
@@ -81,12 +82,12 @@ const switchAria = lang === 'id' ? 'EN — Switch language to English' : 'ID —
       <ThemeToggle />
 
       <!-- Connect CTA -->
-      <a class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded bg-primary text-on-primary text-xs font-semibold hover:bg-primary-container transition-colors min-h-[44px]" href="https://mail.google.com/mail/?view=cm&fs=1&to=robertuswilliamsusanto@gmail.com" target="_blank" rel="noopener noreferrer" onclick="openDirectEmail(event)">
+      <a class="btn-interactive hidden sm:inline-flex items-center justify-center px-4 py-2 rounded bg-primary text-on-primary text-xs font-semibold hover:bg-primary-container min-h-[44px]" href="https://mail.google.com/mail/?view=cm&fs=1&to=robertuswilliamsusanto@gmail.com" target="_blank" rel="noopener noreferrer" onclick="openDirectEmail(event)">
         {connectCta}
       </a>
 
       <!-- Mobile Drawer Hamburger Button -->
-      <button type="button" id="mobile-drawer-open" aria-label={lang === 'id' ? 'Buka menu navigasi' : 'Open navigation menu'} class="lg:hidden w-11 h-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded bg-surface-container border border-outline-variant/30 text-on-surface-variant hover:text-on-surface">
+      <button type="button" id="mobile-drawer-open" aria-label={lang === 'id' ? 'Buka menu navigasi' : 'Open navigation menu'} class="btn-interactive lg:hidden w-11 h-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded bg-surface-container border border-outline-variant/30 text-on-surface-variant hover:text-on-surface cursor-pointer">
         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
         </svg>
