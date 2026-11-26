@@ -14,16 +14,47 @@ window.openDirectEmail = function(e) {
 window.copyEmailAddress = function(btn) {
   var email = 'robertuswilliamsusanto@gmail.com';
   var label = btn.querySelector('.copy-label') || btn;
+  var iconDefault = btn.querySelector('.copy-icon-default');
+  var iconDone = btn.querySelector('.copy-icon-done');
+  var liveEl = document.getElementById('clipboard-live');
   var originalText = btn.getAttribute('data-original-text') || label.textContent;
+  var originalAria = btn.getAttribute('data-original-aria') || btn.getAttribute('aria-label');
+  if (originalAria && !btn.getAttribute('data-original-aria')) {
+    btn.setAttribute('data-original-aria', originalAria);
+  }
+  btn.setAttribute('data-original-text', originalText);
+
   var isId = (document.documentElement.lang || 'id') === 'id';
   var defaultFeedback = isId ? 'TERSALIN KE CLIPBOARD!' : 'COPIED TO CLIPBOARD!';
   var feedbackText = btn.getAttribute('data-copied-text') || defaultFeedback;
+  var liveAnnouncement = isId
+    ? email + ' berhasil disalin ke clipboard.'
+    : email + ' copied to clipboard.';
 
   function showFeedback() {
+    if (btn._copyTimer) clearTimeout(btn._copyTimer);
     label.textContent = feedbackText;
+    if (originalAria) {
+      btn.setAttribute('aria-label', feedbackText);
+    }
+    if (iconDefault && iconDone) {
+      iconDefault.classList.add('hidden');
+      iconDone.classList.remove('hidden');
+    }
     btn.classList.add('bg-secondary-container', 'text-secondary-fixed');
-    setTimeout(function() {
+    if (liveEl) {
+      liveEl.textContent = '';
+      requestAnimationFrame(function() { liveEl.textContent = liveAnnouncement; });
+    }
+    btn._copyTimer = setTimeout(function() {
       label.textContent = originalText;
+      if (originalAria) {
+        btn.setAttribute('aria-label', originalAria);
+      }
+      if (iconDefault && iconDone) {
+        iconDone.classList.add('hidden');
+        iconDefault.classList.remove('hidden');
+      }
       btn.classList.remove('bg-secondary-container', 'text-secondary-fixed');
     }, 2200);
   }
@@ -31,13 +62,18 @@ window.copyEmailAddress = function(btn) {
   function fallbackCopy() {
     var ta = document.createElement('textarea');
     ta.value = email;
+    ta.setAttribute('readonly', '');
     ta.style.position = 'fixed';
     ta.style.opacity = '0';
     document.body.appendChild(ta);
     ta.select();
     try {
-      document.execCommand('copy');
-      showFeedback();
+      var copied = document.execCommand('copy');
+      if (copied) {
+        showFeedback();
+      } else {
+        window.location.href = 'mailto:' + email;
+      }
     } catch (err) {
       window.location.href = 'mailto:' + email;
     }

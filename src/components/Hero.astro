@@ -91,8 +91,11 @@ const copyEmailAria = lang === 'id' ? 'robertuswilliamsusanto@gmail.com — Sali
     </a>
 
     <button type="button" class="btn-interactive inline-flex items-center justify-center gap-2 px-4 py-3 rounded bg-surface-container border border-outline-variant/30 text-on-surface-variant hover:text-primary hover:bg-surface-container-high min-h-[44px] cursor-pointer" onclick="copyEmailAddress(this)" aria-label={copyEmailAria} data-copied-text={copiedFeedback}>
-      <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+      <svg class="copy-icon-default w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+      </svg>
+      <svg class="copy-icon-done hidden w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
       </svg>
       <span class="copy-label font-mono text-xs">robertuswilliamsusanto@gmail.com</span>
     </button>
