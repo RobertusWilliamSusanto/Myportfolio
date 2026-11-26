@@ -1,5 +1,6 @@
 ---
 import YoloDemo from '../islands/YoloDemo';
+import CipherPreview from '../islands/CipherPreview';
 import ProjectFilter from '../islands/ProjectFilter';
 import ProjectPeek from './ProjectPeek.astro';
 import { projects, getLocalized, type Lang } from '../data/profile';
@@ -154,6 +155,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
             <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Cryptography</span>
             <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Classical Ciphers</span>
           </div>
+          <CipherPreview client:visible lang={lang} />
           {specByTrigger.kriptografi && <ProjectPeek item={specByTrigger.kriptografi} lang={lang} />}
         </div>
         <div class="p-6 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">

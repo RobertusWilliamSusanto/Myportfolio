@@ -375,7 +375,7 @@ export default function ProjectModal({ lang = 'id', catalog }: Props) {
   return (
     <dialog
       ref={dialogRef}
-      class="project-dialog backdrop:bg-black/80 backdrop:backdrop-blur-md bg-surface-container border border-outline-variant/40 rounded-2xl p-0 max-w-2xl w-[92vw] text-on-surface shadow-2xl m-auto z-[200] focus:outline-none"
+      class="project-dialog backdrop:bg-black/85 bg-surface-container border border-outline-variant/40 rounded-2xl p-0 max-w-2xl w-[92vw] text-on-surface shadow-2xl m-auto z-[200] focus:outline-none"
       onClose={handleDialogClose}
       onCancel={handleDialogClose}
       onKeyDown={handleDialogKeyDown}

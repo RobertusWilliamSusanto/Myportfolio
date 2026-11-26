@@ -120,6 +120,30 @@ async function testPage(pageUrl, lang) {
   await peekSummary.click();
   console.log(`  ✓ [${lang}] ProjectFilter sliding indicator, FLIP & Peek Specs verified (${filterChips.length} chips)`);
 
+  // 2c. Live CipherPreview interactive output (Caesar + Vigenère)
+  await page.evaluate(() => document.getElementById('cipher-preview-widget')?.scrollIntoView({ behavior: 'instant', block: 'center' }));
+  await page.waitForFunction(
+    () => {
+      const cp = document.getElementById('cipher-preview-widget')?.closest('astro-island');
+      return cp && !cp.hasAttribute('ssr');
+    },
+    { timeout: 5000 }
+  );
+  await page.click('#cipher-preview-widget [data-cipher-mode="vigenere"]');
+  const cipherOut = await page.$eval('#cipher-preview-output', (el) => el.textContent?.trim());
+  if (cipherOut !== 'ZINDS') {
+    throw new Error(`[${lang}] CipherPreview Vigenere(HELLO, SEC) expected ZINDS, got "${cipherOut}"`);
+  }
+  await page.click('#cipher-preview-widget [data-cipher-edit]');
+  await page.$eval('#cipher-preview-input', (el) => el.select());
+  await page.type('#cipher-preview-input', 'ABC');
+  await page.click('#cipher-preview-widget [data-cipher-mode="caesar"]');
+  const customOut = await page.$eval('#cipher-preview-output', (el) => el.textContent?.trim());
+  if (customOut !== 'DEF') {
+    throw new Error(`[${lang}] CipherPreview Caesar(ABC) expected DEF, got "${customOut}"`);
+  }
+  console.log(`  ✓ [${lang}] CipherPreview interactive encryption verified (${cipherOut})`);
+
   // 3. Project modal trigger can open dialog
   const firstTrigger = await page.$('#projects [data-project-trigger]');
   if (!firstTrigger) {
