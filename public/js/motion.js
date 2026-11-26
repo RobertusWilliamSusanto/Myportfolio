@@ -106,5 +106,16 @@
       }, { threshold: 0.2 });
       counterObserver.observe(metricCounter);
     }
+
+    // 4. Pause looping status dot pulse when off-viewport
+    var statusDot = document.querySelector('.status-dot-pulse');
+    if (statusDot && 'IntersectionObserver' in window) {
+      var pulseObserver = new IntersectionObserver(function(entries) {
+        for (var i = 0; i < entries.length; i++) {
+          statusDot.classList.toggle('is-paused', !entries[i].isIntersecting);
+        }
+      }, { threshold: 0.05 });
+      pulseObserver.observe(statusDot);
+    }
   });
 })();

@@ -16,8 +16,7 @@
 
 .hero-word-inner {
   display: inline-block;
-  animation: hero-word-slide 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  will-change: transform, opacity;
+  animation: hero-word-slide var(--duration-hero) var(--ease-standard) both;
 }
 
 .hero-word:nth-child(1) .hero-word-inner { animation-delay: 0ms; }
@@ -44,7 +43,7 @@
 }
 
 
-/* --- E2: Pulsing Availability Dot (Ladder A) --- */
+/* --- E2: Pulsing Availability Dot (Ladder A, paused offscreen & on hover/focus) --- */
 .status-dot-pulse {
   position: relative;
   display: inline-flex;
@@ -60,8 +59,14 @@
   inset: 0;
   border-radius: 9999px;
   background-color: var(--secondary);
-  animation: dot-pulse-ring 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: dot-pulse-ring 2s var(--ease-standard) infinite;
   pointer-events: none;
+}
+
+.hero-status-pill:hover .status-dot-pulse::after,
+.hero-status-pill:focus-within .status-dot-pulse::after,
+.status-dot-pulse.is-paused::after {
+  animation-play-state: paused;
 }
 
 @keyframes dot-pulse-ring {
@@ -83,7 +88,7 @@
 }
 
 
-/* --- E3: Mono Label Typing Reveal (Ladder A) --- */
+/* --- E3: Mono Label Typing Reveal (Compositor clip-path, zero layout width animation) --- */
 .hero-mono-container {
   min-height: 1.5rem;
   display: flex;
@@ -93,19 +98,18 @@
 .hero-mono-typing {
   display: inline-block;
   white-space: nowrap;
-  overflow: hidden;
   max-width: fit-content;
   border-right: 2px solid var(--secondary);
-  width: 0;
-  animation: 
+  clip-path: inset(0 100% 0 0);
+  animation:
     type-mono 1.4s steps(53, end) 0.5s forwards,
     caret-blink 0.7s step-end 3 0.5s,
     caret-hide 0.01s 2.6s forwards;
 }
 
 @keyframes type-mono {
-  from { width: 0; }
-  to { width: 100%; }
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
 }
 
 @keyframes caret-blink {
@@ -117,12 +121,28 @@
   to { border-color: transparent; }
 }
 
+/* Non-LCP Hero subtle entrance (status pill & CTAs only; LCP subtitle & portrait stay opacity: 1) */
+.hero-settle {
+  animation: hero-settle-in var(--duration-slow) var(--ease-standard) var(--hero-delay, 0ms) both;
+}
+
+@keyframes hero-settle-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-sm));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 639px) {
   .hero-mono-typing {
     white-space: normal;
     border-right: none;
-    width: auto;
-    animation: fade-in-mono 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+    clip-path: none;
+    animation: fade-in-mono 0.6s var(--ease-standard) 0.5s both;
   }
   @keyframes fade-in-mono {
     from { opacity: 0; }
@@ -132,11 +152,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-mono-typing {
-    width: auto !important;
+    clip-path: none !important;
     border-right: none !important;
     white-space: normal !important;
     animation: none !important;
     opacity: 1 !important;
+  }
+  .hero-settle {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

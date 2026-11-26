@@ -24,7 +24,7 @@ const copyEmailAria = lang === 'id' ? 'robertuswilliamsusanto@gmail.com — Sali
 <!-- HERO SECTION -->
 <section class="relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 pt-16 pb-16 md:py-24 flex flex-col items-center text-center justify-center" aria-label="Hero Introduction">
   <!-- Status Pill with Compositor-Only Radar Pulse (E2 Ladder A) -->
-  <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface-container-high border border-outline-variant/40 mb-8 shadow-sm">
+  <div class="hero-status-pill hero-settle inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface-container-high border border-outline-variant/40 mb-8 shadow-sm" style="--hero-delay: 40ms;">
     <span class="relative flex h-2.5 w-2.5 items-center justify-center" aria-hidden="true">
       <span class="status-dot-pulse"></span>
     </span>
@@ -74,8 +74,8 @@ const copyEmailAria = lang === 'id' ? 'robertuswilliamsusanto@gmail.com — Sali
     )}
   </p>
 
-  <!-- Hero CTAs -->
-  <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-8 w-full max-w-md sm:max-w-none">
+  <!-- Hero CTAs (non-LCP, gentle stagger) -->
+  <div class="hero-settle flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-8 w-full max-w-md sm:max-w-none" style="--hero-delay: 140ms;">
     <a class="btn-interactive inline-flex items-center justify-center gap-2 px-6 py-3 rounded bg-primary text-on-primary text-sm font-semibold shadow hover:bg-primary-container min-h-[44px] min-w-[140px]" href="#projects">
       <span>{viewProjectsText}</span>
       <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
