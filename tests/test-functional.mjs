@@ -239,17 +239,14 @@ async function run() {
       const cards = await p.$$('#projects-grid .card-interactive');
       if (cards.length < 2) throw new Error('Expected at least 2 project cards for sibling spotlight check');
       await p.evaluate(() => document.querySelectorAll('#projects-grid .card-interactive')[0].scrollIntoView({ block: 'center' }));
+      await new Promise((r) => setTimeout(r, 80));
       await cards[0].hover();
       await p.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
-      await new Promise((r) => setTimeout(r, 320));
-      const siblingOpacity = await p.evaluate(() => {
+      await p.waitForFunction(() => {
         const list = document.querySelectorAll('#projects-grid .card-interactive');
         const target = list[1]?.firstElementChild || list[1];
-        return Number.parseFloat(getComputedStyle(target).opacity);
-      });
-      if (siblingOpacity > 0.85) {
-        throw new Error(`Expected sibling card dimmed on desktop hover via :has(), got opacity=${siblingOpacity}`);
-      }
+        return Boolean(target && Number.parseFloat(getComputedStyle(target).opacity) <= 0.85);
+      }, { timeout: 2000 });
       await p.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
       await new Promise((r) => setTimeout(r, 120));
       const reducedSiblingOpacity = await p.evaluate(() => {
