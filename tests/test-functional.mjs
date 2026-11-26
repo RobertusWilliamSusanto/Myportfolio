@@ -79,12 +79,38 @@ async function testPage(pageUrl, lang) {
   }
   console.log(`  ✓ [${lang}] Language switcher present`);
 
-  // 2. Project filter chips exist
-  const filterChips = await page.$$('#projects button');
-  if (filterChips.length === 0) {
-    throw new Error(`[${lang}] Project filter buttons not found`);
+  // 2. Project filter chips hydrate on visible scroll & filter cards + sliding indicator
+  await page.evaluate(() => document.getElementById('projects')?.scrollIntoView({ behavior: 'instant' }));
+  await page.waitForFunction(
+    () => {
+      const f = document.querySelector('#projects [data-filter-btn]')?.closest('astro-island');
+      return f && !f.hasAttribute('ssr');
+    },
+    { timeout: 5000 }
+  );
+  const filterChips = await page.$$('#projects [data-filter-btn]');
+  if (filterChips.length < 5) {
+    throw new Error(`[${lang}] Project filter buttons missing (got ${filterChips.length})`);
   }
-  console.log(`  ✓ [${lang}] Filter chips present (${filterChips.length} buttons)`);
+  await page.click('#projects [data-filter-btn="web"]');
+  await new Promise((r) => setTimeout(r, 200));
+  const filterState = await page.evaluate(() => {
+    const cards = Array.from(document.querySelectorAll('#projects-grid [data-domain]'));
+    const shown = cards.filter((c) => !c.hidden);
+    const hidden = cards.filter((c) => c.hidden && c.inert);
+    const ind = document.querySelector('.filter-indicator-pill');
+    return {
+      shown: shown.length,
+      hidden: hidden.length,
+      indOpacity: ind ? getComputedStyle(ind).opacity : '0'
+    };
+  });
+  if (filterState.shown !== 3 || filterState.hidden !== 3 || filterState.indOpacity !== '1') {
+    throw new Error(`[${lang}] Filter interaction failed: ${JSON.stringify(filterState)}`);
+  }
+  await page.click('#projects [data-filter-btn="all"]');
+  await new Promise((r) => setTimeout(r, 150));
+  console.log(`  ✓ [${lang}] ProjectFilter sliding indicator & FLIP filter verified (${filterChips.length} chips)`);
 
   // 3. Project modal trigger can open dialog
   const firstTrigger = await page.$('#projects [data-project-trigger]');

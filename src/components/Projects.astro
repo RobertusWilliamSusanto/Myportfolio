@@ -34,8 +34,8 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
       <span class="font-mono text-xs text-outline">{sectionSubtitle}</span>
     </div>
 
-    <!-- I2 Interactive Filter Chips (Hydrated Preact Island) -->
-    <ProjectFilter client:idle lang={lang} />
+    <!-- I2 Interactive Filter Chips (Hydrated Preact Island on visible) -->
+    <ProjectFilter client:visible lang={lang} />
 
     <!-- Bento Grid Container with Stagger Group (E4 Ladder A) -->
     <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-group">

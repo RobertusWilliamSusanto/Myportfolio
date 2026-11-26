@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'preact/hooks';
+import { useState, useEffect, useCallback, useRef } from 'preact/hooks';
+import { loadMotionMini, prefersReducedMotion } from '../lib/lazyMotion';
 
 interface FilterOption {
   id: string;
@@ -23,24 +24,50 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
   const [filters, setFilters] = useState<FilterOption[]>(DEFAULT_FILTERS);
   const [visibleCount, setVisibleCount] = useState<number>(6);
   const [totalCount, setTotalCount] = useState<number>(6);
+  const groupRef = useRef<HTMLDivElement>(null);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+  const chipRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  const applyFilterToGrid = useCallback((filterId: string, animate: boolean) => {
+  const syncIndicator = useCallback((filterId: string) => {
+    const group = groupRef.current;
+    const indicator = indicatorRef.current;
+    const btn = chipRefs.current[filterId];
+    if (!group || !indicator || !btn) return;
+    const gRect = group.getBoundingClientRect();
+    const bRect = btn.getBoundingClientRect();
+    if (bRect.width === 0) return;
+    const x = Math.round((bRect.left - gRect.left + 12) * 10) / 10;
+    const y = Math.round((bRect.bottom - gRect.top - 2) * 10) / 10;
+    const w = Math.max(12, Math.round((bRect.width - 24) * 10) / 10);
+    indicator.style.transform = `translate3d(${x}px, ${y}px, 0) scaleX(${w})`;
+    indicator.style.opacity = '1';
+  }, []);
+
+  const applyFilterToGrid = useCallback((filterId: string, animateFlip: boolean) => {
     const grid = document.getElementById('projects-grid');
     if (!grid) return;
 
-    grid.setAttribute('data-active-filter', filterId);
     const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-domain]'));
-    const reducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reducedMotion = prefersReducedMotion();
+
+    // First: capture rects of currently visible cards before DOM filter mutation (FLIP)
+    const prevRects = new Map<HTMLElement, DOMRect>();
+    if (animateFlip && !reducedMotion) {
+      cards.forEach((card) => {
+        if (!card.hidden) prevRects.set(card, card.getBoundingClientRect());
+      });
+    }
+
+    grid.setAttribute('data-active-filter', filterId);
 
     let shown = 0;
-    const toAnimate: HTMLElement[] = [];
+    const staying: HTMLElement[] = [];
+    const entering: HTMLElement[] = [];
 
     cards.forEach((card) => {
       const domains = (card.getAttribute('data-domain') || '').trim().split(/\s+/).filter(Boolean);
       const matches = filterId === 'all' || domains.includes(filterId);
+      const wasHidden = card.hidden;
 
       card.hidden = !matches;
       card.inert = !matches;
@@ -49,21 +76,44 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
       if (matches) {
         shown += 1;
         card.removeAttribute('aria-hidden');
-        // Ensure below-the-fold cards brought into view by filtering are never trapped at opacity: 0
         card.classList.add('revealed');
-        if (animate && !reducedMotion) {
-          toAnimate.push(card);
+        if (animateFlip && !reducedMotion) {
+          if (!wasHidden && prevRects.has(card)) staying.push(card);
+          else entering.push(card);
         }
       } else {
         card.setAttribute('aria-hidden', 'true');
       }
     });
 
-    if (toAnimate.length > 0) {
-      requestAnimationFrame(() => {
-        toAnimate.forEach((card, idx) => {
-          card.style.setProperty('--filter-stagger', `${Math.min(idx, 5) * 40}ms`);
-          card.classList.add('filter-enter');
+    if (animateFlip && !reducedMotion && (staying.length > 0 || entering.length > 0)) {
+      requestAnimationFrame(async () => {
+        const flipMoves = staying
+          .map((card) => {
+            const prev = prevRects.get(card);
+            const next = card.getBoundingClientRect();
+            const dx = prev ? Math.round(prev.left - next.left) : 0;
+            const dy = prev ? Math.round(prev.top - next.top) : 0;
+            return { card, dx, dy };
+          })
+          .filter((m) => m.dx !== 0 || m.dy !== 0);
+
+        const animate = await loadMotionMini();
+        if (!animate) return;
+
+        flipMoves.forEach(({ card, dx, dy }) => {
+          animate(
+            card,
+            { transform: [`translate3d(${dx}px, ${dy}px, 0)`, 'translate3d(0, 0, 0)'] },
+            { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+          );
+        });
+        entering.forEach((card, idx) => {
+          animate(
+            card,
+            { opacity: [0, 1], transform: ['translate3d(0, 10px, 0) scale(0.985)', 'translate3d(0, 0, 0) scale(1)'] },
+            { duration: 0.24, delay: Math.min(idx, 5) * 0.035, ease: [0.22, 1, 0.36, 1] }
+          );
         });
       });
     }
@@ -95,7 +145,15 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
       }
     }
     applyFilterToGrid('all', false);
-  }, [applyFilterToGrid]);
+    syncIndicator('all');
+  }, [applyFilterToGrid, syncIndicator]);
+
+  useEffect(() => {
+    syncIndicator(active);
+    const onResize = () => syncIndicator(active);
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => window.removeEventListener('resize', onResize);
+  }, [active, filters, syncIndicator]);
 
   const ariaLabel = lang === 'id' ? 'Filter proyek teknis berdasarkan domain' : 'Filter technical projects by domain';
   const activeOption = filters.find((f) => f.id === active) || filters[0];
@@ -108,10 +166,16 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
   return (
     <div class="flex flex-col gap-2 pt-2 pb-1">
       <div
-        class="flex flex-wrap items-center gap-2"
+        ref={groupRef}
+        class="relative flex flex-wrap items-center gap-2 pb-1"
         role="group"
         aria-label={ariaLabel}
       >
+        <span
+          ref={indicatorRef}
+          aria-hidden="true"
+          class="filter-indicator-pill pointer-events-none"
+        />
         <span class="font-mono text-[11px] uppercase tracking-wider text-outline mr-1 hidden sm:inline">
           FILTER:
         </span>
@@ -121,7 +185,11 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
           return (
             <button
               key={f.id}
+              ref={(el) => {
+                chipRefs.current[f.id] = el;
+              }}
               type="button"
+              data-filter-btn={f.id}
               onClick={() => handleSelect(f.id)}
               class={`px-3.5 py-2 rounded-full font-mono text-xs transition-colors duration-200 flex items-center gap-2 min-h-[44px] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface ${
                 isActive

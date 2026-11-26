@@ -355,6 +355,21 @@ button:disabled {
   top: 0;
 }
 
+.filter-indicator-pill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 2.5px;
+  border-radius: 9999px;
+  background-color: var(--secondary);
+  transform-origin: left center;
+  transform: translate3d(0, 0, 0) scaleX(0);
+  opacity: 0;
+  z-index: 5;
+  transition: transform var(--duration-base) var(--ease-standard), opacity var(--duration-fast) ease;
+}
+
 /* --- Skill Matrix Chips --- */
 .skill-chip {
   border: 1px solid transparent;
@@ -450,6 +465,7 @@ dialog.project-dialog[open]::backdrop {
   }
   .scroll-reveal,
   .nav-indicator,
+  .filter-indicator-pill,
   dialog.project-dialog,
   dialog.project-dialog::backdrop {
     transition: none !important;
