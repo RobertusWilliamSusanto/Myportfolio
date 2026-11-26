@@ -19,13 +19,14 @@ const connectCta = lang === 'id' ? 'Hubungi' : 'Connect';
 const targetLang = lang === 'id' ? 'en' : 'id';
 const targetHref = lang === 'id' ? '/en' : '/';
 const switchAria = lang === 'id' ? 'EN — Switch language to English' : 'ID — Ganti bahasa ke Bahasa Indonesia';
+const cmdAria = lang === 'id' ? 'Ctrl+K — Menu perintah cepat' : 'Ctrl+K — Quick command menu';
 ---
 <header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30">
-  <div class="h-16 max-w-[1280px] mx-auto px-3 sm:px-4 md:px-10 flex items-center justify-between gap-2 sm:gap-6">
+  <div class="h-16 max-w-[1280px] mx-auto px-2.5 sm:px-4 md:px-10 flex items-center justify-between gap-1.5 sm:gap-6">
     
     <!-- Logo -->
     <div class="flex items-center shrink-0 min-w-0">
-      <a class="flex items-center gap-2 text-primary hover:opacity-80 transition-opacity font-bold tracking-tight text-xs sm:text-base uppercase whitespace-nowrap shrink-0" href="#about">
+      <a class="flex items-center gap-2 text-primary hover:opacity-80 transition-opacity font-bold tracking-tight text-[11px] sm:text-base uppercase whitespace-nowrap shrink-0" href="#about">
         <span>PORTFOLIO ROBERTUS</span>
       </a>
     </div>
@@ -42,7 +43,21 @@ const switchAria = lang === 'id' ? 'EN — Switch language to English' : 'ID —
     </nav>
 
     <!-- Action Buttons -->
-    <div class="flex items-center gap-2 sm:gap-3">
+    <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+      <!-- Quick Command Palette Trigger (Ctrl/Cmd+K; falls back to #projects without JS) -->
+      <a
+        id="cmd-palette-open"
+        href="#projects"
+        data-cmd-open
+        aria-label={cmdAria}
+        class="btn-interactive inline-flex items-center justify-center gap-1.5 w-10 h-10 sm:w-auto sm:px-2.5 min-h-[40px] rounded bg-surface-container border border-outline-variant/30 text-on-surface-variant hover:text-primary cursor-pointer"
+      >
+        <svg class="w-4 h-4 fill-none stroke-current shrink-0" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="M20 20l-3.5-3.5" stroke-linecap="round" />
+        </svg>
+        <span class="hidden sm:inline font-mono text-[11px]">Ctrl+K</span>
+      </a>
       <!-- Language Switcher -->
       <div class="flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container border border-outline-variant/30 font-mono text-xs">
         {lang === 'id' ? (

@@ -42,7 +42,8 @@ async function testPage(pageUrl, lang) {
     () => {
       const hero = document.querySelector('#hero-focus-console')?.closest('astro-island');
       const modal = document.querySelector('#project-dialog-title, dialog.project-dialog')?.closest('astro-island');
-      return hero && !hero.hasAttribute('ssr') && modal && !modal.hasAttribute('ssr');
+      const cmd = document.querySelector('astro-island[component-url*="CommandPalette"]');
+      return hero && !hero.hasAttribute('ssr') && modal && !modal.hasAttribute('ssr') && (!cmd || !cmd.hasAttribute('ssr'));
     },
     { timeout: 6000 }
   );
@@ -160,7 +161,9 @@ async function testPage(pageUrl, lang) {
   if (!dialog) {
     throw new Error(`[${lang}] ProjectModal dialog did not open`);
   }
-  console.log(`  ✓ [${lang}] ProjectModal trigger & open dialog functional`);
+  await page.keyboard.press('Escape');
+  await new Promise(r => setTimeout(r, 250));
+  console.log(`  ✓ [${lang}] ProjectModal trigger, open dialog & Escape close functional`);
 
   // 4. Copy email button functional
   const emailBtn = await page.$('button[onclick*="copyEmailAddress"]');
@@ -168,6 +171,23 @@ async function testPage(pageUrl, lang) {
     await emailBtn.click();
     console.log(`  ✓ [${lang}] Copy email button functional`);
   }
+
+  // 5. Lazy Command Palette opens via Ctrl+K / button, navigates with ArrowDown, closes via Escape
+  const cmdBtn = await page.$('#cmd-palette-open');
+  if (!cmdBtn) throw new Error(`[${lang}] Command Palette trigger #cmd-palette-open not found`);
+  await cmdBtn.click();
+  await page.waitForSelector('#cmd-palette-dialog[open]', { timeout: 4000 });
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Escape');
+  await new Promise((r) => setTimeout(r, 150));
+  const cmdStillOpen = await page.$('#cmd-palette-dialog[open]');
+  if (cmdStillOpen) throw new Error(`[${lang}] Command Palette did not close on Escape`);
+  await page.keyboard.down('Control');
+  await page.keyboard.press('KeyK');
+  await page.keyboard.up('Control');
+  await page.waitForSelector('#cmd-palette-dialog[open]', { timeout: 3000 });
+  await page.keyboard.press('Escape');
+  console.log(`  ✓ [${lang}] Lazy Command Palette (button + Ctrl+K + Esc) verified`);
 
   await browser.close();
 }
@@ -196,6 +216,8 @@ async function run() {
         await p.goto(idUrl, { waitUntil: 'load' });
         const overflow = await p.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
         if (overflow) throw new Error(`Horizontal overflow detected at width ${w}px`);
+        const brandHeight = await p.$eval('header a[href="#about"] span', (el) => el.getBoundingClientRect().height);
+        if (brandHeight > 26) throw new Error(`Navbar brand wrapped onto multiple lines at width ${w}px (${brandHeight}px)`);
       }
       console.log('  ✓ No-JS SSR fallback and 360/390/768/1440 responsive checks passed');
     } finally {
