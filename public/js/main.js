@@ -88,19 +88,27 @@ window.copyEmailAddress = function(btn) {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-  // 1. Theme toggle listeners
+  // 1. Theme toggle listeners (progressive View Transition API crossfade)
   var themeBtns = document.querySelectorAll('.theme-toggle-btn');
+  var isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function applyThemeToggle() {
+    var isDark = document.documentElement.classList.contains('dark');
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      try { localStorage.setItem('theme', 'light'); } catch(e) {}
+    } else {
+      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
+      try { localStorage.setItem('theme', 'dark'); } catch(e) {}
+    }
+  }
   themeBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var isDark = document.documentElement.classList.contains('dark');
-      if (isDark) {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.classList.add('light');
-        try { localStorage.setItem('theme', 'light'); } catch(e) {}
+      if (!isReducedMotion && document.startViewTransition) {
+        document.startViewTransition(applyThemeToggle);
       } else {
-        document.documentElement.classList.remove('light');
-        document.documentElement.classList.add('dark');
-        try { localStorage.setItem('theme', 'dark'); } catch(e) {}
+        applyThemeToggle();
       }
     });
   });

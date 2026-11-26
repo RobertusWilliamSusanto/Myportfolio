@@ -552,3 +552,11 @@ dialog.project-dialog[open]::backdrop {
     transform: none !important;
   }
 }
+
+/* Simplified Crossfade Theme View Transition (skipped under reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--duration-fast);
+  }
+}
