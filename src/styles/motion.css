@@ -503,3 +503,52 @@ button:disabled {
     transform: none !important;
   }
 }
+
+/* Native <dialog> Open/Close Transition (Progressive @starting-style + allow-discrete) */
+dialog.project-dialog {
+  opacity: 0;
+  transform: translateY(var(--motion-distance-sm)) scale(0.98);
+  transition:
+    opacity var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-standard),
+    overlay var(--duration-base) allow-discrete,
+    display var(--duration-base) allow-discrete;
+}
+
+dialog.project-dialog[open] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@starting-style {
+  dialog.project-dialog[open] {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-sm)) scale(0.98);
+  }
+}
+
+dialog.project-dialog::backdrop {
+  opacity: 0;
+  transition:
+    opacity var(--duration-base) ease,
+    overlay var(--duration-base) allow-discrete,
+    display var(--duration-base) allow-discrete;
+}
+
+dialog.project-dialog[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  dialog.project-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog.project-dialog,
+  dialog.project-dialog::backdrop {
+    transition: none !important;
+    transform: none !important;
+  }
+}

@@ -268,22 +268,61 @@ interface Props {
 export default function ProjectModal({ lang = 'id' }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const lastTriggerRef = useRef<HTMLElement | null>(null);
+  const clearTimerRef = useRef<number | null>(null);
+
+  const scheduleClearSelected = () => {
+    if (clearTimerRef.current) window.clearTimeout(clearTimerRef.current);
+    const reduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const supportsDiscrete =
+      typeof CSS !== 'undefined' && CSS.supports && CSS.supports('transition-behavior', 'allow-discrete');
+    clearTimerRef.current = window.setTimeout(() => {
+      if (!dialogRef.current?.open) setSelectedId(null);
+    }, reduced || !supportsDiscrete ? 0 : 260);
+  };
 
   const closeModal = () => {
     if (dialogRef.current && dialogRef.current.open) {
       dialogRef.current.close();
+    } else {
+      handleDialogClose();
     }
-    setSelectedId(null);
-    document.body.style.overflow = '';
   };
 
   const handleDialogClose = () => {
-    setSelectedId(null);
     document.body.style.overflow = '';
+    scheduleClearSelected();
+    const trigger = lastTriggerRef.current;
+    if (trigger && document.contains(trigger)) {
+      requestAnimationFrame(() => trigger.focus());
+    }
+  };
+
+  const handleDialogKeyDown = (e: KeyboardEvent) => {
+    if (e.key !== 'Tab' || !dialogRef.current) return;
+    const focusables = Array.from(
+      dialogRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((el) => el.offsetParent !== null);
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   };
 
   useEffect(() => {
     if (selectedId && dialogRef.current && !dialogRef.current.open) {
+      if (clearTimerRef.current) window.clearTimeout(clearTimerRef.current);
       dialogRef.current.showModal();
       document.body.style.overflow = 'hidden';
     }
@@ -291,18 +330,22 @@ export default function ProjectModal({ lang = 'id' }: Props) {
 
   useEffect(() => {
     const handleTrigger = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement).closest('[data-project-trigger]');
+      const target = (e.target as HTMLElement).closest<HTMLElement>('[data-project-trigger]');
       if (target) {
         const pid = target.getAttribute('data-project-trigger');
         if (pid && PROJECT_DETAILS[pid]) {
           e.preventDefault();
+          lastTriggerRef.current = target;
           setSelectedId(pid);
         }
       }
     };
 
     document.addEventListener('click', handleTrigger);
-    return () => document.removeEventListener('click', handleTrigger);
+    return () => {
+      document.removeEventListener('click', handleTrigger);
+      if (clearTimerRef.current) window.clearTimeout(clearTimerRef.current);
+    };
   }, []);
 
   const project = selectedId ? PROJECT_DETAILS[selectedId] : null;
@@ -317,9 +360,10 @@ export default function ProjectModal({ lang = 'id' }: Props) {
   return (
     <dialog
       ref={dialogRef}
-      class="backdrop:bg-black/80 backdrop:backdrop-blur-md bg-surface-container border border-outline-variant/40 rounded-2xl p-0 max-w-2xl w-[92vw] text-on-surface shadow-2xl m-auto z-[200] focus:outline-none"
+      class="project-dialog backdrop:bg-black/80 backdrop:backdrop-blur-md bg-surface-container border border-outline-variant/40 rounded-2xl p-0 max-w-2xl w-[92vw] text-on-surface shadow-2xl m-auto z-[200] focus:outline-none"
       onClose={handleDialogClose}
       onCancel={handleDialogClose}
+      onKeyDown={handleDialogKeyDown}
       onClick={(e) => {
         if (e.target === dialogRef.current) closeModal();
       }}
