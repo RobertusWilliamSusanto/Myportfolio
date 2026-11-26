@@ -16,7 +16,6 @@ const sectionDesc = lang === 'id'
 const sendEmailText = lang === 'id' ? 'Kirim Email Langsung' : 'Send Direct Email';
 const copyEmailText = lang === 'id' ? 'Salin robertuswilliamsusanto@gmail.com' : 'Copy robertuswilliamsusanto@gmail.com';
 const copiedFeedback = lang === 'id' ? 'TERSALIN KE CLIPBOARD!' : 'COPIED TO CLIPBOARD!';
-const copyAria = lang === 'id' ? 'Salin alamat email' : 'Copy email address';
 ---
 <!-- CONTACT & ENGAGEMENT SECTION -->
 <section id="contact" class="scroll-reveal relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-20 border-t border-outline-variant/20" aria-label={sectionTitle}>
@@ -39,7 +38,7 @@ const copyAria = lang === 'id' ? 'Salin alamat email' : 'Copy email address';
         <span>{sendEmailText}</span>
       </a>
 
-      <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded bg-surface-container-high border border-outline-variant/30 text-on-surface text-sm font-medium hover:bg-surface-bright hover-lift min-h-[44px]" onclick="copyEmailAddress(this)" aria-label={copyAria} data-copied-text={copiedFeedback} data-original-text={copyEmailText}>
+      <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded bg-surface-container-high border border-outline-variant/30 text-on-surface text-sm font-medium hover:bg-surface-bright hover-lift min-h-[44px]" onclick="copyEmailAddress(this)" data-copied-text={copiedFeedback} data-original-text={copyEmailText}>
         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
         </svg>
