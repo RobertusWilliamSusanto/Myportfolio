@@ -110,7 +110,15 @@ async function testPage(pageUrl, lang) {
   }
   await page.click('#projects [data-filter-btn="all"]');
   await new Promise((r) => setTimeout(r, 150));
-  console.log(`  ✓ [${lang}] ProjectFilter sliding indicator & FLIP filter verified (${filterChips.length} chips)`);
+
+  // 2b. Native <details> Peek Specs toggles work natively on click (and without JS below)
+  const peekSummary = await page.$('.project-peek-details summary');
+  if (!peekSummary) throw new Error(`[${lang}] ProjectPeek summary not found`);
+  await peekSummary.click();
+  const isPeekOpen = await page.$eval('.project-peek-details', (d) => d.open);
+  if (!isPeekOpen) throw new Error(`[${lang}] ProjectPeek details did not open`);
+  await peekSummary.click();
+  console.log(`  ✓ [${lang}] ProjectFilter sliding indicator, FLIP & Peek Specs verified (${filterChips.length} chips)`);
 
   // 3. Project modal trigger can open dialog
   const firstTrigger = await page.$('#projects [data-project-trigger]');

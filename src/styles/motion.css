@@ -370,6 +370,16 @@ button:disabled {
   transition: transform var(--duration-base) var(--ease-standard), opacity var(--duration-fast) ease;
 }
 
+.project-peek-details summary::-webkit-details-marker {
+  display: none;
+}
+.peek-chevron {
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+.project-peek-details[open] .peek-chevron {
+  transform: rotate(45deg);
+}
+
 /* --- Skill Matrix Chips --- */
 .skill-chip {
   border: 1px solid transparent;
@@ -466,6 +476,7 @@ dialog.project-dialog[open]::backdrop {
   .scroll-reveal,
   .nav-indicator,
   .filter-indicator-pill,
+  .peek-chevron,
   dialog.project-dialog,
   dialog.project-dialog::backdrop {
     transition: none !important;

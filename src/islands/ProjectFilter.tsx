@@ -155,6 +155,27 @@ export default function ProjectFilter({ lang = 'id' }: Props) {
     return () => window.removeEventListener('resize', onResize);
   }, [active, filters, syncIndicator]);
 
+  useEffect(() => {
+    const grid = document.getElementById('projects-grid');
+    if (!grid) return;
+    const onToggle = async (e: Event) => {
+      const target = e.target as HTMLDetailsElement | null;
+      if (!target || !target.classList.contains('project-peek-details') || !target.open) return;
+      const body = target.querySelector<HTMLElement>('.peek-body');
+      if (!body || prefersReducedMotion()) return;
+      const animate = await loadMotionMini();
+      if (animate) {
+        animate(
+          body,
+          { opacity: [0, 1], transform: ['translate3d(0, -6px, 0)', 'translate3d(0, 0, 0)'] },
+          { duration: 0.2, ease: [0.22, 1, 0.36, 1] }
+        );
+      }
+    };
+    grid.addEventListener('toggle', onToggle, { capture: true });
+    return () => grid.removeEventListener('toggle', onToggle, { capture: true });
+  }, []);
+
   const ariaLabel = lang === 'id' ? 'Filter proyek teknis berdasarkan domain' : 'Filter technical projects by domain';
   const activeOption = filters.find((f) => f.id === active) || filters[0];
   const activeLabel = activeOption.label[lang] || activeOption.label.id;

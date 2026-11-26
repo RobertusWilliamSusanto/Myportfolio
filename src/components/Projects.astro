@@ -1,13 +1,17 @@
 ---
 import YoloDemo from '../islands/YoloDemo';
 import ProjectFilter from '../islands/ProjectFilter';
+import ProjectPeek from './ProjectPeek.astro';
 import { projects, getLocalized, type Lang } from '../data/profile';
+import { getPublicProjectCatalog, type ProjectCatalogItem } from '../data/projectCatalog';
 
 interface Props {
   lang?: Lang;
 }
 
 const { lang = 'id' } = Astro.props;
+const catalog = getPublicProjectCatalog(lang);
+const specByTrigger = Object.fromEntries(catalog.map((c) => [c.triggerId, c])) as Record<string, ProjectCatalogItem>;
 
 const sectionTitle = lang === 'id' ? 'Portofolio Teknis & Sistem' : 'Technical Portfolio & Systems';
 const sectionSubtitle = lang === 'id' ? 'Artefak Teknis & Sistem Pilihan' : 'Selected Technical Artifacts & Systems';
@@ -72,6 +76,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
             <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">CNN</span>
             <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Image Processing</span>
           </div>
+          {specByTrigger.yolo && <ProjectPeek item={specByTrigger.yolo} lang={lang} />}
         </div>
 
         <!-- Visual Preview with responsive picture element & interactive YOLO comparison island -->
@@ -106,6 +111,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
             <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">JWT</span>
             <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Cloudinary</span>
           </div>
+          {specByTrigger.sibarista && <ProjectPeek item={specByTrigger.sibarista} lang={lang} />}
         </div>
         <div class="p-6 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
           <a class="inline-flex items-center gap-1.5 text-xs text-primary hover:text-secondary transition-colors font-medium min-h-[44px]" href="https://sibarista-disbudpar.vercel.app" target="_blank" rel="noopener noreferrer">
@@ -148,6 +154,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
             <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Cryptography</span>
             <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">Classical Ciphers</span>
           </div>
+          {specByTrigger.kriptografi && <ProjectPeek item={specByTrigger.kriptografi} lang={lang} />}
         </div>
         <div class="p-6 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
           <div class="flex items-center gap-3">
@@ -198,6 +205,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
               <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
             ))}
           </div>
+          {specByTrigger.portfolio && <ProjectPeek item={specByTrigger.portfolio} lang={lang} />}
         </div>
         <div class="p-6 md:p-8 flex flex-wrap items-center justify-between gap-4 border-t border-outline-variant/20 pt-4">
           <div class="flex items-center gap-3">
@@ -251,6 +259,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
               <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
             ))}
           </div>
+          {specByTrigger['expense-tracker'] && <ProjectPeek item={specByTrigger['expense-tracker']} lang={lang} />}
         </div>
         <div class="p-6 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
           <a class="inline-flex items-center gap-1.5 text-xs text-primary hover:text-secondary transition-colors font-medium min-h-[44px]" href="https://expense-tracker-six-sigma-30.vercel.app" target="_blank" rel="noopener noreferrer">
@@ -293,6 +302,7 @@ const sourceCodeText = lang === 'id' ? 'Lihat Source Code' : 'Source Code';
               <span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-mono text-[11px]">{tech}</span>
             ))}
           </div>
+          {specByTrigger.partsbin && <ProjectPeek item={specByTrigger.partsbin} lang={lang} />}
         </div>
         <div class="p-6 md:p-8 flex items-center justify-between mt-4 border-t border-outline-variant/20 pt-4">
           <a class="inline-flex items-center gap-1.5 text-xs text-primary hover:text-secondary transition-colors font-medium min-h-[44px]" href="https://partsbin-web.vercel.app" target="_blank" rel="noopener noreferrer">
